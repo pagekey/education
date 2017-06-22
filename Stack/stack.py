@@ -20,5 +20,8 @@ class Stack(object):
 		return result
 	def peek(self):
 		return self.top.data
-	def get_size(self):
-		return self.size
+	def is_empty(self):
+		if self.top is None:
+			return True
+		else
+			return False
