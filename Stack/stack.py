@@ -14,14 +14,20 @@ class Stack(object):
 		self.top = new_node
 		self.size += 1
 	def pop(self):
+		if self.top is None:
+			return None
 		result = self.top.data
 		self.top = self.top.next_node
 		self.size -= 1
 		return result
 	def peek(self):
+		if self.top is None:
+			return None
 		return self.top.data
 	def is_empty(self):
 		if self.top is None:
 			return True
-		else
+		else:
 			return False
+		# or simply:
+		# return self.top is None
