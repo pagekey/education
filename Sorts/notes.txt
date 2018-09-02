@@ -1,0 +1,28 @@
+Quicksort
+---------
+
+* Two methods - quicksort itself and partition
+
+* Quicksort - Given a subset of array (from low to high), place one element in right place (using partition method) and recursively sort the two halves around it
+
+* Partition - Choose a pivot (i.e. last element, arbitrarily). Cycle through the array subset (from low to high) until you find where that element belongs.
+	
+	* Two counters - i and j.
+
+	* i begins just before the smallest element. It is the new location for our element, minus one.
+
+	* j begins at the smallest element
+
+	* j cycles from low to high (for each element in subarray)
+
+	* if the value at j is less than the pivot, move i up one. This is because if j is less than the pivot, i (new element) moves forward one position. In other words, we have identified one element that will be BEHIND the new element, so the new element moves forward by one.
+
+	* Also: if j's value is less than the pivot, we swap i and j. Why??
+
+	* Pivot stays the same. But we swap i and j because... this is part of ordering?
+
+* Each pass, you place one element in the right place. Call this the halfway point, and sort the other two halves.
+
+* To put one element in the right place, you check how many elements are less than it. This tells you how many elements it is ahead of. This also tells you the index within the subarray that it should be.
+
+* As a final step to partition, actually swap the element into the right place.

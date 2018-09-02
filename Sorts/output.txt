@@ -1,0 +1,20 @@
+Called quicksort: [4, 5, 2, 3, 1] 0 4
+	Called partition: [4, 5, 2, 3, 1] 0 4
+SWAP: 0 and 4
+	Returned 0
+Called quicksort: [1, 5, 2, 3, 4] 0 -1
+Called quicksort: [1, 5, 2, 3, 4] 1 4
+	Called partition: [1, 5, 2, 3, 4] 1 4
+SWAP: 1 and 2
+SWAP: 2 and 3
+SWAP: 3 and 4
+	Returned 3
+Called quicksort: [1, 2, 3, 4, 5] 1 2
+	Called partition: [1, 2, 3, 4, 5] 1 2
+SWAP: 1 and 1
+SWAP: 2 and 2
+	Returned 2
+Called quicksort: [1, 2, 3, 4, 5] 1 1
+Called quicksort: [1, 2, 3, 4, 5] 3 2
+Called quicksort: [1, 2, 3, 4, 5] 4 4
+[1, 2, 3, 4, 5]
