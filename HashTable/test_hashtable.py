@@ -37,3 +37,18 @@ class TestHashTable(unittest.TestCase):
 		for i in range(0,1000):
 			self.assertEqual(1000-i, self.ht.size)
 			self.assertEqual(self.ht.find("key" + str(i)), self.ht.remove("key" + str(i)))
+	def test_issue2(self):
+		self.assertEqual(self.ht.size, 0)
+		self.ht.insert('A', 5)
+		self.assertEqual(self.ht.size, 1)
+		self.ht.insert('B', 10)
+		self.assertEqual(self.ht.size, 2)
+		self.ht.insert('Ball', 'hello')
+		self.assertEqual(self.ht.size, 3)
+
+		self.assertEqual(5, self.ht.remove('A'))
+		self.assertEqual(self.ht.size, 2)
+		self.assertEqual(None, self.ht.remove('A'))
+		self.assertEqual(self.ht.size, 2)
+		self.assertEqual(None, self.ht.remove('A'))
+		self.assertEqual(self.ht.size, 2)

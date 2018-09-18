@@ -7,7 +7,10 @@ class Node:
 		self.key = key
 		self.value = value
 		self.next = None
-
+	def __str__(self):
+		return "<Node: (%s, %s), next: %s>" % (self.key, self.value, self.next != None)
+	def __repr__(self):
+		return str(self)
 # Hash table with separate chaining
 class HashTable:
 	# Initialize hash table
@@ -15,7 +18,6 @@ class HashTable:
 		self.capacity = INITIAL_CAPACITY
 		self.size = 0
 		self.buckets = [None]*self.capacity
-
 	# Generate a hash for a given key
 	# Input:  key - string
 	# Output: Index from 0 to self.capacity
@@ -94,8 +96,8 @@ class HashTable:
 			result = node.value
 			# Delete this element in linked list
 			if prev is None:
-				node = None
+				self.buckets[index] = node.next # May be None, or the next match
 			else:
-				prev.next = prev.next.next
-			# Return the deleted language
+				prev.next = prev.next.next # LinkedList delete by skipping over
+			# Return the deleted result 
 			return result
