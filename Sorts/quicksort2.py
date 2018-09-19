@@ -6,10 +6,10 @@ def _quicksort(arr, low, high):
 		return
 	index = partition(arr, low, high)
 	_quicksort(arr, low, index - 1)
-	_quicksort(arr, index, high)
+	_quicksort(arr, index + 1, high)
 
 def partition(arr, low, high):
-	pivot = (high - low) / 2 # Choose midpoint as pivot
+	pivot = low + (high - low) / 2 # Choose midpoint as pivot
 	print "arr: %s lo: %s hi: %s pivot: %s" % (arr, low, high, pivot)
 	while low < high:
 		print "Cycle: lo %s hi %s" % (low,high)
