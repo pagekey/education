@@ -26,3 +26,9 @@ Quicksort
 * To put one element in the right place, you check how many elements are less than it. This tells you how many elements it is ahead of. This also tells you the index within the subarray that it should be.
 
 * As a final step to partition, actually swap the element into the right place.
+
+* In partition: Go through each element in the array.
+	* If an element is smaller than the pivot, swap it behind the "wall"
+	* Everything to the left of the wall is sorted.
+	* After one iteration, the left of the wall will contain all elements that are smaller than the pivot.
+	* Swap the pivot into the position immediately following the wall. It is now in the right place. Why? Because everything before the pivot is smaller, and everything after, logically, must be greater. No matter how you shuffle the elements on either side, the position of the pivot will not change.
