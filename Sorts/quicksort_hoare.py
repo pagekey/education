@@ -18,7 +18,7 @@ def partition(arr, low, high):			# We already know low < high, so there's at lea
 	while True:
 		while arr[i] < pivot:			# If less than pivot AND on left (i) side, it's okay. No action needed.
 			i += 1						# Slide past this element and check the next one, moving toward the middle
-		while arr[j] > pivot			# If greater than pivot AND on right (j) side, it's okay. No action needed.
+		while arr[j] > pivot:			# If greater than pivot AND on right (j) side, it's okay. No action needed.
 			j -= 1						# Slide past this element and check the next one, moving toward the middle
 		if i >= j:						# i >= j indicates that the two indexes have converged in the middle; we are done swapping
 			return j					# j is the location where the pivot should be
