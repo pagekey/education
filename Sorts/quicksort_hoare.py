@@ -12,7 +12,6 @@ def _quicksort(arr, low, high):
 def partition(arr, low, high):			# We already know low < high, so there's at least 2 elements in arr
 	# Optional: Set pivot as median of three values, and swap to last position
 	pivot = arr[low] 					# Pivot is lower part.
-										# TODO: Check if it matters where pivot is for either one (can it be in the middle? at the end?)
 	i = low								# Set left hand index to the first element
 	j = high							# Set right hand index to the last element.
 	while True:
@@ -22,7 +21,6 @@ def partition(arr, low, high):			# We already know low < high, so there's at lea
 			j -= 1						# Slide past this element and check the next one, moving toward the middle
 		if i >= j:						# i >= j indicates that the two indexes have converged in the middle; we are done swapping
 			return j					# j is the location where the pivot should be
-										# TODO - Does the pivot automatically get swapped in here? Examine run results
 		swap(arr, i, j)					# Otherwise, i and j point to two elements in the wrong half of the array. Swap them and both will be corrected.
 
 def swap(arr, i, j):					# Swap indices i and j in arr
