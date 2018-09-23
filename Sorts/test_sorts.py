@@ -13,17 +13,16 @@ class TestSorts(unittest.TestCase):
 			[1,2,3,4],
 			[4,5,5,5]
 		]
-	def test_mergesort(self):
+	# Generic helper method for testing each sort
+	def _test_sort(self, func):
 		for i,arr in enumerate(self.arrs):
-			# Sort all test arrays
-			mergesort.mergesort(arr)
-			# Make sure they were sorted correctly
+			# Sort test array
+			func(arr)
+			# Make sure it was sorted correctly
 			self.assertEqual(self.arrs_sorted[i], arr)	
+	def test_mergesort(self):
+		self._test_sort(mergesort.mergesort)
 	def test_hoare(self):
-		for i,arr in enumerate(self.arrs):
-			quicksort_hoare.quicksort(arr)
-			self.assertEqual(self.arrs_sorted[i], arr) 
+		self._test_sort(quicksort_hoare.quicksort)
 	def test_lomuto(self):
-		for i,arr in enumerate(self.arrs):
-			quicksort_lomuto.quicksort(arr)
-			self.assertEqual(self.arrs_sorted[i], arr) 
+		self._test_sort(quicksort_lomuto.quicksort)
