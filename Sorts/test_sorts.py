@@ -1,5 +1,5 @@
 import unittest
-import mergesort, quicksort_lomuto, quicksort_hoare
+import mergesort, quicksort_lomuto, quicksort_hoare, bubblesort
 
 class TestSorts(unittest.TestCase):
 	def setUp(self):
@@ -26,3 +26,5 @@ class TestSorts(unittest.TestCase):
 		self._test_sort(quicksort_hoare.quicksort)
 	def test_lomuto(self):
 		self._test_sort(quicksort_lomuto.quicksort)
+	def test_bubblesort(self):
+		self._test_sort(bubblesort.bubblesort)
