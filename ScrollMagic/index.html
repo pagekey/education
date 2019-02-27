@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ScrollMagic Example</title>
+  <style>
+    .block {
+      height: 50vh;
+    }
+    #block1 {
+      background-color: lightblue;
+    }
+    #block2 {
+      background-color: lightgreen;
+    }
+    #block3 {
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+  <h1>Here's the title</h1>
+  <div class="block" id="block1">Block one</div>
+  <div class="block" id="block2">Block two</div>
+  <div class="block" id="block3">Block three</div>
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.1/TweenMax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.6/ScrollMagic.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.6/plugins/animation.gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.6/plugins/animation.velocity.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.6/plugins/jquery.ScrollMagic.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.6/plugins/debug.addIndicators.min.js"></script>
+  <script>
+    // init controller
+    var controller = new ScrollMagic.Controller();
+
+    // build scene
+    var scene = new ScrollMagic.Scene({
+      triggerElement: "#block2"
+    }).setTween("body", 0.5, {backgroundColor: "green"})
+      .addIndicators({name: "First Test"})
+      .addTo(controller);
+  </script>
+</body>
+</html>
