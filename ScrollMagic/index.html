@@ -4,10 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>ScrollMagic Example</title>
+  <title>ScrollMagic Demo</title>
+  <!-- Here's our CSS -->
   <style>
+    body {
+      margin: 0;
+    }
     .block {
-      height: 50vh;
+      height: 500px;
     }
     #block1 {
       background-color: lightblue;
@@ -18,13 +22,39 @@
     #block3 {
       background-color: pink;
     }
+    #block4 {
+      background-color: springgreen;
+    }
+    #block5 {
+      background-color: darkviolet;
+    }
+
+    #modal {
+      background-color: white;
+      color: black;
+      padding: 50px;
+
+      position: fixed;
+      top: -25%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   </style>
 </head>
 <body>
+  <!-- Here's our page content -->
   <h1>Here's the title</h1>
   <div class="block" id="block1">Block one</div>
   <div class="block" id="block2">Block two</div>
   <div class="block" id="block3">Block three</div>
+  <div class="block" id="block4">Block four</div>
+  <div class="block" id="block5">Block five</div>
+
+  <div id="modal">
+    Important information
+  </div>
+
+  <!-- Here's our Javascript -->
   <script
     src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -41,10 +71,18 @@
 
     // build scene
     var scene = new ScrollMagic.Scene({
-      triggerElement: "#block2"
-    }).setTween("body", 0.5, {backgroundColor: "green"})
-      .addIndicators({name: "First Test"})
+      triggerElement: "#block2",
+      duration: 500
+    }).setTween("#block2", 1, {backgroundColor: "orange"})
+      .addIndicators({name: "Turn Block 2 orange"})
+      .addTo(controller);
+    var scene = new ScrollMagic.Scene({
+      triggerElement: "#block3",
+      duration: 500
+    }).setTween("#modal", 1, {top: "50%"})
+      .addIndicators({name: "Show modal"})
       .addTo(controller);
   </script>
+
 </body>
 </html>
