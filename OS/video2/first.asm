@@ -14,7 +14,7 @@ next_char:			; Jump here when there's another character
 
 	jmp $			; Jump to this memory location. In other words, hang and do nothing.
 
-	text_string db 'Hello World!',0		; Put our string in memory
+	text_string db 'Hello World! 2',0		; Put our string in memory
 
 	times 510-($-$$) db 0	; Pad remainder of boot sector with 0s
 	dw 0xAA55		; The standard PC boot signature
