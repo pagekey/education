@@ -1,0 +1,8 @@
+megs: 32
+romimage: file=/usr/share/bochs/BIOS-bochs-latest, address=0xfffe0000
+vgaromimage: file=/usr/share/bochs/VGABIOS-lgpl-latest
+ata0-master: type=disk, path="boot.bin", cylinders=615, heads=6, spt=17
+boot: disk
+log: bochsout.txt
+mouse: enabled=0
+sound: driver=dummy
