@@ -3,7 +3,7 @@ bits 16
 start:
 	mov si, string_to_print	; Set up si register for function call
 	call print_string	
-	mov cx, 0xab12		; Set up cx for function call
+	mov cx, 0xbeef		; Set up cx for function call
 	call print_hex
 	
 	jmp $			; Done
