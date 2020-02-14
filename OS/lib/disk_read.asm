@@ -7,6 +7,7 @@
 ; dl = drive number
 ; es:bx = memory location to copy into
 disk_read:
+	push ax		; Push number of sectors REQUESTED for checking later
 	mov ah, 0x2	; Disk read
 	mov cl, 0x2	; Sector (0x1=boot, 0x2=first avail)
 	mov ch, 0x0	; Cylinder
@@ -17,7 +18,8 @@ disk_read:
 	int 0x13	; Call disk read
 	jc .disk_error
 
-	cmp al, 1
+	pop bx
+	cmp al, bl
 	jne .sector_error 
 	ret
 
