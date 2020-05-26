@@ -1,16 +1,8 @@
 # OS Tutorials
 
-Here's the source code for the OS tutorial videos I made.
+The code for these tutorials is no longer maintained. Please check out the repository dedicated to my OS series:
 
-## Lessons
-
-**[Full Playlist](https://www.youtube.com/watch?v=NtZzb9ZJ5Fo&list=PL3Kz_hCNpKSTFCTJtP4-9mkYDVM7rAprW)**
-
-1. [OS1: Installing VirtualBox & Debian on Windows](https://www.youtube.com/watch?v=NtZzb9ZJ5Fo&list=PL3Kz_hCNpKSTFCTJtP4-9mkYDVM7rAprW)
-
-2. [OS2: Running Our First Bootloader](https://www.youtube.com/watch?v=1lAuJoPZ3Q0&list=PL3Kz_hCNpKSTFCTJtP4-9mkYDVM7rAprW&index=2) - [Source Code](video2)
-
-3. [OS3: Hone the Power of the BIOS!](https://www.youtube.com/watch?v=W3DdyiO3Fy8&list=PL3Kz_hCNpKSTFCTJtP4-9mkYDVM7rAprW&index=3) - [Source Code](video3)
+https://www.github.com/stephengrice/pkos
 
 ## Resources
 
