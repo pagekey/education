@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 
 print("Hello world!")
+my_quick_list = ["cat", "dog", "parrot", "ferret"]
+for elem in my_quick_list:
+    print("Here's a great pet:")
+    print(elem)
+
+print("----------")
 
 # str: Strings are just a sequence of characters
 my_str = "I love PageKey"
@@ -33,7 +39,6 @@ my_dict = {
 all_of_my_data = [my_str, my_int, my_float, my_complex, my_list, my_tuple, my_dict]
 
 for elem in all_of_my_data:
-    print("Here's a bit of data for you:")
-    print(elem)
+    print("Here's a bit of data for you:", elem)
 
 print("That's it for this program!")
