@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 print("Hello world!")
 my_quick_list = ["cat", "dog", "parrot", "ferret"]

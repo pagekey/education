@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Opena  file using 'with' context manager,
 # which takes care of closing the file when the block ends
