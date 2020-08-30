@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Opena  file using 'with' context manager,
+# Open a file using 'with' context manager,
 # which takes care of closing the file when the block ends
 with open('data.txt', 'r') as f:
 	for line in f:
