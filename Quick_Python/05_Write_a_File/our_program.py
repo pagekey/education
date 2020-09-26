@@ -8,7 +8,7 @@ times_to_write = int(raw_times_to_write)
 with open(filename, 'w') as file:
     for i in range(times_to_write):
         print('Writing line',i)
-        file.write(message + '\n')
+        file.write(message + '\n') # '\n' is the line break character (ENTER)
     # File automatically closed at end of `with` by context manager
 
 print('Wrote %d lines to %s' % (times_to_write, filename))
