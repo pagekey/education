@@ -5,8 +5,12 @@ import sys
 
 # Read from the standard input (file-like object)
 for line in sys.stdin:
-    raw_phone_number = line
-    area_code = line[0:3]
-    first_three = line[3:6]
-    last_four = line[6:]
+    raw_phone_number = line.strip()
+    # <optional: check whether the line is a valid phone number here>
+    # Substrings for each part of the telephone number
+    area_code = raw_phone_number[0:3]
+    first_three = raw_phone_number[3:6]
+    # Include from the 6th character all the way to the end (wherever that is)
+    last_four = raw_phone_number[6:]
+    # Print the formatted number to stdout, where it can be redirected to a file
     print('(%s) %s-%s' % (area_code, first_three, last_four))
