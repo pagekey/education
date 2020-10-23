@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Space Invaders</title>
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+    canvas#game_canvas {
+      background-color: black;
+      width: 600px;
+      height: 800px;
+    }
+    img#alien {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="game_canvas"></canvas>
+
+<img id="alien" src="alien_blue.png" alt="alien" />
+
+<script>
+  const FPS = 30;
+  var canvas;
+  var ctx;
+  var img_alien;
+
+  function gameloop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img_alien, 250, 700);
+    ctx.fillStyle = 'white';
+    ctx.font = '40px Arial';
+    ctx.fillText('Space Invaders', 150, 50);
+  }
+
+  canvas = document.getElementById('game_canvas');
+  // canvas.width = canvas.getBoundingClientRect().width;
+  // canvas.height = canvas.getBoundingClientRect().height;
+  canvas.width = 600;
+  canvas.height = 800;
+  ctx = canvas.getContext('2d');
+  img_alien = document.getElementById('alien');
+  setInterval(gameloop, 1000 / FPS);
+</script>
+</body>
+</html>
