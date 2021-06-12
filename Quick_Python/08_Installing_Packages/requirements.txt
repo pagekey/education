@@ -1,0 +1,23 @@
+pandas
+numpy
+# You can add comments, like this
+
+# You can pin repos to a specific version, like this:
+# pandas==1.2.4
+# numpy==1.20.3
+
+# If you want, you can also specify >, >=, <, <=:
+# pandas>=1.2.4
+# numpy<1.20.3
+
+# If you want to get the latest **within** the current major version,
+# use a tilde:
+# pandas~=1.2.4
+# numpy~=1.20.3
+
+# Typically, moving major versions - say, from 1.0.7 to 1.1.0,
+# is considered a breaking change.
+
+# If you want the latest minor bugfixes and features but don't want 
+# your code to break when the API changes, the tilde is 
+# exactly what you need.
