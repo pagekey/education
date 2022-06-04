@@ -6,4 +6,4 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python", "flaskapp.py"]
+CMD ["python", "flaskapp.py"]
