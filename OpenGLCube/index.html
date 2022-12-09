@@ -17,11 +17,54 @@
     Here is some WebGL stuff.
     <canvas id="the_canvas"></canvas>
 
+    <script id="vertex" type="x-shader">
+        attribute vec2 aVertexPosition;
+        void main() {
+            gl_Position = vec4(aVertexPosition, 0.0, 1.0);
+        }
+    </script>
+    <script id="fragment" type="x-shader">
+        #ifdef GL_ES
+        precision highp float;
+        #endif
+        uniform vec4 uColor;
+        void main() {
+            gl_FragColor = uColor;
+        }
+    </script>
     <script>
         var canvas = document.getElementById('the_canvas');
         var gl = canvas.getContext('webgl');
-        gl.clearColor(1, 0, 0, 1);
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.clearColor(0, 0, 0, 1);
         gl.clear(gl.COLOR_BUFFER_BIT);
+
+        var v = document.getElementById('vertex').firstChild.nodeValue;
+        var f = document.getElementById('fragment').firstChild.nodeValue;
+
+        var vs = gl.createShader(gl.VERTEX_SHADER);
+        gl.shaderSource(vs, v);
+        gl.compileShader(vs);
+
+        var fs = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(fs, f);
+        gl.compileShader(fs);
+
+        var program = gl.createProgram();
+        gl.attachShader(program, vs);
+        gl.attachShader(program, fs);
+        gl.linkProgram(program);
+
+        if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) {
+            console.error(gl.getShaderInfoLog(vs));
+        }
+        if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
+            console.error(gl.getShaderInfoLog(fs));
+        }
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            console.error(gl.getProgramInfoLog(program));
+        }
+
     </script>
 </body>
 </html>
