@@ -5,6 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebGL Experiment</title>
+    <style>
+        #the_canvas {
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+        }
+    </style>
 </head>
 <body>
     Here is some WebGL stuff.
@@ -12,8 +19,9 @@
 
     <script>
         var canvas = document.getElementById('the_canvas');
-        var ctx = canvas.getContext('webgl');
-        console.log('hello webgl')
+        var gl = canvas.getContext('webgl');
+        gl.clearColor(1, 0, 0, 1);
+        gl.clear(gl.COLOR_BUFFER_BIT);
     </script>
 </body>
 </html>
