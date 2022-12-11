@@ -22,7 +22,7 @@
         uniform float angle;
         void main() {
             vec2 p = aVertexPosition.xy;
-            float new_x = p.x*cos(angle) - p.y*sin(angle);
+            float new_x = p.x*cos(angle) - p.y*cos(angle);
             float new_y = p.y*cos(angle) - p.x*sin(angle);
             gl_Position = vec4(new_x, new_y, 0.0, 1.0);
         }
