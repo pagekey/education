@@ -19,8 +19,12 @@
 
     <script id="vertex" type="x-shader">
         attribute vec2 aVertexPosition;
+        uniform float angle;
         void main() {
-            gl_Position = vec4(aVertexPosition, 0.0, 1.0);
+            vec2 p = aVertexPosition.xy;
+            float new_x = p.x*cos(angle) - p.y*sin(angle);
+            float new_y = p.y*cos(angle) - p.x*sin(angle);
+            gl_Position = vec4(new_x, new_y, 0.0, 1.0);
         }
     </script>
     <script id="fragment" type="x-shader">
@@ -32,6 +36,7 @@
             gl_FragColor = uColor;
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.6.1/gl-matrix-min.js"></script>
     <script>
         var canvas = document.getElementById('the_canvas');
         var gl = canvas.getContext('webgl');
@@ -64,31 +69,43 @@
         if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
             console.error(gl.getProgramInfoLog(program));
         }
+        var x = 0;
+        var angle = 0;
+        console.log(glMatrix);
+        const redraw = () => {
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.clear(gl.COLOR_BUFFER_BIT);// var aspect = canvas.width / canvas.height;
+            var vertices = new Float32Array([
+                x-0.5, x+0.5, x+0.5, x+0.5, x+0.5, x-0.5, // triangle 1
+                x-0.5, x+0.5, x+0.5, x-0.5, x-0.5, x-0.5, // triangle 2
+            ]);
+    
+            var vbuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, vbuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+    
+            var itemSize = 2;
+            var numItems = vertices.length / itemSize;
+            
+            gl.useProgram(program);
+    
+            program.uColor = gl.getUniformLocation(program, "uColor");
+            gl.uniform4fv(program.uColor, [1.0, 1.0, 1.0, 1.0]);
 
-        var aspect = canvas.width / canvas.height;
+            program.angle = gl.getUniformLocation(program, "angle");
+            gl.uniform1f(program.angle, angle);
+    
+            program.aVertexPosition = gl.getAttribLocation(program, "aVertexPosition");
+            gl.enableVertexAttribArray(program.aVertexPosition);
+            gl.vertexAttribPointer(program.aVertexPosition, itemSize, gl.FLOAT, false, 0, 0);
+    
+            gl.drawArrays(gl.TRIANGLES, 0, numItems);
 
-        var vertices = new Float32Array([
-            -0.5, 0.5*aspect, 0.5, 0.5*aspect, 0.5, -0.5*aspect, // triangle 1
-            -0.5, 0.5*aspect, 0.5, -0.5*aspect, -0.5, -0.5*aspect, // triangle 2
-        ]);
-
-        var vbuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, vbuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-
-        var itemSize = 2;
-        var numItems = vertices.length / itemSize;
-        
-        gl.useProgram(program);
-
-        program.uColor = gl.getUniformLocation(program, "uColor");
-        gl.uniform4fv(program.uColor, [1.0, 1.0, 1.0, 1.0]);
-
-        program.aVertexPosition = gl.getAttribLocation(program, "aVertexPosition");
-        gl.enableVertexAttribArray(program.aVertexPosition);
-        gl.vertexAttribPointer(program.aVertexPosition, itemSize, gl.FLOAT, false, 0, 0);
-
-        gl.drawArrays(gl.TRIANGLES, 0, numItems);
+            // x += 0.1;
+            angle += 0.1;
+        };
+        redraw();
+        setInterval(redraw, 1000/30)
     </script>
 </body>
 </html>
