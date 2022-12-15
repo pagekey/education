@@ -87,7 +87,7 @@ class BST(object):
 			# Case 2.4: Root node has two children
 			else:
 				moveNode = self.root.right
-				moveNodeParent = None
+				moveNodeParent = self.root
 				while moveNode.left:
 					moveNodeParent = moveNode
 					moveNode = moveNode.left
