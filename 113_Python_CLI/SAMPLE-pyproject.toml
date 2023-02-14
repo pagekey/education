@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cli-example"
+description = "Example package for a CLI"
+authors = [{name="You", email="you@example.com" }]
+version = "0.0.0"
+dependencies = ["requests"]
+
+[project.scripts]
+cli-example = "cli_example.entry:cli_entry_point"
