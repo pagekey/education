@@ -1,0 +1,14 @@
+{
+	"nodes":[
+		{"id":"c45115c151c67a52","x":-330,"y":-284,"width":516,"height":72,"type":"text","text":"# How to Create a CLI in Python"},
+		{"id":"d5161ffdfabc6dc8","x":-330,"y":-212,"width":250,"height":60,"color":"6","type":"text","text":"# Step 1 💀"},
+		{"id":"a0e45fce56de8e72","x":-330,"y":-152,"width":250,"height":60,"color":"5","type":"text","text":"# Step 2 👨‍💻"},
+		{"id":"ff04f02b1ade820c","x":-330,"y":-92,"width":250,"height":60,"color":"3","type":"text","text":"# Step 3 ✅"},
+		{"id":"d5a2fe767769ea0a","x":-64,"y":-212,"width":250,"height":60,"color":"6","type":"text","text":"Add project skeleton"},
+		{"id":"bd1c40c831dbd5a0","x":-64,"y":-152,"width":250,"height":60,"color":"5","type":"text","text":"Add source code"},
+		{"id":"48e33f50b298675a","x":-64,"y":-92,"width":250,"height":60,"color":"3","type":"text","text":"Make sure it works"},
+		{"id":"f5d2b7323e9480d0","x":-330,"y":-32,"width":250,"height":60,"color":"2","type":"text","text":"# Step 4 🧠"},
+		{"id":"57473a609c877986","x":-64,"y":-32,"width":250,"height":60,"color":"2","type":"text","text":"BONUS: Set up argparse"}
+	],
+	"edges":[]
+}

@@ -3,9 +3,7 @@ import argparse
 import requests
 
 
-def handle_request(args):
-    website = args.website
-    output_file = args.output_file
+def handle_request(website, output_file):
     r = requests.get(website)
     print('Received response')
     if output_file is not None:
@@ -29,7 +27,7 @@ def cli_entry_point():
     args = parser.parse_args()
 
     if args.command == 'request':
-        handle_request(args)
+        handle_request(args.website, args.output_file)
     elif args.command == 'print':
         handle_print()
     else:
