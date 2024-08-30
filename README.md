@@ -1,5 +1,12 @@
-# Education
+# PageKey Education
 
-This project has been moved to the PageKey GitLab. Here is the link:
+Check out the [video lessons](https://www.youtube.com/channel/UCNlWYe5_RcwWTrLP8m1oidw) that go with this repository!
 
-https://gitlab.com/pagekey/edu/education
+To run Python tests for a data structure, `cd` to the data structure's directory and run `python3 -m unittest discover`.
+
+Example:
+
+```
+cd HashTable
+python3 -m unittest discover
+```
