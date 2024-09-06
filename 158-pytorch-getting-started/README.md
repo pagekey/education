@@ -1,3 +1,3 @@
 # PyTorch Getting Started
 
-See notebook.
+This folder contains the related files for [this YouTube video](https://youtu.be/3R16RUY4Fco).
