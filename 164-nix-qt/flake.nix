@@ -17,14 +17,23 @@
       preFixup = ''
         echo hello world
       '';
+      configurePhase = ''
+        echo "Custom configure phase..."
+        # Add your custom configuration commands here
+        # For example, you might run cmake or another configure script
+      '';
       buildPhase = ''
         echo Here we are $(pwd)
         echo HEre is $(ls)
         mkdir build
         cd build
-        # cmake ..
-        # make
-        # mv NixQt $out/bin/NixQt
+        cmake ../src
+        make
+        mkdir -p $out/bin
+        mv NixQt $out/bin/hello
+      '';
+      installPhase = ''
+        echo hi
       '';
     };
     # Define the development shell
