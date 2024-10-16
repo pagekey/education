@@ -12,11 +12,33 @@
     pkgs.stdenv.mkDerivation {
       name = "hello";
       src = self;
-      buildInputs = [ pkgs.gcc ];
-      buildPhase = ''
-        mkdir -p $out/bin
-        g++ -o $out/bin/hello src/main.cpp
+      buildInputs = [ pkgs.cmake pkgs.qt6.qtbase ];
+      dontWrapQtApps = true;
+      preFixup = ''
+        echo hello world
       '';
+      buildPhase = ''
+        echo Here we are $(pwd)
+        echo HEre is $(ls)
+        mkdir build
+        cd build
+        # cmake ..
+        # make
+        # mv NixQt $out/bin/NixQt
+      '';
+    };
+    # Define the development shell
+    devShell.x86_64-linux = let
+      pkgs = import nixpkgs { system = "x86_64-linux"; };
+    in
+    pkgs.mkShell {
+      buildInputs = [
+        pkgs.cmake
+        pkgs.gcc
+        pkgs.qt6.qtbase
+        pkgs.qt6.qtdeclarative
+        pkgs.qtcreator  # Include Qt Creator only in the dev shell
+      ];
     };
   };
 }
