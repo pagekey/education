@@ -19,6 +19,11 @@ Try out a development shell:
 
 ```bash
 nix develop
+mkdir build
+cd build
+cmake ../src
+make
+./NixQt
 ```
 
 

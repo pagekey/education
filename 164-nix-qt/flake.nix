@@ -1,5 +1,5 @@
 {
-  description = "A simple C++ Hello World flake";
+  description = "Qt Hello World in Nix";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -34,9 +34,7 @@
     pkgs.mkShell {
       buildInputs = [
         pkgs.cmake
-        pkgs.gcc
         pkgs.qt6.qtbase
-        pkgs.qt6.qtdeclarative
         pkgs.qtcreator  # Include Qt Creator only in the dev shell
       ];
     };
