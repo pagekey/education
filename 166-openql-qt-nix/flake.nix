@@ -32,10 +32,11 @@
       pkgs = import nixpkgs { system = "x86_64-linux"; };
     in
     pkgs.mkShell {
-      buildInputs = [
-        pkgs.cmake
-        pkgs.qt6.qtbase
-        pkgs.qtcreator  # Include Qt Creator only in the dev shell
+      buildInputs = with pkgs; [
+        cmake
+        cmakeCurses
+        boost
+        glfw-wayland
       ];
     };
   };
