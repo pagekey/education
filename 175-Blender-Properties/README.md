@@ -58,7 +58,7 @@ Then, in your panel, just add it!
 
 ```python
 class PAGEKEY_PT_StringPanel(bpy.types.Panel):
-	...PAGEKEY_PT_StringPanel
+	...
 	def draw(self, context):
 		...
 		self.layout.prop(context.scene, "custom_text_field")
