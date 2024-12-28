@@ -58,7 +58,7 @@ Then, in your panel, just add it!
 
 ```python
 class PAGEKEY_PT_StringPanel(bpy.types.Panel):
-	...
+	...PAGEKEY_PT_StringPanel
 	def draw(self, context):
 		...
 		self.layout.prop(context.scene, "custom_text_field")
@@ -87,7 +87,7 @@ Then we have to add a `PointerProperty` to bind it to the Scene during registrat
 ```python
 def register():
 	...
-    bpy.utils.register_class(PAGEKEY_MyProperties)
+	bpy.utils.register_class(PAGEKEY_MyProperties)
 	bpy.types.Scene.pagekey_properties = bpy.props.PointerProperty(type=PAGEKEY_MyProperties)
 ```
 

@@ -41,9 +41,9 @@ class HelloWorldOperator(bpy.types.Operator):
     bl_label = "Minimal Operator"
 
     def execute(self, context):
-		scene = context.scene
-		for obj in scene.objects:
-		    obj.location.x += 1.0
+        scene = context.scene
+        for obj in scene.objects:
+            obj.location.x += 1.0
         return {'FINISHED'}
 
 bpy.utils.register_class(HelloWorldOperator)
@@ -82,9 +82,9 @@ class HelloWorldOperator(bpy.types.Operator):
     bl_label = "Minimal Operator"
 
     def execute(self, context):
-		scene = context.scene
-		for obj in scene.objects:
-		    obj.location.x += 1.0
+        scene = context.scene
+        for obj in scene.objects:
+            obj.location.x += 1.0
         return {'FINISHED'}
 
 class HelloWorldPanel(bpy.types.Panel):
@@ -139,9 +139,9 @@ class HelloWorldOperator(bpy.types.Operator):
     bl_label = "Minimal Operator"
 
     def execute(self, context):
-		scene = context.scene
-		for obj in scene.objects:
-		    obj.location.x += 1.0
+        scene = context.scene
+        for obj in scene.objects:
+            obj.location.x += 1.0
         return {'FINISHED'}
 
 
@@ -208,16 +208,16 @@ class VSETextOperator(bpy.types.Operator):
     bl_label = "Add a text slide to VSE"
 
     def execute(self, context):
-		title = "my title"
-		vse = bpy.context.scene.sequence_editor
-		text_strip = vse.sequences.new_effect(
-		    name="auto-generated-text",
-		    type="TEXT",
-		    channel=1,
-		    frame_start=1,
-		    frame_end=30,
-		)
-		text_strip.text = title
+        title = "my title"
+        vse = bpy.context.scene.sequence_editor
+        text_strip = vse.sequences.new_effect(
+            name="auto-generated-text",
+            type="TEXT",
+            channel=1,
+            frame_start=1,
+            frame_end=30,
+        )
+        text_strip.text = title
         return {'FINISHED'}
 
 bpy.utils.register_class(VSETextOperator)
@@ -238,7 +238,7 @@ class VSETextPanel(bpy.types.Panel):
     bl_region_type = 'UI'
 
     def draw(self, context):
-	    self.layout.label(text="Welcome to the VSE panel.")
+        self.layout.label(text="Welcome to the VSE panel.")
         self.layout.operator("vse.add_text", text="Add Text Slide")
 
 bpy.utils.register_class(VSETextPanel)
@@ -255,16 +255,16 @@ class VSETextOperator(bpy.types.Operator):
     bl_label = "Add a text slide to VSE"
 
     def execute(self, context):
-		title = "my title"
-		vse = bpy.context.scene.sequence_editor
-		text_strip = vse.sequences.new_effect(
-		    name="auto-generated-text",
-		    type="TEXT",
-		    channel=1,
-		    frame_start=1,
-		    frame_end=30,
-		)
-		text_strip.text = title
+        title = "my title"
+        vse = bpy.context.scene.sequence_editor
+        text_strip = vse.sequences.new_effect(
+            name="auto-generated-text",
+            type="TEXT",
+            channel=1,
+            frame_start=1,
+            frame_end=30,
+        )
+        text_strip.text = title
         return {'FINISHED'}
 
 
@@ -276,7 +276,7 @@ class VSETextPanel(bpy.types.Panel):
     bl_region_type = 'UI'
 
     def draw(self, context):
-	    self.layout.label(text="Welcome to the VSE panel.")
+        self.layout.label(text="Welcome to the VSE panel.")
         self.layout.operator("vse.add_text", text="Add Text Slide")
 
 

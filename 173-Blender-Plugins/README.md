@@ -76,7 +76,7 @@ class HelloWorldPanel(bpy.types.Panel):
 
     def draw(self, context):
         self.layout.label(text="Hello World")
-		self.layout.operator("mesh.primitive_cone_add", text="Add Cone")
+        self.layout.operator("mesh.primitive_cone_add", text="Add Cone")
 
 bpy.utils.register_class(HelloWorldPanel)
 ```
@@ -84,7 +84,7 @@ bpy.utils.register_class(HelloWorldPanel)
 You'll notice there's only one new line here:
 
 ```python
-		self.layout.operator("mesh.primitive_cone_add", text="Add Cone")
+        self.layout.operator("mesh.primitive_cone_add", text="Add Cone")
 ```
 
 Notice how rather than adding a button directly, we just add an operator to the layout, and it interprets that as meaning a button on the UI. There's no need to assign a "handler" for when the button is clicked, because the button is directly linked to the operator.
@@ -120,7 +120,7 @@ class HelloWorldPanel(bpy.types.Panel):
 
     def draw(self, context):
         self.layout.label(text="Hello World")
-		self.layout.operator("mesh.primitive_cone_add", text="Add Cone")
+        self.layout.operator("mesh.primitive_cone_add", text="Add Cone")
 
 bpy.utils.register_class(HelloWorldPanel)
 ```
