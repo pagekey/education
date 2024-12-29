@@ -6,6 +6,37 @@ This was a lot harder than expected. There doesn't seem to be a huge amount of d
 
 I used a commit hash instead of a tag in this example, but for any of your apps, you'll want to create a Git tag for this.
 
+## Try it!
+
+If you're using NixOS, paste the following into your `configuration.nix` to try this out!
+
+```
+  environment.systemPackages = with pkgs; [
+    # ... everything else you have installed
+    sample-app-c
+  ];
+  nixpkgs.config.packageOverrides = pkgs: {
+    sample-app-c =
+      let
+        defaultNix = builtins.fetchurl {
+          url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/176-nix-package/sample-app-c/default.nix";
+          sha256 = "1h0yvmgdikfjfygd43947fmkmz3awpdjcjlwl5wkirhifw2c9i5d";
+        };
+      in pkgs.callPackage defaultNix {
+        src = pkgs.fetchFromGitHub {
+          owner = "pagekey";
+          repo = "education";
+          rev = "main";  # REPLACE WITH A TAG!
+          sha256 = "cGsxEAMhr9Mg4vOlCCrbp1PCjEmgNUk0HkTcjCOOYMk";
+        };
+        subdir = "176-nix-package/sample-app-c/src";
+      };
+  };
+```
+
+Run `sudo nixos-rebuild switch` and you'll have **my** executable on your system! Run it by typing `sample-app-c`.
+
+
 ## Quick Demo
 
 If you just want to make something happen with this code in this repo, `cd` to this directory and run these commands:
@@ -47,7 +78,7 @@ Inside `main.c`, you'll find the simplest C program you could ever hope for:
 
 
 int main() {
-    printf("Hello, world!\n");
+    printf("Hello, world from C!\n");
     return 0;
 }
 ```

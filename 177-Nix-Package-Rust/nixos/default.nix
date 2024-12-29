@@ -4,31 +4,31 @@ let
   sample-app-c =
     let
           defaultNix = builtins.fetchurl {
-          url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/176-nix-packages/176-nix-package/sample-app-c/default.nix?abc=defdef";
-            sha256 = "15zr2dy6yqa8kslb5hwipiz4bmmik486iflabkh6x69n4d9r0c31";
+          url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/177-nix-package-rust/176-Nix-Package-C/sample-app-c/default.nix?abc=defdef";
+            sha256 = "1h0yvmgdikfjfygd43947fmkmz3awpdjcjlwl5wkirhifw2c9i5d";
           };
         in pkgs.callPackage defaultNix {
           src = pkgs.fetchFromGitHub {
             owner = "pagekey";
             repo = "education";
-            rev = "176-nix-packages";  # REPLACE WITH A TAG!
-            sha256 = "RKS3tGISsDm491RNeI/xeNkBx7FBMuyCo0esX2UbBpo=";
+            rev = "177-nix-package-rust";  # REPLACE WITH A TAG!
+            sha256 = "Tadhnpv2Y8p93qNqJYGujMF4z/+4TLQBux4bnV/JUbg=";
           };
-          subdir = "176-nix-package/sample-app-c/src";
+          subdir = "176-Nix-Package-C/sample-app-c/src";
         };
   sample-app-rust =
     let
       defaultNix = builtins.fetchurl {
-      url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/176-nix-packages/176-nix-package/sample-app-rust/default.nix?cache=7ab=c";
+      url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/177-nix-package-rust/177-Nix-Package-Rust/sample-app-rust/default.nix";
         sha256 = "024c96sg6b7w56jpixl388kz9qsxll9avpymmg6v8lkbsg4na1lx";
       };
     in pkgs.callPackage defaultNix {
       src = pkgs.fetchFromGitHub {
         owner = "pagekey";
         repo = "education";
-        rev = "176-nix-packages";  # REPLACE WITH A TAG!
-        sha256 = "p3b3N2AfJndmuB8o7b3to/3p408xy/XjLUgmd6iSNqM=";
-      } + "/176-nix-package/sample-app-rust";
+        rev = "177-nix-package-rust";  # REPLACE WITH A TAG!
+        sha256 = "Tadhnpv2Y8p93qNqJYGujMF4z/+4TLQBux4bnV/JUbg=";
+      } + "/177-Nix-Package-Rust/sample-app-rust";
     };
   in [
     sample-app-c
