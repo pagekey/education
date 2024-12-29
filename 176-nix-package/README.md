@@ -22,7 +22,7 @@ Installing in NixOS when cloned locally:
   environment.systemPackages = with pkgs; [
     my-app
   ];
-  nixpkgs.c/home/steve/tmp/my-app/onfig.packageOverrides = pkgs: {
+  nixpkgs.config.packageOverrides = pkgs: {
     my-app = pkgs.callPackage /home/steve/my-app/default.nix { }; // Replace with wherever you cloned it.
   };
 ```
@@ -72,6 +72,21 @@ Installing Binary Package from GitHub (uncompressed):
 Installing Binary Package from GitHub (compressed):
 
 ```nix
+
+```
+
+Bonus: debugging nixos config with `nix repl`.
+
+```bash
+pkgs = import <nixpkgs>{}
+(paste snippet here)
+```
+
+Adding breakpoints:
+
+```
+break
+# or
 
 ```
 
