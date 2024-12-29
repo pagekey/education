@@ -2,6 +2,6 @@
 
 
 int main() {
-    printf("Hello, world!\n");
+    printf("Hello, world from C!\n");
     return 0;
 }
