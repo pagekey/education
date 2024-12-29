@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> { }, src ? ./src, subdir ? ./. }:
+{ pkgs ? import <nixpkgs> { }, src ? ./src, subdir ? "" }:
 
 
 let theSource = src; in

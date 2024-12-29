@@ -42,7 +42,7 @@ Run `sudo nixos-rebuild switch` and you'll have **my** executable on your system
 If you just want to make something happen with this code in this repo, `cd` to this directory and run these commands:
 
 ```bash
-cd sample-app-c-local
+cd sample-app-c
 nix-build
 ./result/out/sample-app-c
 cd ../nixos
@@ -149,7 +149,7 @@ We can get started with the example from the previous step. Simply paste the `pa
 
 let
   sample-app-c = 
-    pkgs.callPackage /home/steve/repos/education/176-Nix-Package-C/sample-app-c-local { };
+    pkgs.callPackage /home/steve/repos/education/176-Nix-Package-C/sample-app-c { };
   in [
     sample-app-c
   ]
