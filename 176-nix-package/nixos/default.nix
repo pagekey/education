@@ -15,7 +15,7 @@
       };
     sample-app-rust = let
       defaultNix = builtins.fetchurl {
-       url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/176-nix-packages/176-nix-package/sample-app-rust/default.nix?cache=3";
+       url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/176-nix-packages/176-nix-package/sample-app-rust/default.nix?cache=6";
         sha256 = "1by5fy3yz3dhsx5m99z5kpz035wzca62wsbbss2yafgbf9dps21c";
       };
     in pkgs.callPackage defaultNix {
@@ -24,7 +24,7 @@
         repo = "education";
         rev = "176-nix-packages";  # REPLACE WITH A TAG!
         sha256 = "";
-      } + "/176-nix-package/sample-app-rust/src";
+      } + "/176-nix-package/sample-app-rust";
     };
   in [
     sample-app-c
