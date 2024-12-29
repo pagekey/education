@@ -15,8 +15,8 @@
       };
     sample-app-rust = let
       defaultNix = builtins.fetchurl {
-       url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/176-nix-packages/176-nix-package/sample-app-rust/default.nix";
-        sha256 = "1qzl1gr08zyywjv2k23skaj3a3sma2vdpv5p4wrwwb8zqgjyhnpi";
+       url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/176-nix-packages/176-nix-package/sample-app-rust/default.nix?cache=3";
+        sha256 = "1by5fy3yz3dhsx5m99z5kpz035wzca62wsbbss2yafgbf9dps21c";
       };
     in pkgs.callPackage defaultNix {
       src = pkgs.fetchFromGitHub {
