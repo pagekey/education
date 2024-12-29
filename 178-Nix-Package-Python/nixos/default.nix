@@ -4,8 +4,8 @@ let
   sample-app-python = 
     let
       defaultNix = builtins.fetchurl {
-      url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/178-Nix-Package-Python/sample-app-python/default.nix";
-        sha256 = "19z3qf82vl05ayq033lrhsjaqw8400pf9860v4ii3jr93j9ba1f3";
+      url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/178-Nix-Package-Python/sample-app-python/default.nix?abc=aaa=";
+        sha256 = "sha256:1979ch1p5n8x4m5m6bw9drzww9vnqicj5axhfajjbcg6ayyib2i7";
       };
     in pkgs.callPackage defaultNix {
       src = pkgs.fetchFromGitHub {

@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> { }, src ? ./src }:
+{ pkgs ? import <nixpkgs> { }, src ? ./. }:
 
 let
   theSource = src;
@@ -7,7 +7,7 @@ let
     version = "1.0.0";
 
     # Point to your Python package source
-    src = ./.;
+    src = theSource;
 
     # Optional: Specify build inputs (dependencies for setup/install)
     buildInputs = [ pkgs.python311Packages.setuptools pkgs.python311Packages.wheel ];
@@ -29,7 +29,7 @@ pkgs.stdenv.mkDerivation rec {
 
   propagatedBuildInputs = [ pythonEnv ];
 
-  src = theSource;
+  src = "${theSource}/src";
 
   installPhase = ''
     mkdir -p $out/bin
