@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> { }, src ? ./src }:
+{ pkgs ? import <nixpkgs> { }, src ? ./src, subdir ? ./. }:
 
 let theSource = src; in
 pkgs.stdenv.mkDerivation rec {
@@ -10,7 +10,7 @@ pkgs.stdenv.mkDerivation rec {
     nativeBuildInputs = [ pkgs.stdenv.cc ];
 
     buildPhase = ''
-        gcc -o my-app-c ${src}/hello.c
+        gcc -o my-app-c ${src}/${subdir}/hello.c
     '';
     installPhase = ''
         mkdir -p $out/bin
