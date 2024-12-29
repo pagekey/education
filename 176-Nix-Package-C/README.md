@@ -11,7 +11,7 @@ I used a commit hash instead of a tag in this example, but for any of your apps,
 If you just want to make something happen with this code in this repo, `cd` to this directory and run these commands:
 
 ```bash
-cd sample-app-c
+cd sample-app-c-local
 nix-build
 ./result/out/sample-app-c
 cd ../nixos
