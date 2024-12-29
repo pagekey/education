@@ -82,12 +82,32 @@ pkgs = import <nixpkgs>{}
 (paste snippet here)
 ```
 
-Adding breakpoints:
+Another bonus: to test nixos package overrides, just use a `default.nix` to evaluate the derivation (hard to do from repl)
 
-```
-break
-# or
+Another gotcha: caching (get around it by augmenting url with `?something=else`)
 
+Finally!!! Working Version for C!!!!
+
+```nix
+  environment.systemPackages = with pkgs; [
+    my-app-c
+  ];
+
+  nixpkgs.config.packageOverrides = pkgs: {
+    my-app-c = let
+      defaultNix = builtins.fetchurl {
+       url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/176-nix-package/my-app-c/default.nix?oi";
+        sha256 = "128f3fcj48x9shk8f8zswzkpr1pzisfi93ainqrq84bz5w4mgnbl";
+      };
+    in pkgs.callPackage defaultNix {
+      src = pkgs.fetchFromGitHub {
+        owner = "pagekey";
+        repo = "education";
+        rev = "main";
+        sha256 = "y64zp+ltXqPiNdiKcXiwN+cAK0TCRnPafh2w0YbYOtc=";
+      } + "/176-nix-package/my-app-c/src";
+    };
+  };
 ```
 
 
