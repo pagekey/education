@@ -270,6 +270,25 @@ url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/176-n
 sha256 = "";
 ```
 
+The best solution to be absolutely sure is to run `nix repl`, then find paste the `fetchurl` command, which will print the location of the file in the Nix store. You can then run `nix-store --delete PASTE` to delete the path. For example,
+
+```bash
+$ nix repl
+nix-repl> builtins.fetchurl {
+                url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/178-Nix-Package-Python/sample-app-python/default.nix";
+                  sha256 = "sha256:1zw57ghlab31b3klxgsdm06lbkk9hqry42yzv5n9sjabjpbk65rh";
+                } 
+"/nix/store/4xqh9la9dq54imvmcf7854yaysy7ll0h-default.nix"
+$ nix-store --delete /nix/store/4xqh9la9dq54imvmcf7854yaysy7ll0h-default.nix
+```
+
+You can also carefully check the log to find the store path.
+
+A few more commands to try at your own risk include:
+
+- `nix-collect-garbage`: Run Nix garbage collection.
+- `rm -rf ~/.cache/nix`: Dump your user Nix cache.
+
 Thankfully, this is probably not needed very often - it may even be a special case for this post, when I'm trying to figure out how to use those external fetches properly! If you use proper tagging in your repo, there may be no need for this.
 
 
