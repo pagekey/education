@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> { }, src ? ./. }:
+{ pkgs ? import <nixpkgs> { }, src ? ./., subdir ? "" }:
 
 let
   theSource = src;
@@ -29,7 +29,7 @@ pkgs.stdenv.mkDerivation rec {
 
   propagatedBuildInputs = [ pythonEnv ];
 
-  src = "${theSource}/src";
+  src = "${theSource}/${subdir}/src";
 
   installPhase = ''
     mkdir -p $out/bin
