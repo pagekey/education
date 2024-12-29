@@ -1,6 +1,7 @@
-{ pkgs ? import <nixpkgs> { } }:
+{ pkgs ? import <nixpkgs> { }, src ? ./src }:
 
 let
+  theSource = src;
   pythonPackage = pkgs.python311Packages.buildPythonPackage {
     pname = "sample-app-python";
     version = "1.0.0";
@@ -28,7 +29,7 @@ pkgs.stdenv.mkDerivation rec {
 
   propagatedBuildInputs = [ pythonEnv ];
 
-  src = ./src;
+  src = theSource;
 
   installPhase = ''
     mkdir -p $out/bin
