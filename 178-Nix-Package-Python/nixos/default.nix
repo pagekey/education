@@ -3,18 +3,29 @@
 let
   sample-app-python = 
     let
+      # Download from GitHub:
       defaultNix = builtins.fetchurl {
       url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/178-Nix-Package-Python/sample-app-python/default.nix";
-        sha256 = "sha256:1zw57ghlab31b3klxgsdm06lbkk9hqry42yzv5n9sjabjpbk65rh";
+        sha256 = "sha256:0v8rdh4j8z4mhxxxw76hrycbjdxb30wm754q83gnrmby3v784v7m";
       };
+      # Uncomment for local testing:
+      # defaultNix = builtins.path {
+      #   path = ../sample-app-python;
+      # };
     in pkgs.callPackage defaultNix {
+      # Download from GitHub:
       src = pkgs.fetchFromGitHub {
         owner = "pagekey";
         repo = "education";
         rev = "main";  # REPLACE WITH A TAG!
-        sha256 = "sha256-qDxOjW166UYX5wanu3Q/GJ1z75vOmyDfyp8TtBJE9Nw=";
+        sha256 = "sha256-DYabJIZ9dOPdPC/m/Fj/wDkkLp6EndXgPkEpons8vqM=";
       };
-      subdir = "/178-Nix-Package-Rust/sample-app-python";
+      
+      # Uncomment for local testing:
+      src = builtins.path {
+        path = ./..;
+      };
+      subdir = "/sample-app-python";
     };
   in [
     sample-app-python

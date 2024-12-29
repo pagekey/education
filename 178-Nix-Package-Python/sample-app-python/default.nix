@@ -3,10 +3,10 @@
 let
   theSource = src;
   pythonPackage = pkgs.python311Packages.buildPythonPackage {
-    pname = "sample-app-python";
+    pname = "sample-app-python-package";
     version = "1.0.0";
 
-    src = theSource;
+    src = "${theSource}/${subdir}";
 
     buildInputs = [ pkgs.python311Packages.setuptools pkgs.python311Packages.wheel ];
     propagatedBuildInputs = [ pkgs.python311Packages.flask ];
@@ -26,13 +26,13 @@ pkgs.stdenv.mkDerivation rec {
 
   propagatedBuildInputs = [ pythonEnv ];
 
-  src = "${theSource}/${subdir}";
+  src = "${theSource}/${subdir}/src";
 
   installPhase = ''
     mkdir -p $out/bin
     cat > $out/bin/${name} <<EOF
 #!/bin/sh
-exec ${pythonEnv}/bin/python3 ${src}/src/sample_app_python/main.py "\$@"
+exec ${pythonEnv}/bin/python3 ${src}/sample_app_python/main.py "\$@"
 EOF
     chmod +x $out/bin/${name}
   '';
