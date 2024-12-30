@@ -3,7 +3,7 @@
 let
   nodeEnv =
     pkgs.stdenv.mkDerivation rec {
-      pname = "sample-app-node";
+      pname = "sample-app-node-env";
       version = "1.0.0";
 
       src = pkgs.lib.cleanSource ./.;
@@ -28,7 +28,7 @@ let
     };
 in
   pkgs.buildNpmPackage rec {
-    pname = "sample-app-node-package";
+    pname = "sample-app-node";
     version = "1.0.0";
 
     src = ./.;
