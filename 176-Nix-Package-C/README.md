@@ -8,9 +8,9 @@ I used a commit hash instead of a tag in this example, but for any of your apps,
 
 ## Try it!
 
-If you're using NixOS, paste the following into your `configuration.nix` to try this out!
+My `sample-app-c` is NOT on nixpkgs, but you can still easily install it on your NixOS system! Just paste the following code into your `configuration.nix` to try it out:
 
-```
+```nix
   environment.systemPackages = with pkgs; [
     # ... everything else you have installed
     sample-app-c
