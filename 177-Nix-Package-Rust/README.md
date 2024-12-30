@@ -209,4 +209,4 @@ If you enjoyed, consider subscribing to the [PageKey YouTube channel](https://yo
 
 - [Nix Packages - Why Does Nothing Work](https://www.youtube.com/watch?v=CqFcl4BmbN4): This post is heavily based on this video! Thank you to the person who made it. It seems to be the only video on YouTube showing how to do this as of December 2024.
 - NixOS forums and other random Google adventures.
-- Tons of trial and error.
+- Lots of trial and error.

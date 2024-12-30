@@ -19,17 +19,17 @@ If you're using NixOS, paste the following into your `configuration.nix` to try 
     sample-app-c =
       let
         defaultNix = builtins.fetchurl {
-          url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/176-nix-package/sample-app-c/default.nix";
-          sha256 = "1h0yvmgdikfjfygd43947fmkmz3awpdjcjlwl5wkirhifw2c9i5d";
+          url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/176-Nix-Package-C/sample-app-c/default.nix";
+          sha256 = "sha256:05357l33rllpyw2479rb0i06mi18aqm3dn20hrywmi3zi0a6q6a1";
         };
       in pkgs.callPackage defaultNix {
         src = pkgs.fetchFromGitHub {
           owner = "pagekey";
           repo = "education";
           rev = "main";  # REPLACE WITH A TAG!
-          sha256 = "cGsxEAMhr9Mg4vOlCCrbp1PCjEmgNUk0HkTcjCOOYMk";
+          sha256 = "sha256-ub3gtFbrIVvLbkdeVnFve6FaGDlEJ0hPxd9hGDF3Zxo=";
         };
-        subdir = "176-nix-package/sample-app-c/src";
+        subdir = "176-Nix-Package-C/sample-app-c/src";
       };
   };
 ```
@@ -44,10 +44,10 @@ If you just want to make something happen with this code in this repo, `cd` to t
 ```bash
 cd sample-app-c
 nix-build
-./result/out/sample-app-c
+./result/bin/sample-app-c
 cd ../nixos
 nix-build
-./result/out/sample-app-c
+./result/bin/sample-app-c
 ```
 
 There's also a dev shell you can play with by running:
@@ -107,22 +107,22 @@ pkgs.stdenv.mkDerivation rec {
 }
 ```
 
-If you're unfamiliar with Nix, the file we see here defines a **function**. The inputs are `pkgs`, which defaults to the system `nixpkgs` if not overridden.
+If you're unfamiliar with Nix, the `default.nix` file we see here defines a **function**. The inputs are `pkgs`, which defaults to the system `nixpkgs` if not overridden.
 
 As far as the rest of the code goes, it declares some metadata, shows how to use `gcc` to build the executable, and copies the executable to `bin`!
 
 
 ## 2. Running in NixOS (Local-Only)
 
-As long as this package already exists somewhere on our computer (because we manually wrote it or cloned it into our home area), it's very straightforward to add this to our NixOS system. Just add the package to your `packageOverrides`:
+As long as this package already exists somewhere on our computer (because we manually wrote it or cloned it into our home area), it's very straightforward to add this to our NixOS system. Just add the package to your `packageOverrides` in `configuration.nix`:
 
 ```nix
   nixpkgs.config.packageOverrides = pkgs: {
-    sample-app-c = callPackage /home/steve/repos/education/176-Nix-Package-C/sample-app-c
+    sample-app-c = pkgs.callPackage /home/steve/repos/education/176-Nix-Package-C/sample-app-c/default.nix;
   };
 ```
 
-Be sure to replace `/home/steve/repos` with the actual path to this repo! Then, add the package to your system packages:
+Be sure to replace `/home/steve/repos/education` with the actual path to this repo! Then, add the package to your system packages:
 
 ```nix
   environment.systemPackages = with pkgs; [
@@ -155,7 +155,21 @@ let
   ]
 ```
 
-Now, you can run `nix-build` to make sure this works, and if not, tweak it to work! Once this builds, you can be fairly confident that it will also work with your `configuration.nix`. In the next post, we'll see that this allows you to test multiple packages at the same time, too.
+Now, you can run `nix-build` to make sure this works, and if not, tweak it to work! Once this builds, you can be fairly confident that it will also work with your `configuration.nix`. You can also test installing multiple packages at the same time - just add another package name in the `let` block, and add it's name to the list in the `in` block! It would look like this:
+
+```nix
+{ pkgs ? import <nixpkgs> { } }:
+
+let
+  sample-app-c = 
+    pkgs.callPackage /home/steve/repos/education/176-Nix-Package-C/sample-app-c { };
+  sample-app-rust = 
+    pkgs.callPackage /home/steve/repos/education/177-Nix-Package-Rust/sample-app-rust { };
+  in [
+    sample-app-c
+    sample-app-rust
+  ]
+```
 
 
 ## 4. Building from GitHub
@@ -219,9 +233,11 @@ let
   ]
 ```
 
+Run this with `nix-build`. If you see a hash mismatch error, that's good! Copy the hash it's expecting and paste it into the blank `sha256 = "";` block. There are two of them, so start at the top and work your way down.
+
 Notice how we're now using both of the `src` and `subdir` args that we added as inputs to `sample-app-c/default.nix`.
 
-Run this using `nix-build` and fix the hash errors. Once it's working, you should be able to put it directly into your NixOS `configuration.nix` file:
+Just like before, once it's working, you should be able to put it directly into your NixOS `configuration.nix` file:
 
 ```nix
   environment.systemPackages = with pkgs; [
@@ -232,7 +248,7 @@ Run this using `nix-build` and fix the hash errors. Once it's working, you shoul
     sample-app-c =
       let
         defaultNix = builtins.fetchurl {
-          url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/176-nix-package/sample-app-c/default.nix";
+          url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/176-Nix-Package-C/sample-app-c/default.nix";
           sha256 = "";
         };
       in pkgs.callPackage defaultNix {
@@ -242,54 +258,12 @@ Run this using `nix-build` and fix the hash errors. Once it's working, you shoul
           rev = "main";  # REPLACE WITH A TAG!
           sha256 = "";
         };
-        subdir = "176-nix-package/sample-app-c/src";
+        subdir = "176-Nix-Package-C/sample-app-c/src";
       };
   };
 ```
 
 Run `sudo nixos-rebuild switch` and your `sample-app-c` is available, built directly from GitHub!
-
-
-## Other Lessons Learned
-
-While the `default.nix` method of testing ended up working best for me in this case, I also discovered `nix repl`. You can run this and paste in code snippets to see how they work:
-
-```bash
-pkgs = import <nixpkgs>{}
-(paste snippet here)
-```
-
-This really helped me build an intuition for what the output types of all these functions we're running are. I was able to see what evaluated to a string, what ended up as a derivation, and what generated a lambda. Unfortunately, it seemed there was no good way to invoke a `deriv` once you had it assigned to a variable, so I had to use the `default.nix` method described above.
-
-Another important "gotcha" is to remember that Nix does everything it can to **cache requests**! This means that if you're making lots of little changes trying to get something to work, you may end up pulling your hair out because nothing seems to be changing. This was especially the case when I started experimenting with `fetchurl` and `fetchFromGitHub`.
-
-To get around caching, you need to take two steps. First, add a query parameter to the end of the url to make it different - something like `?something=else`. Second, delete the hash and leave it blank. This will force an error where it tells you the latest hash, and you can copy and paste it into the file. Even when I did this, it still sometimes took a few tries before GitHub would serve the latest file I just pushed - this must have something to do with caching on their end. Here's what it should look like when you're trying to clear the cache:
-
-```nix
-url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/176-nix-package/sample-app-c/default.nix?abc=def";
-sha256 = "";
-```
-
-The best solution to be absolutely sure is to run `nix repl`, then find paste the `fetchurl` command, which will print the location of the file in the Nix store. You can then run `nix-store --delete PASTE` to delete the path. For example,
-
-```bash
-$ nix repl
-nix-repl> builtins.fetchurl {
-                url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/178-Nix-Package-Python/sample-app-python/default.nix";
-                  sha256 = "sha256:1zw57ghlab31b3klxgsdm06lbkk9hqry42yzv5n9sjabjpbk65rh";
-                } 
-"/nix/store/4xqh9la9dq54imvmcf7854yaysy7ll0h-default.nix"
-$ nix-store --delete /nix/store/4xqh9la9dq54imvmcf7854yaysy7ll0h-default.nix
-```
-
-You can also carefully check the log to find the store path.
-
-A few more commands to try at your own risk include:
-
-- `nix-collect-garbage`: Run Nix garbage collection.
-- `rm -rf ~/.cache/nix`: Dump your user Nix cache.
-
-Thankfully, this is probably not needed very often - it may even be a special case for this post, when I'm trying to figure out how to use those external fetches properly! If you use proper tagging in your repo, there may be no need for this.
 
 
 ## Conclusion
@@ -303,4 +277,4 @@ If you enjoyed, consider subscribing to the [PageKey YouTube channel](https://yo
 
 - [Nix Packages - Why Does Nothing Work](https://www.youtube.com/watch?v=CqFcl4BmbN4): This post is heavily based on this video! Thank you to the person who made it. It seems to be the only video on YouTube showing how to do this as of December 2024.
 - NixOS forums and other random Google adventures.
-- Tons of trial and error.
+- Lots of trial and error.
