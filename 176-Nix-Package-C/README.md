@@ -185,7 +185,7 @@ The `subdir` argument is something I added because this is nested in the PageKey
 The new `default.nix` will look like this:
 
 ```nix
-{ pkgs ? import <nixpkgs> { }, src ? ./src, subdir ? ./. }:
+{ pkgs ? import <nixpkgs> { }, src ? ./src, subdir ? "" }:
 
 
 let theSource = src; in
