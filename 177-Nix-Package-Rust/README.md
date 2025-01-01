@@ -19,7 +19,7 @@ My `sample-app-rust` is NOT on nixpkgs, but you can still easily install it on y
     sample-app-rust =
       let
         defaultNix = builtins.fetchurl {
-          url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/177-Nix-Package-Rust/sample-app-rust/default.nix";
+        url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/177-Nix-Package-Rust/sample-app-rust/default.nix";
           sha256 = "sha256:024c96sg6b7w56jpixl388kz9qsxll9avpymmg6v8lkbsg4na1lx";
         };
       in pkgs.callPackage defaultNix {
@@ -103,7 +103,7 @@ As long as this package already exists somewhere on our computer (because we man
 
 ```nix
   nixpkgs.config.packageOverrides = pkgs: {
-    sample-app-rust = pkgs.callPackage /home/steve/repos/education/177-Nix-Package-Rust/sample-app-rust/default.nix;
+    sample-app-rust = pkgs.callPackage /home/steve/repos/education/177-Nix-Package-Rust/sample-app-rust/default.nix { };
   };
 ```
 
