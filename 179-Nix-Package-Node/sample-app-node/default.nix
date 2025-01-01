@@ -16,6 +16,7 @@ let
 
       buildPhase = ''
         npm install
+        # npm install --verbose # if it hangs, use this line instead.
       '';
 
       installPhase = ''
