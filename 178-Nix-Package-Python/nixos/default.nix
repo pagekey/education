@@ -18,7 +18,7 @@ let
         owner = "pagekey";
         repo = "education";
         rev = "main";  # REPLACE WITH A TAG!
-        sha256 = "sha256-erg+Fs8l7CgzghXz1grrtd6jhm1Zj1SdENq3eAphSD8=";
+        sha256 = "sha256-y6JHx9hFB7nGPhD9GYC0AjQXAI2qoUnbi7t3ms7p924=";
       };
       subdir = "178-Nix-Package-Python/sample-app-python";
       
