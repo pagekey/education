@@ -1,20 +1,21 @@
 { pkgs ? import <nixpkgs> { } }:
 
 let
-  sample-app-rust =
-    let
-      defaultNix = builtins.fetchurl {
-      url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/177-Nix-Package-Rust/sample-app-rust/default.nix";
-        sha256 = "sha256:024c96sg6b7w56jpixl388kz9qsxll9avpymmg6v8lkbsg4na1lx";
+  sample-app-c = 
+      let
+          defaultNix = builtins.path {
+              path = /home/steve/repos/education/176-Nix-Package-C/sample-app-c;
+          };
+      in pkgs.callPackage defaultNix {
+          src = builtins.path {
+              path = /home/steve/repos/education;
+          };
+          subdir = "176-Nix-Package-C/sample-app-c/src";
       };
-    in pkgs.callPackage defaultNix {
-      src = pkgs.fetchFromGitHub {
-        owner = "pagekey";
-        repo = "education";
-        rev = "main";  # REPLACE WITH A TAG!
-        sha256 = "sha256-8ovnrRe1B4iTDHU+reyNnTIrmDwMcG2rIh3DtI0TZ9Q=";
-      } + "/177-Nix-Package-Rust/sample-app-rust";
-    };
+    sample-app-rust = 
+      pkgs.callPackage /home/steve/repos/education/177-Nix-Package-Rust/sample-app-rust { };
   in [
+    sample-app-c
     sample-app-rust
   ]
+  
