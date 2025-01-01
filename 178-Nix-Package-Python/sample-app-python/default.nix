@@ -17,14 +17,14 @@ let
     };
   };
   pythonEnv = pkgs.python311.buildEnv.override {
-    extraLibs = [ pkgs.python311Packages.flask pythonPackage ];
+    extraLibs = [ pythonPackage ];
     ignoreCollisions = true;
   };
 in
 pkgs.stdenv.mkDerivation rec {
   name = "sample-app-python";
 
-  propagatedBuildInputs = [ pythonEnv ];
+  propagatedBuildInputs = [ pythonPackage ];
 
   src = "${theSource}/${subdir}/src";
 

@@ -28,8 +28,7 @@ My `sample-app-rust` is NOT on nixpkgs, but you can still easily install it on y
           repo = "education";
           rev = "main";  # REPLACE WITH A TAG!
           sha256 = "sha256-8ovnrRe1B4iTDHU+reyNnTIrmDwMcG2rIh3DtI0TZ9Q=";
-        };
-        subdir = "177-Nix-Package-Rust/sample-app-rust/src";
+        } + "/177-Nix-Package-Rust/sample-app-rust";
       };
   };
 ```
@@ -199,8 +198,7 @@ let
         repo = "education";
         rev = "main";  # REPLACE WITH A TAG!
         sha256 = "";
-      };
-      subdir = "177-Nix-Package-Rust/sample-app-rust/src";
+      } + "/177-Nix-Package-Rust/sample-app-rust";
     };
   in [
     sample-app-rust

@@ -73,7 +73,7 @@ sample-app-node/
     app.js
   .gitignore
   default.nix
-  package.py
+  package.json
 ```
 
 Inside `app.js`, you'll find a simple Express web server, which demonstrate that we can import third-party packages:
