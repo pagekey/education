@@ -1,16 +1,18 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> {}, src ? ./., subdir ? "" }:
 
 let
+  theSource = src;
   nodeEnv =
     pkgs.stdenv.mkDerivation rec {
       pname = "sample-app-node-env";
       version = "1.0.0";
 
-      src = pkgs.lib.cleanSource ./.;
+      src = pkgs.lib.cleanSource "${theSource}/${subdir}";
 
       buildInputs = [
         pkgs.nodejs_22
       ];
+
 
       buildPhase = ''
         npm install
@@ -31,7 +33,7 @@ in
     pname = "sample-app-node";
     version = "1.0.0";
 
-    src = ./.;
+    src = "${theSource}/${subdir}";
 
     npmDepsHash = "sha256-cgfEGoEh2RDfoyNimw7Or1lqj4kG3tl4+I/mfWozd00=";
     # npmBuildScript = "build";
