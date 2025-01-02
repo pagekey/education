@@ -155,7 +155,7 @@ As long as this package already exists somewhere on our computer (because we man
     sample-app-python = 
         let
             defaultNix = builtins.path {
-                path = /home/steve/repos/education/repos/education/178-Nix-Package-Python/sample-app-python/;
+                path = /home/steve/repos/education/repos/education/178-Nix-Package-Python/sample-app-python/default.nix;
             };
         in pkgs.callPackage defaultNix {
             src = builtins.path {
@@ -183,6 +183,103 @@ This is cool, but it would be a lot better if we didn't have to go through the e
 ## 3. Testing Using `default.nix`
 
 Check the `nixos` folder in this repo for a `default.nix` you can use as a local testbed. This helped a ton when figuring out the nitty-gritty details of cloning from GitHub, because instead of having to run `nixos-rebuild switch` to rebuild your entire system, you can simply run `nix-build` and quickly check whether this tiny piece works. Then, once it works in the `default.nix` testbed, we can paste it over to our `configuration.nix` and make sure it works in NixOS, too.
+
+For local testing, our `default.nix` file will look something like this:
+
+```nix
+{ pkgs ? import <nixpkgs> { } }:
+
+let
+  sample-app-python = 
+      let
+        defaultNix = builtins.fetchurl {
+        url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/178-Nix-Package-Python/sample-app-python/default.nix";
+          sha256 = "";
+        };
+      in pkgs.callPackage defaultNix {
+        src = pkgs.fetchFromGitHub {
+          owner = "pagekey";
+          repo = "education";
+          rev = "main";  # REPLACE WITH A TAG!
+          sha256 = "";
+        };
+        subdir = "178-Nix-Package-Python/sample-app-python";
+      };
+  in [
+    sample-app-python
+  ]
+```
+
+
+## 4. Building from GitHub
+
+We have to upgrade out application's `default.nix` in to add two new args: `src` and `subdir`.
+
+This argument allows us to override where the source code is coming from. We'll get into that more later, but since we're just doing a local build, `./src` is perfect for now.
+
+I renamed `src` to `theSource` because without this, the `src` variable shadows itself and results in an infinite recursion - the good ol' stack overflow error. If you want to see what I mean, try deleting the line that says `let theSource = src; in`.
+
+The `subdir` argument is something I added because this is nested in the PageKey `education` repo. Most people probably won't need to override this, but if you have a monorepo with tons of C applications in it, this may come in handy!
+
+We'll use the same app `default.nix` from before, but we can use `fetchurl` and `fetchFromGitHub` to gather sources remotely instead of using local paths on our computer.
+
+Let's test it out. Instead of directly updating NixOS, start by changing our test `default.nix` from the previous step to use these new args:
+
+```nix
+{ pkgs ? import <nixpkgs> { } }:
+
+let
+  sample-app-python = 
+      let
+        defaultNix = builtins.fetchurl {
+        url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/178-Nix-Package-Python/sample-app-python/default.nix";
+          sha256 = "";
+        };
+      in pkgs.callPackage defaultNix {
+        src = pkgs.fetchFromGitHub {
+          owner = "pagekey";
+          repo = "education";
+          rev = "main";  # REPLACE WITH A TAG!
+          sha256 = "";
+        };
+        subdir = "178-Nix-Package-Python/sample-app-python";
+      };
+  in [
+    sample-app-python
+  ]
+```
+
+Run this with `nix-build`. If you see a hash mismatch error, that's good! Copy the hash it's expecting and paste it into the blank `sha256 = "";` block. There are two of them, so start at the top and work your way down.
+
+Notice how we're now using the `src` arg that we added as inputs to `sample-app-python/default.nix`.
+
+Just like before, once it's working, you should be able to put it directly into your NixOS `configuration.nix` file:
+
+```nix
+  environment.systemPackages = with pkgs; [
+    # ... everything else you have installed
+    sample-app-python
+  ];
+  nixpkgs.config.packageOverrides = pkgs: {
+    sample-app-python =
+      let
+        defaultNix = builtins.fetchurl {
+        url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/178-Nix-Package-Python/sample-app-python/default.nix";
+          sha256 = "";
+        };
+      in pkgs.callPackage defaultNix {
+        src = pkgs.fetchFromGitHub {
+          owner = "pagekey";
+          repo = "education";
+          rev = "main";  # REPLACE WITH A TAG!
+          sha256 = "";
+        } + "/177-Nix-Package-Python/sample-app-python";
+      };
+  };
+```
+
+Run `sudo nixos-rebuild switch` and your `sample-app-python` is available, built directly from GitHub!
+
 
 
 ## Conclusion
