@@ -17,13 +17,13 @@ let
 
     buildPhase = ''
       mkdir build
-      javac ${src}/HelloWorld.java -d build
+      javac ${src}/HelloWorld.java -d .
 
       # Create a manifest file for the JAR
       echo "Main-Class: HelloWorld" > manifest.mf
 
       # Package the .class file into a runnable JAR
-      jar cmf manifest.mf sample-app-java.jar build/HelloWorld.class
+      jar cmf manifest.mf sample-app-java.jar HelloWorld.class
     '';
 
     installPhase = ''
