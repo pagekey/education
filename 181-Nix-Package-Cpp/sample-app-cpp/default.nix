@@ -1,10 +1,11 @@
 { pkgs ? import <nixpkgs> { }, src ? ./src, subdir ? "" }:
 
+let theSource = src; in
 pkgs.stdenv.mkDerivation rec {
   pname = "sample-app-cpp";
   version = "1.0.0";
 
-  src = ./src;
+  src = "${theSource}/${subdir}";
 
   nativeBuildInputs = with pkgs; [ gcc ];
 
