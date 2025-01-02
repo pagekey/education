@@ -6,6 +6,7 @@ Gem::Specification.new do |spec|
     spec.summary = "A simple Ruby Hello World gem with colorize dependency"
     spec.license     = "MIT"
     spec.files = Dir.glob("lib/**/*")
+    spec.executables = ["sample-app-ruby"]
     spec.require_path = "lib"
     spec.add_dependency "colorize"
-  end
+end
