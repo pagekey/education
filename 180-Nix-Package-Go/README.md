@@ -197,7 +197,7 @@ This argument allows us to override where the source code is coming from. We'll 
 
 I renamed `src` to `theSource` because without this, the `src` variable shadows itself and results in an infinite recursion - the good ol' stack overflow error. If you want to see what I mean, try deleting the line that says `let theSource = src; in`.
 
-The `subdir` argument is something I added because this is nested in the PageKey `education` repo. Most people probably won't need to override this, but if you have a monorepo with tons of C applications in it, this may come in handy!
+The `subdir` argument is something I added because this is nested in the PageKey `education` repo. Most people probably won't need to override this, but if you have a monorepo with tons of applications in it, this may come in handy!
 
 The new `default.nix` will look like this:
 
