@@ -1,11 +1,12 @@
-{ pkgs ? import <nixpkgs> { } }:
+{ pkgs ? import <nixpkgs> { }, src ? ./src, subdir ? "" }:
 
-let 
+let
+  theSource = src;
   runnableJar = pkgs.stdenv.mkDerivation rec {
     pname = "sample-app-java";
     version = "1.0.0";
 
-    src = ./src;
+    src = "${theSource}/${subdir}";
 
     nativeBuildInputs = with pkgs; [ jdk ];
 
@@ -40,7 +41,7 @@ pkgs.stdenv.mkDerivation rec {
 
   propagatedBuildInputs = [ pkgs.jdk runnableJar ];
 
-  src = ./src;
+  src = "${theSource}/${subdir}";
 
   installPhase = ''
     mkdir -p $out/bin
