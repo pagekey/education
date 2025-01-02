@@ -6,11 +6,11 @@ let
       # Download from GitHub:
       defaultNix = builtins.fetchurl {
       url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/180-Nix-Package-Go/sample-app-go/default.nix";
-        sha256 = "sha256:0as82j59jhfbs5r2f55vjwcj93yyin21794810d8blx2r367v8n4";
+        sha256 = "sha256:0w1cf4rg5fnjq564am6vdvqvm2ii1fmp9wfdxjkgd01wrmkrsgjk";
       };
       # Uncomment for local testing:
       # defaultNix = builtins.path {
-      #   path = ../sample-app-go;
+      #   path = ..0as82j59jhfbs5r2f55vjwcj93yyin21794810d8blx2r367v8n4/sample-app-go;
       # };
     in pkgs.callPackage defaultNix {
       # Download from GitHub:
@@ -18,7 +18,7 @@ let
         owner = "pagekey";
         repo = "education";
         rev = "main";  # REPLACE WITH A TAG!
-        sha256 = "";
+        sha256 = "sha256-WVqhUXEbOFyRuo0B9DWEVIiw+kcLNrzlGuGIakoztnk=";
       };
       subdir = "180-Nix-Package-Go/sample-app-go";
       
