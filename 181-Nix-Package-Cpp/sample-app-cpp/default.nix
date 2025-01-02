@@ -1,7 +1,4 @@
-before src and subdir:
-
-```nix
-{ pkgs ? import <nixpkgs> { } }:
+{ pkgs ? import <nixpkgs> { }, src ? ./src, subdir ? "" }:
 
 pkgs.stdenv.mkDerivation rec {
   pname = "sample-app-cpp";
@@ -26,4 +23,3 @@ pkgs.stdenv.mkDerivation rec {
     mv sample-app-cpp $out/bin/
   '';
 }
-```
