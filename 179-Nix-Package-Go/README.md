@@ -193,7 +193,7 @@ let
 
 ## 4. Building from GitHub
 
-We have to upgrade out application's `default.nix` to add two new arguments: `src` and `subdir`.
+We have to upgrade our application's `default.nix` to add two new arguments: `src` and `subdir`.
 
 The `src` argument allows us to override where the source code is coming from. We'll get into that more later, but since we're just doing a local build, `./.` is perfect for now.
 
