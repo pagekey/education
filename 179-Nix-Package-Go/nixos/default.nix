@@ -5,7 +5,7 @@ let
     let
       # Download from GitHub:
       defaultNix = builtins.fetchurl {
-      url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/180-Nix-Package-Go/sample-app-go/default.nix";
+      url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/179-Nix-Package-Go/sample-app-go/default.nix";
         sha256 = "sha256:0w1cf4rg5fnjq564am6vdvqvm2ii1fmp9wfdxjkgd01wrmkrsgjk";
       };
       # Uncomment for local testing:
@@ -20,7 +20,7 @@ let
         rev = "main";  # REPLACE WITH A TAG!
         sha256 = "sha256-WVqhUXEbOFyRuo0B9DWEVIiw+kcLNrzlGuGIakoztnk=";
       };
-      subdir = "180-Nix-Package-Go/sample-app-go";
+      subdir = "179-Nix-Package-Go/sample-app-go";
       
       # Uncomment for local testing:
       # src = builtins.path {

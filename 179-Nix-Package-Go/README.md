@@ -19,17 +19,17 @@ My `sample-app-go` is NOT on nixpkgs, but you can still easily install it on you
     sample-app-go = 
       let
         defaultNix = builtins.fetchurl {
-        url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/180-Nix-Package-Go/sample-app-go/default.nix";
-          sha256 = "sha256:0w1cf4rg5fnjq564am6vdvqvm2ii1fmp9wfdxjkgd01wrmkrsgjk";
+        url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/179-Nix-Package-Go/sample-app-go/default.nix";
+          sha256 = "";
         };
       in pkgs.callPackage defaultNix {
         src = pkgs.fetchFromGitHub {
           owner = "pagekey";
           repo = "education";
           rev = "main";
-          sha256 = "sha256-WVqhUXEbOFyRuo0B9DWEVIiw+kcLNrzlGuGIakoztnk=";
+          sha256 = "";
         };
-        subdir = "180-Nix-Package-Go/sample-app-go";
+        subdir = "179-Nix-Package-Go/sample-app-go";
       };
   };
 ```
@@ -125,7 +125,7 @@ As long as this package already exists somewhere on our computer (because we man
 
 ```nix
   nixpkgs.config.packageOverrides = pkgs: {
-    sample-app-go = pkgs.callPackage /home/steve/repos/education/180-Nix-Package-Go/sample-app-go/default.nix { };
+    sample-app-go = pkgs.callPackage /home/steve/repos/education/179-Nix-Package-Go/sample-app-go/default.nix { };
   };
 ```
 
@@ -157,7 +157,7 @@ We can get started with the example from the previous step. Simply paste the `pa
 
 let
   sample-app-go = 
-    pkgs.callPackage /home/steve/repos/education/180-Nix-Package-Go/sample-app-go { };
+    pkgs.callPackage /home/steve/repos/education/179-Nix-Package-Go/sample-app-go { };
   in [
     sample-app-go
   ]
@@ -181,7 +181,7 @@ let
           subdir = "176-Nix-Package-C/sample-app-c/src";
       };
     sample-app-go = 
-      pkgs.callPackage /home/steve/repos/education/180-Nix-Package-Go/sample-app-go { };
+      pkgs.callPackage /home/steve/repos/education/179-Nix-Package-Go/sample-app-go { };
   in [
     sample-app-c
     sample-app-go
@@ -224,7 +224,7 @@ let
   sample-app-go =
     let
       defaultNix = builtins.fetchurl {
-        url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/180-Nix-Package-Go/sample-app-go/default.nix";
+        url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/179-Nix-Package-Go/sample-app-go/default.nix";
         sha256 = "";
       };
     in pkgs.callPackage defaultNix {
@@ -234,7 +234,7 @@ let
         rev = "main";  # REPLACE WITH A TAG!
         sha256 = "";
       };
-      subdir = "/180-Nix-Package-Go/sample-app-go";
+      subdir = "/179-Nix-Package-Go/sample-app-go";
     };
   in [
     sample-app-go
@@ -256,7 +256,7 @@ Just like before, once it's working, you should be able to put it directly into 
     sample-app-go =
       let
         defaultNix = builtins.fetchurl {
-          url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/180-Nix-Package-Go/sample-app-go/default.nix";
+          url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/179-Nix-Package-Go/sample-app-go/default.nix";
           sha256 = "";
         };
       in pkgs.callPackage defaultNix {
@@ -266,7 +266,7 @@ Just like before, once it's working, you should be able to put it directly into 
           rev = "main";  # REPLACE WITH A TAG!
           sha256 = "";
         };
-        subdir = "/180-Nix-Package-Go/sample-app-go";
+        subdir = "/179-Nix-Package-Go/sample-app-go";
       };
   };
 ```
