@@ -151,15 +151,15 @@ There's a lot going on here. First, we're passing `src` and `subdir` into the fu
 As long as this package already exists somewhere on our computer (because we manually wrote it or cloned it into our home area), it's very straightforward to add this to our NixOS system. Just add the package to your `packageOverrides` in `configuration.nix`:
 
 ```nix
-  nixpkgs.config.packageOverrides = pkgs: {
+nixpkgs.config.packageOverrides = pkgs: {
     sample-app-python = 
         let
             defaultNix = builtins.path {
-                path = /home/steve/repos/education/repos/education/178-Nix-Package-Python/sample-app-python/default.nix;
+                path = /home/steve/repos/education/178-Nix-Package-Python/sample-app-python/default.nix;
             };
         in pkgs.callPackage defaultNix {
             src = builtins.path {
-                path = /home/steve/repos/education/repos/education/;
+                path = /home/steve/repos/education;
             };
             subdir = "178-Nix-Package-Python/sample-app-python";
         };
