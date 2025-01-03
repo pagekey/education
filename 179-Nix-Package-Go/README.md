@@ -193,9 +193,9 @@ let
 
 ## 4. Building from GitHub
 
-We have to upgrade out application's `default.nix` in to add a new argument: `src`.
+We have to upgrade out application's `default.nix` to add two new arguments: `src` and `subdir`.
 
-This argument allows us to override where the source code is coming from. We'll get into that more later, but since we're just doing a local build, `./.` is perfect for now.
+The `src` argument allows us to override where the source code is coming from. We'll get into that more later, but since we're just doing a local build, `./.` is perfect for now.
 
 I renamed `src` to `theSource` because without this, the `src` variable shadows itself and results in an infinite recursion - the good ol' stack overflow error. If you want to see what I mean, try deleting the line that says `let theSource = src; in`.
 
