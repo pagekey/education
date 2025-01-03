@@ -85,7 +85,7 @@ import (
 
 func main() {
     fmt.Println("Hello, World from Go!")
-	logrus.Println("Hello from third-party package!")
+    logrus.Println("Hello from third-party package!")
     fmt.Println(GetGreeting())
 }
 ```
