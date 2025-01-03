@@ -1,5 +1,8 @@
 # Nix Debugging Strategies
 
+Here are a few Nix debugging strategies that I wanted to share. These came in handy while developing the previous videos about how to package up applications with Nix. I started that series as a complete novice to Nix, and thanks to the tips I discovered below, I feel much more comfortable reading and debugging Nix code now.
+
+
 ## 1. `nix repl`
 
 You can run `nix repl` to start a "read, evaluate, print loop" session. This enables you to paste in Nix code and see exactly what each statement returns. This was huge for me personally - it helped me build an intuition for what's actually happening in all the code above. For example, try running the following in `nix repl`:
@@ -17,6 +20,7 @@ pkgs.callPackage defaultNix { }
 Notice how when you run `callPackage` without the curly braces, it returns a lambda! Then, when you actually run it, you should see that it outputs a `derivation`.
 
 From what I could tell, there's no easy way to invoke that `derivation` object once you have it in the REPL, which led me to my next debugging strategy.
+
 
 ## 2. Using `default.nix`
 
@@ -39,13 +43,16 @@ in
 
 Note that this build fails because we kept it simple by not specifying the GitHub source code location. For our purposes, this is good enough - you can now see that the derivation was evaluated, and we got some useful debug info from it!
 
+
 ## 3. Clearing Cache with Surgical Precision
 
 A huge issue I ran into while figuring out how to build source code directly from GitHub was **caching**. Nix loves caching, and we should love it too! It's the thing that lets us install Firefox in seconds instead of hours and hours to build every single dependency from scratch.
 
 However, sometimes we need to get around caching. When you're changing a remote file often because you're debugging, it's really annoying if an old version gets stuck in cache. Thankfully, there are some steps we can take to get around this.
 
-All we have to do to get around this is to figure out the Nix Store path for whatever is cached, and (carefully) delete it. For example, run this in `nix repl`:
+All we have to do to get around this is to figure out the Nix Store path for whatever is cached, and (carefully) delete it. If a build is failling on a file, you can usually just check the log to figure out which one. You should be able to see which entry in the store is referenced somewhere.
+
+However, if you're still having trouble, you can run a command in `nix repl` to see which store entry it returns:
 
 ```bash
 $ nix repl
@@ -56,7 +63,9 @@ nix-repl> builtins.fetchurl {
 "/nix/store/4sn1xmgw01xz3w0ln0f3qwacm6yilidf-default.nix"
 ```
 
-As you can see, it prints out the location of where the downloaded file was stored! If we wanted to force Nix to redownload this file, we can just delete that entry in the cache:
+As you can see, it prints out the location of where the downloaded file was stored! 
+
+Now that we know which entry in the store holds the cached version of that file, we just need to delete it with the `nix-store --delete` command.
 
 ```bash
 nix-store --delete /nix/store/4sn1xmgw01xz3w0ln0f3qwacm6yilidf-default.nix
