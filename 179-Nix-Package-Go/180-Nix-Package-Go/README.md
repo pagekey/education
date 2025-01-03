@@ -55,8 +55,6 @@ There's also a dev shell you can play with by running:
 ```bash
 cd sample-app-go
 nix-shell
-go build
-./sample-app-go
 ```
 
 Read on to figure out why this is so useful!

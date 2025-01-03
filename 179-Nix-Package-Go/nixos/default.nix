@@ -18,7 +18,7 @@ let
         owner = "pagekey";
         repo = "education";
         rev = "main";  # REPLACE WITH A TAG!
-        sha256 = "sha256-WVqhUXEbOFyRuo0B9DWEVIiw+kcLNrzlGuGIakoztnk=";
+        sha256 = "sha256-b86xXoALmNjmTFtFH4aialYtv0IYkzDhHOHEamI8weM=";
       };
       subdir = "179-Nix-Package-Go/sample-app-go";
       
