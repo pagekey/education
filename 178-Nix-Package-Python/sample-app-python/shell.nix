@@ -5,4 +5,7 @@ pkgs.mkShell {
         python311
         python311Packages.flask
     ];
+    shellHook = ''
+        export PYTHONPATH=$PYTHONPATH:${toString ./src}
+    '';
 }
