@@ -192,18 +192,14 @@ For local testing, our `default.nix` file will look something like this:
 let
   sample-app-python = 
       let
-        defaultNix = builtins.fetchurl {
-        url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/178-Nix-Package-Python/sample-app-python/default.nix";
-          sha256 = "";
-        };
+          defaultNix = builtins.path {
+              path = /home/steve/repos/education/178-Nix-Package-Python/sample-app-python/default.nix;
+          };
       in pkgs.callPackage defaultNix {
-        src = pkgs.fetchFromGitHub {
-          owner = "pagekey";
-          repo = "education";
-          rev = "main";  # REPLACE WITH A TAG!
-          sha256 = "";
-        };
-        subdir = "178-Nix-Package-Python/sample-app-python";
+          src = builtins.path {
+              path = /home/steve/repos/education;
+          };
+          subdir = "178-Nix-Package-Python/sample-app-python";
       };
   in [
     sample-app-python
