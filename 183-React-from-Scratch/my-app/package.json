@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "esbuild": "^0.24.2"
+  },
+  "scripts": {
+    "build": "esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js",
+    "dev": "npm run build -- --sourcemap --watch"
+  }
+}

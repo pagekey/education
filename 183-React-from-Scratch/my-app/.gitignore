@@ -1,0 +1,4 @@
+node_modules/
+dist
+# normally you'd commit this, but no need for this example:
+package-lock.json
