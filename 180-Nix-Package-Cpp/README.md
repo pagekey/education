@@ -178,7 +178,7 @@ let
           subdir = "176-Nix-Package-C/sample-app-c/src";
       };
     sample-app-cpp = 
-      pkgs.callPackage /home/steve/repos/education/180-Nix-Package-Go/sample-app-cpp { };
+      pkgs.callPackage /home/steve/repos/education/180-Nix-Package-Cpp/sample-app-cpp { };
   in [
     sample-app-c
     sample-app-cpp
