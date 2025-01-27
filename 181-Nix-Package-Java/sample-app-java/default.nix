@@ -31,8 +31,6 @@ let
       # Place the JAR in the bin directory
       mkdir -p $out/bin
       cp sample-app-java.jar $out/bin/
-
-      # TODO create shell script to invoke `java -jar`
     '';
   };
 in
