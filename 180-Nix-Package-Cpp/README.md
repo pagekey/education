@@ -19,7 +19,7 @@ My `sample-app-cpp` is NOT on nixpkgs, but you can still easily install it on yo
     sample-app-cpp = 
       let
         defaultNix = builtins.fetchurl {
-        url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/181-Nix-Package-Cpp/sample-app-cpp/default.nix";
+        url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/180-Nix-Package-Cpp/sample-app-cpp/default.nix";
           sha256 = "sha256:1084z6bdqvgk28hxbyprliwqaj7dv1wk5dw64alnk4fw5l5zyx5a";
         };
       in pkgs.callPackage defaultNix {
@@ -27,9 +27,9 @@ My `sample-app-cpp` is NOT on nixpkgs, but you can still easily install it on yo
           owner = "pagekey";
           repo = "education";
           rev = "main";  # REPLACE WITH A TAG!
-          sha256 = "sha256-olDUbpLCGpCip867nly66v8T4LLrKcXtz6HVBWnBMMU=";
+          sha256 = "sha256-CSWjraVdXzZ1oqpwnmK95Ib4NaOjGKGtXYFTuXBcVEU=";
         };
-        subdir = "181-Nix-Package-Cpp/sample-app-cpp/src";
+        subdir = "180-Nix-Package-Cpp/sample-app-cpp/src";
       };
   };
 ```
@@ -122,7 +122,7 @@ As long as this package already exists somewhere on our computer (because we man
 
 ```nix
   nixpkgs.config.packageOverrides = pkgs: {
-    sample-app-cpp = pkgs.callPackage /home/steve/repos/education/181-Nix-Package-Cpp/sample-app-cpp/default.nix { };
+    sample-app-cpp = pkgs.callPackage /home/steve/repos/education/180-Nix-Package-Cpp/sample-app-cpp/default.nix { };
   };
 ```
 
@@ -154,7 +154,7 @@ We can get started with the example from the previous step. Simply paste the `pa
 
 let
   sample-app-cpp = 
-    pkgs.callPackage /home/steve/repos/education/181-Nix-Package-Cpp/sample-app-cpp { };
+    pkgs.callPackage /home/steve/repos/education/180-Nix-Package-Cpp/sample-app-cpp { };
   in [
     sample-app-cpp
   ]
@@ -178,7 +178,7 @@ let
           subdir = "176-Nix-Package-C/sample-app-c/src";
       };
     sample-app-cpp = 
-      pkgs.callPackage /home/steve/repos/education/181-Nix-Package-Go/sample-app-cpp { };
+      pkgs.callPackage /home/steve/repos/education/180-Nix-Package-Go/sample-app-cpp { };
   in [
     sample-app-c
     sample-app-cpp
@@ -236,7 +236,7 @@ let
   sample-app-cpp = 
     let
       defaultNix = builtins.fetchurl {
-      url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/181-Nix-Package-Cpp/sample-app-cpp/default.nix";
+      url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/180-Nix-Package-Cpp/sample-app-cpp/default.nix";
         sha256 = "";
       };
     in pkgs.callPackage defaultNix {
@@ -246,7 +246,7 @@ let
         rev = "main";  # REPLACE WITH A TAG!
         sha256 = "";
       };
-      subdir = "181-Nix-Package-Cpp/sample-app-cpp/src";
+      subdir = "180-Nix-Package-Cpp/sample-app-cpp/src";
     };
   in [
     sample-app-cpp
@@ -268,7 +268,7 @@ Just like before, once it's working, you should be able to put it directly into 
     sample-app-cpp = 
       let
         defaultNix = builtins.fetchurl {
-        url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/181-Nix-Package-Cpp/sample-app-cpp/default.nix";
+        url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/180-Nix-Package-Cpp/sample-app-cpp/default.nix";
           sha256 = "";
         };
       in pkgs.callPackage defaultNix {
@@ -278,7 +278,7 @@ Just like before, once it's working, you should be able to put it directly into 
           rev = "main";  # REPLACE WITH A TAG!
           sha256 = "";
         };
-        subdir = "181-Nix-Package-Cpp/sample-app-cpp/src";
+        subdir = "180-Nix-Package-Cpp/sample-app-cpp/src";
       };
   };
 ```
