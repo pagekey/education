@@ -2,7 +2,7 @@ import React from 'react';
 
 
 interface LayoutProps {
-    children: any
+    children?: any
 }
 export default function Layout(props: LayoutProps) {
     return (

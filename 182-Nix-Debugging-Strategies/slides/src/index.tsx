@@ -3,6 +3,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
+import { SlideClickProvider } from "./hooks/SlideClickContext";
 
 
 const App = () => {
@@ -10,7 +11,9 @@ const App = () => {
   pageElem = <HomePage />;
 
   return (
-    <Layout>{pageElem}</Layout>
+    <SlideClickProvider>
+      <Layout>{pageElem}</Layout>
+    </SlideClickProvider>
   );
 };
 

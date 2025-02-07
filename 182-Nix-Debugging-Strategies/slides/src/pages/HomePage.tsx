@@ -1,5 +1,9 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import atom_one_dark from 'react-syntax-highlighter/dist/esm/styles/hljs/atom-one-dark';
+import { useSlideClick } from "../hooks/SlideClickContext";
+import Slide from "../components/Slide";
 
 
 function BigTitle({ children }: { children?: any }) {
@@ -23,46 +27,22 @@ function PageKeyLogo() {
         </div>
     );
 }
-function Slide({ children }: { children?: any }) {
-    return (
-        <div className="flex flex-col items-center justify-center h-full">
-            {children}
-        </div>
-    );
-}
 function CodeBlock({ children }: { children?: any }) {
     useEffect(() => {
-        console.log("rend");
+        // console.log("rend");
     }, []);
 
     return (
         <div className="mockup-code">
-            <pre data-prefix="$">{children}</pre>
+            <SyntaxHighlighter style={atom_one_dark} language="nix">
+                {children}
+            </SyntaxHighlighter>
         </div>
     );
 }
 
 export default function HomePage() {
-    const [slide, setSlide] = useState<number>(0);
-    const prevSlide = () => {
-        setSlide(slide => slide > 0 ? slide - 1 : slide);
-    };
-    const nextSlide = () => {
-        setSlide(slide => slide < slides.length ? slide + 1 : slide);
-    };
-
-    useEffect(() => {
-        document.addEventListener("keydown", (e) => {
-            if (e.key == "ArrowLeft") {
-                prevSlide();
-            } else {
-                nextSlide();
-            }
-        });
-        document.addEventListener("click", () => {
-            nextSlide();
-        });
-    }, []);
+    const { slide, setSlide, click, setClick } = useSlideClick();
 
     let slides = [
         <Slide>
@@ -87,6 +67,7 @@ export default function HomePage() {
                   theBuildPackage
                 `}
             </CodeBlock>
+            <CodeBlock>kid2</CodeBlock>
         </Slide>,
         <Slide>
             <BigTitle>2. Using <code>default.nix</code></BigTitle>
@@ -120,10 +101,17 @@ export default function HomePage() {
             </CodeBlock>
         </Slide>
     ];
-
-    return (
-        <>
-            {slides[slide]}
-        </>
-    );
+    if (slide >= 0 && slide < slides.length) {
+        return (
+            <>
+                {slides[slide]}
+            </>
+        );
+    } else {
+        return (
+            <Slide>
+                Error: Slide {slide} out of bounds.
+            </Slide>
+        );
+    }
 }
