@@ -17,7 +17,12 @@ export default function Slide(props: SlideProps) {
         }
     };
     const prevClick = () => {
-        setSlide(slide-1);
+        if (click > 0) {
+            setClick(click - 1);
+        } else {
+            setSlide(slide-1);
+            setClick(0);
+        }
     };
     const handleKey = (e) => {
         if (e.key == "ArrowLeft") {
@@ -40,14 +45,13 @@ export default function Slide(props: SlideProps) {
     
     return (
         <div className="flex flex-col items-center justify-center h-full">
-            {children.filter((child, index) => index <= click)}
-            {/* {React.Children.map(props.children, (child, index) => {
-                return (
-                    <>
-                        {child}
-                    </>
+            {children.map((child, index) => {
+                return index <= click ? (
+                    child
+                ) : (
+                    <div className="opacity-0">{child}</div>
                 );
-            })} */}
+            })}
         </div>
     );
 }

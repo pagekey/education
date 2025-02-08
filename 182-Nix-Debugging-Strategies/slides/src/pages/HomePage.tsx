@@ -27,14 +27,14 @@ function PageKeyLogo() {
         </div>
     );
 }
-function CodeBlock({ children }: { children?: any }) {
+function CodeBlock({ lang, children }: { lang: string, children?: any }) {
     useEffect(() => {
-        // console.log("rend");
+        // TODO add typing effect
     }, []);
 
     return (
         <div className="mockup-code">
-            <SyntaxHighlighter style={atom_one_dark} language="nix">
+            <SyntaxHighlighter style={atom_one_dark} language={lang}>
                 {children}
             </SyntaxHighlighter>
         </div>
@@ -53,7 +53,8 @@ export default function HomePage() {
             <BigTitle>1. <code>nix repl</code></BigTitle>
         </Slide>,
         <Slide>
-            <CodeBlock>
+            <CodeBlock lang="bash">$ nix repl</CodeBlock>
+            <CodeBlock lang="nix">
                 {`
                 { pkgs ? import <nixpkgs> { } }:
                 let
@@ -67,13 +68,12 @@ export default function HomePage() {
                   theBuildPackage
                 `}
             </CodeBlock>
-            <CodeBlock>kid2</CodeBlock>
         </Slide>,
         <Slide>
             <BigTitle>2. Using <code>default.nix</code></BigTitle>
         </Slide>,
         <Slide>
-            <CodeBlock>
+            <CodeBlock lang="nix">
                 {`
                 pkgs = import <nixpkgs>{}
                 defaultNix = builtins.fetchurl {
@@ -89,7 +89,7 @@ export default function HomePage() {
             <BigTitle>3. Clearing Cache with Surgical Precision</BigTitle>
         </Slide>,
         <Slide>
-            <CodeBlock>
+            <CodeBlock lang="nix">
                 {`     
                 $ nix repl
                 nix-repl> builtins.fetchurl {
@@ -110,7 +110,9 @@ export default function HomePage() {
     } else {
         return (
             <Slide>
-                Error: Slide {slide} out of bounds.
+                <div>
+                    Error: Slide {slide} out of bounds.
+                </div>
             </Slide>
         );
     }
