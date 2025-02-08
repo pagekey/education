@@ -7,21 +7,20 @@ interface SlideProps {
 }
 export default function Slide(props: SlideProps) {
     const children = React.Children.toArray(props.children);
-    const { slide, setSlide, click, setClick } = useSlideClick();
+    const { slideState, setSlideState } = useSlideClick();
+    const { slide, click } = slideState;
     const nextClick = () => {
         if (click >= children.length - 1) {
-            setSlide(slide+1);
-            setClick(0);
+            setSlideState({ slide: slide + 1, click: 0});
         } else {
-            setClick(click+1);
+            setSlideState({ slide, click: click + 1});
         }
     };
     const prevClick = () => {
         if (click > 0) {
-            setClick(click - 1);
+            setSlideState({slide, click: click - 1});
         } else {
-            setSlide(slide-1);
-            setClick(0);
+            setSlideState({slide: slide - 1, click: 0});
         }
     };
     const handleKey = (e) => {
@@ -49,7 +48,7 @@ export default function Slide(props: SlideProps) {
                 return index <= click ? (
                     child
                 ) : (
-                    <div className="opacity-0">{child}</div>
+                    <div key={index} className="opacity-0">{child}</div>
                 );
             })}
         </div>

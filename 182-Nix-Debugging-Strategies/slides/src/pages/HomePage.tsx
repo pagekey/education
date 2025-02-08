@@ -42,7 +42,8 @@ function CodeBlock({ lang, children }: { lang: string, children?: any }) {
 }
 
 export default function HomePage() {
-    const { slide, setSlide, click, setClick } = useSlideClick();
+    const { slideState, setSlideState } = useSlideClick();
+    const { slide, click } = slideState;
 
     let slides = [
         <Slide>
@@ -53,7 +54,7 @@ export default function HomePage() {
             <BigTitle>1. <code>nix repl</code></BigTitle>
         </Slide>,
         <Slide>
-            <CodeBlock lang="bash">$ nix repl</CodeBlock>
+            <CodeBlock lang="sh">$ nix repl</CodeBlock>
             <CodeBlock lang="nix">
                 {`
                 { pkgs ? import <nixpkgs> { } }:
@@ -64,10 +65,11 @@ export default function HomePage() {
                   };
                   buildPackageLambda = pkgs.callPackage defaultNix;
                   theBuiltPackage = buildPackageLambda { };
-                in
+                  in
                   theBuildPackage
-                `}
+                  `}
             </CodeBlock>
+            <CodeBlock lang="sh">cat /etc/hosts && echo $HELLO</CodeBlock>
         </Slide>,
         <Slide>
             <BigTitle>2. Using <code>default.nix</code></BigTitle>

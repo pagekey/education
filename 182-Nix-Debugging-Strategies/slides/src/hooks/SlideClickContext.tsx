@@ -1,39 +1,35 @@
 import React, { createContext, useContext, useState } from "react";
 
 
+interface SlideState {
+  slide: number
+  click: number
+}
+
 interface SlideClickContextType {
-  slide: number;
-  setSlide: (value: number) => void;
-  click: number;
-  setClick: (value: number) => void;
+  slideState: SlideState;
+  setSlideState: (slide: number, click: number) => void;
 }
 
 const SlideClickContext = createContext<SlideClickContextType | undefined>(undefined);
 
 export const SlideClickProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const params = new URLSearchParams(window.location.search);
-  const [slide, setSlideState] = useState(parseInt(params.get('slide') || "1") - 1);
-  const [click, setClickState] = useState(parseInt(params.get('click') || "1") - 1);
+  const [slideState, setSlideStateInternal] = useState({
+    slide: parseInt(params.get('slide') || "0"),
+    click: parseInt(params.get("click") || "0"),
+  });
 
-  const setAddressBar = (slide: number, click: number) => {
-    history.pushState(null, "", `/?slide=${slide}&click=${click}`);
+  const setAddressBar = (slideState: SlideState) => {
+    history.replaceState(null, "", `/?slide=${slideState.slide}&click=${slideState.click}`);
   };
-  const setSlide = (newSlide: number|Function) => {
-    if (typeof newSlide === "function") {
-      let newSlideCalled = newSlide(slide);
-      setAddressBar(newSlideCalled, click);
-    } else {
-      setAddressBar(newSlide, click);
-    }
-    setSlideState(newSlide);
-  };
-  const setClick = (newClick: number) => {
-    setAddressBar(slide, newClick);
-    setClickState(newClick);
+  const setSlideState = (newState: SlideState) => {
+    setAddressBar(newState);
+    setSlideStateInternal(newState);
   };
 
   return (
-    <SlideClickContext.Provider value={{ slide, setSlide, click, setClick }}>
+    <SlideClickContext.Provider value={{ slideState, setSlideState }}>
       {children}
     </SlideClickContext.Provider>
   );
