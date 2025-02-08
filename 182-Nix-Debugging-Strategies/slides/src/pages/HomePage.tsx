@@ -33,12 +33,19 @@ function CodeBlock({ lang, children }: { lang: string, children?: any }) {
     }, []);
 
     return (
-        <div className="mockup-code">
+        <div className="mockup-code my-4">
             <SyntaxHighlighter style={atom_one_dark} language={lang}>
                 {children}
             </SyntaxHighlighter>
         </div>
     );
+}
+function Arrow({x, y}: {x: number, y: number}) {
+    return (
+        <div className="fixed text-red-600 text-5xl" style={{top: y, left: x}}>
+            <svg xmlns="http://www.w3.org/2000/svg"  width="75"  height="75"  viewBox="0 0 24 24"  fill="currentColor"  className="icon icon-tabler icons-tabler-filled icon-tabler-arrow-big-right-line"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.089 3.634a2 2 0 0 0 -1.089 1.78l-.001 2.586h-4.999a1 1 0 0 0 -1 1v6l.007 .117a1 1 0 0 0 .993 .883l4.999 -.001l.001 2.587a2 2 0 0 0 3.414 1.414l6.586 -6.586a2 2 0 0 0 0 -2.828l-6.586 -6.586a2 2 0 0 0 -2.18 -.434l-.145 .068z" /><path d="M3 8a1 1 0 0 1 .993 .883l.007 .117v6a1 1 0 0 1 -1.993 .117l-.007 -.117v-6a1 1 0 0 1 1 -1z" /></svg>
+        </div>
+    )
 }
 
 export default function HomePage() {
@@ -70,6 +77,7 @@ export default function HomePage() {
                   `}
             </CodeBlock>
             <CodeBlock lang="sh">cat /etc/hosts && echo $HELLO</CodeBlock>
+            <Arrow x={325} y={440} />
         </Slide>,
         <Slide>
             <BigTitle>2. Using <code>default.nix</code></BigTitle>

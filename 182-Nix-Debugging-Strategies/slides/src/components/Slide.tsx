@@ -27,7 +27,7 @@ export default function Slide(props: SlideProps) {
     };
     useEffect(() => {
         document.addEventListener("keydown", handleKey);
-        document.addEventListener("click", handleClick);
+        // document.addEventListener("click", handleClick);
         return () => {
             document.removeEventListener("keydown", handleKey);
             document.removeEventListener("click", handleClick);
