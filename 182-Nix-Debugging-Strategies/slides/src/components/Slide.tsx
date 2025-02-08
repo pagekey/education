@@ -7,31 +7,31 @@ interface SlideProps {
 }
 export default function Slide(props: SlideProps) {
     const children = React.Children.toArray(props.children);
-    const { slideState, setSlideState } = useSlideClick();
+    const { slideState, setSlideState, nextSlide, prevSlide, nextClick, prevClick } = useSlideClick();
     const { slide, click } = slideState;
-    const nextClick = () => {
+    const handleNextClick = () => {
         if (click >= children.length - 1) {
-            setSlideState({ slide: slide + 1, click: 0});
+            nextSlide();
         } else {
-            setSlideState({ slide, click: click + 1});
+            nextClick();
         }
     };
-    const prevClick = () => {
+    const handlePrevClick = () => {
         if (click > 0) {
-            setSlideState({slide, click: click - 1});
+            prevClick();
         } else {
-            setSlideState({slide: slide - 1, click: 0});
+            prevSlide();
         }
     };
     const handleKey = (e) => {
         if (e.key == "ArrowLeft") {
-            prevClick();
+            handlePrevClick();
         } else if (e.key == "ArrowRight") {
-            nextClick();
+            handleNextClick();
         }
     };
     const handleClick = (e) => {
-        nextClick();
+        handleNextClick();
     };
     useEffect(() => {
         document.addEventListener("keydown", handleKey);

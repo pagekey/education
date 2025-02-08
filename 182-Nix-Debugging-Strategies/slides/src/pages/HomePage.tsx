@@ -42,8 +42,8 @@ function CodeBlock({ lang, children }: { lang: string, children?: any }) {
 }
 
 export default function HomePage() {
-    const { slideState, setSlideState } = useSlideClick();
-    const { slide, click } = slideState;
+    const { slideState } = useSlideClick();
+    const { slide } = slideState;
 
     let slides = [
         <Slide>
