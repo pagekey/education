@@ -20,7 +20,7 @@ export const SlideClickProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     click: parseInt(params.get("click") || "0"),
   });
   const { slide, click } = slideState;
-  const [maxClicks, setMaxClicks] = useState<object>({});
+  const [maxClickMap, setMaxClickMap] = useState<object>({});
 
   const setAddressBar = (slideState: SlideState) => {
     history.replaceState(null, "", `/?slide=${slideState.slide}&click=${slideState.click}`);
@@ -33,17 +33,34 @@ export const SlideClickProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setSlideState({slide: slide + 1, click: 0});
   };
   const prevSlide = () => {
-    setSlideState({slide: slide - 1, click: 0}); // TODO remember max click
+    setSlideState({slide: slide - 1, click: maxClickMap[slide - 1] || 0});
   };
   const nextClick = () => {
+    if (!(slide in maxClickMap) || (slide in maxClickMap && maxClickMap[slide] < click + 1)) {
+      setMaxClickMap({...maxClickMap, [slide]: click + 1});
+    }
     setSlideState({slide, click: click + 1});
   };
   const prevClick = () => {
     setSlideState({slide, click: click - 1});
   };
+  const next = (maxClick: number) => {
+    if (click >= maxClick) {
+      nextSlide();
+    } else {
+      nextClick();
+    }
+  };
+  const prev = () => {
+    if (click > 0) {
+      prevClick();
+    } else {
+      prevSlide();
+    }
+  };
 
   return (
-    <SlideClickContext.Provider value={{ slideState, setSlideState, nextSlide, prevSlide, nextClick, prevClick }}>
+    <SlideClickContext.Provider value={{ slideState, next, prev }}>
       {children}
     </SlideClickContext.Provider>
   );
