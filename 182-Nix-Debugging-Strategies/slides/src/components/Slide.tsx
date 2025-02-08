@@ -32,7 +32,7 @@ export default function Slide(props: SlideProps) {
         }
     };
     const handleClick = (e) => {
-        setSlide(slide => slide+1);
+        nextClick();
     };
     useEffect(() => {
         document.addEventListener("keydown", handleKey);
