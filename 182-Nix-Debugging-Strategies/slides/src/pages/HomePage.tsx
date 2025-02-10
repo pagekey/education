@@ -58,42 +58,64 @@ export default function HomePage() {
             <PageKeyLogo />
         </Slide>,
         <Slide>
+            <BigTitle>Overview</BigTitle>
+            <h1 className="text-center py-6 text-7xl font-extrabold dark:text-white">
+                1. <code>nix repl</code>
+            </h1>
+            <h1 className="text-center py-6 text-7xl font-extrabold dark:text-white">
+                2. Using <code>default.nix</code>
+            </h1>
+            <h1 className="text-center py-6 text-7xl font-extrabold dark:text-white">
+                3. Clearing Cache with Surgical Precision
+            </h1>
+        </Slide>,
+        <Slide>
             <BigTitle>1. <code>nix repl</code></BigTitle>
         </Slide>,
         <Slide>
             <CodeBlock lang="sh">$ nix repl</CodeBlock>
+            <CodeBlock lang="sh">
+
+                {`
+Welcome to Nix 2.18.8. Type :? for help.
+
+nix-repl> 
+                `}
+            </CodeBlock>
             <CodeBlock lang="nix">
                 {`
-                { pkgs ? import <nixpkgs> { } }:
-                let
-                  defaultNix = builtins.fetchurl {
-                    url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/176-Nix-Package-C/sample-app-c/default.nix";
-                    sha256 = "sha256:05357l33rllpyw2479rb0i06mi18aqm3dn20hrywmi3zi0a6q6a1";
-                  };
-                  buildPackageLambda = pkgs.callPackage defaultNix;
-                  theBuiltPackage = buildPackageLambda { };
-                  in
-                  theBuildPackage
+pkgs = import <nixpkgs>{}
+defaultNix = builtins.fetchurl {
+  url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/176-Nix-Package-C/sample-app-c/default.nix";
+  sha256 = "sha256:05357l33rllpyw2479rb0i06mi18aqm3dn20hrywmi3zi0a6q6a1";
+}
+pkgs.callPackage defaultNix
+pkgs.callPackage defaultNix { }
                   `}
             </CodeBlock>
-            <CodeBlock lang="sh">cat /etc/hosts && echo $HELLO</CodeBlock>
             <Arrow x={325} y={440} />
         </Slide>,
         <Slide>
             <BigTitle>2. Using <code>default.nix</code></BigTitle>
         </Slide>,
         <Slide>
+            <CodeBlock lang="sh">$ vi default.nix</CodeBlock>
             <CodeBlock lang="nix">
                 {`
-                pkgs = import <nixpkgs>{}
-                defaultNix = builtins.fetchurl {
-                    url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/176-Nix-Package-C/sample-app-c/default.nix";
-                    sha256 = "sha256:05357l33rllpyw2479rb0i06mi18aqm3dn20hrywmi3zi0a6q6a1";
-                }
-                pkgs.callPackage defaultNix
-                pkgs.callPackage defaultNix { }
+{ pkgs ? import <nixpkgs> { } }:
+let
+  defaultNix = builtins.fetchurl {
+    url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/176-Nix-Package-C/sample-app-c/default.nix";
+    sha256 = "sha256:05357l33rllpyw2479rb0i06mi18aqm3dn20hrywmi3zi0a6q6a1";
+  };
+  buildPackageLambda = pkgs.callPackage defaultNix;
+  theBuiltPackage = buildPackageLambda { };
+in
+  theBuildPackage
                 `}
             </CodeBlock>
+            <CodeBlock lang="sh">$ nix-build</CodeBlock>
+            <CodeBlock lang="sh">TODO paste output</CodeBlock>
         </Slide>,
         <Slide>
             <BigTitle>3. Clearing Cache with Surgical Precision</BigTitle>
@@ -101,14 +123,20 @@ export default function HomePage() {
         <Slide>
             <CodeBlock lang="nix">
                 {`     
-                $ nix repl
-                nix-repl> builtins.fetchurl {
-                                url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/178-Nix-Package-Python/sample-app-python/default.nix";
-                                  sha256 = "sha256:0mhjp9ig4g4wahkkrncpq5bc3f6bcnkg5qpa54dsyp0r3s669hbz";
-                                } 
-                "/nix/store/4sn1xmgw01xz3w0ln0f3qwacm6yilidf-default.nix"
+$ nix repl
+nix-repl> builtins.fetchurl {
+                url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/178-Nix-Package-Python/sample-app-python/default.nix";
+                    sha256 = "sha256:0mhjp9ig4g4wahkkrncpq5bc3f6bcnkg5qpa54dsyp0r3s669hbz";
+                } 
+"/nix/store/4sn1xmgw01xz3w0ln0f3qwacm6yilidf-default.nix"
                 `}
             </CodeBlock>
+            <CodeBlock lang="nix">
+                {`
+nix-store --delete /nix/store/4sn1xmgw01xz3w0ln0f3qwacm6yilidf-default.nix
+                `}
+            </CodeBlock>
+            <CodeBlock lang="sh">TODO paste output</CodeBlock>
         </Slide>
     ];
     if (slide >= 0 && slide < slides.length) {
