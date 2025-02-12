@@ -38,7 +38,7 @@ let
   buildPackageLambda = pkgs.callPackage defaultNix;
   theBuiltPackage = buildPackageLambda { };
 in
-  theBuildPackage
+  theBuiltPackage
 ```
 
 Note that this build fails because we kept it simple by not specifying the GitHub source code location. For our purposes, this is good enough - you can now see that the derivation was evaluated, and we got some useful debug info from it!

@@ -45,13 +45,13 @@ function PageKeyLogo() {
         </div>
     );
 }
-function CodeBlock({ lang, children }: { lang: string, children?: any }) {
+function CodeBlock({ className, lang, children }: { className?: string, lang: string, children?: any }) {
     useEffect(() => {
         // TODO add typing effect
     }, []);
 
     return (
-        <div className="mockup-code my-4">
+        <div className={`mockup-code my-4 ${className ? className : ""}`}>
             <SyntaxHighlighter style={atom_one_dark} language={lang}>
                 {children}
             </SyntaxHighlighter>
@@ -84,8 +84,9 @@ export default function HomePage() {
         </Slide>,
         <Slide>
             <BigText>The fix:</BigText>
-            <MediumText>Get better at debugging</MediumText>
-            <SmallText>Zoom in, break it into smaller pieces.</SmallText>
+            <MediumText>Use debugging tools</MediumText>
+            <SmallText>to zoom in</SmallText>
+            <SmallText>and break it into smaller pieces.</SmallText>
         </Slide>,
         <Slide>
             <BigText>Nix Debugging Strategies</BigText>
@@ -216,6 +217,11 @@ if (process.argv.includes("--watch")) {
             <BigText>1. <code>nix repl</code></BigText>
         </Slide>,
         <Slide>
+            <MediumText>If you're not sure what something does in Nix,</MediumText>
+            <MediumText>try plugging it in, one line at a time</MediumText>
+            <MediumText>into <code>nix-repl</code>.</MediumText>
+        </Slide>,
+        <Slide>
             <CodeBlock lang="sh">$ nix repl</CodeBlock>
             <CodeBlock lang="sh">
 
@@ -227,7 +233,14 @@ nix-repl>
             </CodeBlock>
         </Slide>,
         <Slide>
-            <CodeBlock lang="nix">
+            <CodeBlock lang="nix" className="z-2">
+                {`
+nix-repl> pkgs = import <nixpkgs>{}
+
+nix-repl> 
+                  `}
+            </CodeBlock>
+            <CodeBlock lang="nix" className="z-1">
                 {`
 nix-repl> pkgs = import <nixpkgs>{}
 
@@ -236,10 +249,15 @@ nix-repl> defaultNix = builtins.fetchurl {
   sha256 = "sha256:05357l33rllpyw2479rb0i06mi18aqm3dn20hrywmi3zi0a6q6a1";
 }
 
+nix-repl> 
+                  `}
+            </CodeBlock>
+        </Slide>,
+        <Slide>
+            <CodeBlock lang="nix">
+                {`
 nix-repl> defaultNix
 "/nix/store/82hmlcx913wg7yr9wrs7wx9ibhmvbl2p-default.nix"
-
-# TODO cat the file here
 
 nix-repl> pkgs.callPackage defaultNix
 «lambda @ /nix/var/nix/profiles/per-user/root/channels/nixos/lib/customisation.nix:212:35»
@@ -248,10 +266,33 @@ nix-repl> pkgs.callPackage defaultNix { }
 «derivation /nix/store/51v9ynzz2mm6c0s55i61p4x2xlvy6d23-sample-app-c-1.0.0.drv»
                   `}
             </CodeBlock>
-            <Arrow x={325} y={440} />
+            <CodeBlock lang="bash">
+                {`
+$ cat /nix/store/82hmlcx913wg7yr9wrs7wx9ibhmvbl2p-default.nix
+
+{ pkgs ? import <nixpkgs> { }, src ? ./src, subdir ? "" }:
+let theSource = src; in
+pkgs.stdenv.mkDerivation rec {
+    pname = "sample-app-c";
+...
+                `}
+            </CodeBlock>
         </Slide>,
         <Slide>
-            <BigText>2. Using <code>default.nix</code></BigText>
+            <div>
+                <MediumText>Now how do we "call" that derivation?</MediumText>
+                <CodeBlock lang="nix">
+                    {`
+nix-repl> pkgs.callPackage defaultNix { }
+«derivation /nix/store/51v9ynzz2mm6c0s55i61p4x2xlvy6d23-sample-app-c-1.0.0.drv»
+                    `}
+                </CodeBlock>
+            </div>
+            <MediumText>Can't do it in the REPL,</MediumText>
+            <MediumText>So we need to...</MediumText>
+        </Slide>,
+        <Slide>
+            <BigText>2. Use <code>default.nix</code></BigText>
         </Slide>,
         <Slide>
             <CodeBlock lang="sh">$ vi default.nix</CodeBlock>
@@ -262,37 +303,83 @@ let
   defaultNix = builtins.fetchurl {
     url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/176-Nix-Package-C/sample-app-c/default.nix";
     sha256 = "sha256:05357l33rllpyw2479rb0i06mi18aqm3dn20hrywmi3zi0a6q6a1";
-  };
+    };
   buildPackageLambda = pkgs.callPackage defaultNix;
   theBuiltPackage = buildPackageLambda { };
 in
-  theBuildPackage
+theBuiltPackage
                 `}
             </CodeBlock>
+        </Slide>,
+        <Slide>
             <CodeBlock lang="sh">$ nix-build</CodeBlock>
-            <CodeBlock lang="sh">TODO paste output</CodeBlock>
+            <CodeBlock lang="sh">{`
+this derivation will be built:
+  /nix/store/51v9ynzz2mm6c0s55i61p4x2xlvy6d23-sample-app-c-1.0.0.drv
+building '/nix/store/51v9ynzz2mm6c0s55i61p4x2xlvy6d23-sample-app-c-1.0.0.drv'...
+Running phase: unpackPhase
+unpacking source archive /nix/store/7p4w63w5qkd92wjgqy26ym3dvpl22m2w-src-1.33
+source root is src-1.33
+Running phase: patchPhase
+Running phase: updateAutotoolsGnuConfigScriptsPhase
+Running phase: configurePhase
+no configure script, doing nothing
+Running phase: buildPhase
+cc1: fatal error: /nix/store/7p4w63w5qkd92wjgqy26ym3dvpl22
+            `}</CodeBlock>
         </Slide>,
         <Slide>
             <BigText>3. Clearing Cache with Surgical Precision</BigText>
+        </Slide>,
+        <Slide>
+            <SmallText>Sometimes, a remote file changes</SmallText>
+            <SmallText>but Nix has it cached, so you can't see those changes.</SmallText>
+            <MediumText>How do we force Nix to grab the latest version of the file?</MediumText>
         </Slide>,
         <Slide>
             <CodeBlock lang="nix">
                 {`     
 $ nix repl
 nix-repl> builtins.fetchurl {
-                url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/178-Nix-Package-Python/sample-app-python/default.nix";
-                    sha256 = "sha256:0mhjp9ig4g4wahkkrncpq5bc3f6bcnkg5qpa54dsyp0r3s669hbz";
-                } 
+    url = "https://raw.githubusercontent.com/pagekey/education/refs/heads/main/178-Nix-Package-Python/sample-app-python/default.nix";
+    sha256 = "sha256:0mhjp9ig4g4wahkkrncpq5bc3f6bcnkg5qpa54dsyp0r3s669hbz";
+} 
 "/nix/store/4sn1xmgw01xz3w0ln0f3qwacm6yilidf-default.nix"
-                `}
+                    `}
             </CodeBlock>
             <CodeBlock lang="nix">
                 {`
-nix-store --delete /nix/store/4sn1xmgw01xz3w0ln0f3qwacm6yilidf-default.nix
-                `}
+$ nix-store --delete /nix/store/4sn1xmgw01xz3w0ln0f3qwacm6yilidf-default.nix
+`}
             </CodeBlock>
-            <CodeBlock lang="sh">TODO paste output</CodeBlock>
-        </Slide>
+            <CodeBlock lang="sh">{`
+finding garbage collector roots...
+removing stale link from '/nix/var/nix/gcroots/auto/i403gpm6mxna09iwrbpjxl0h58mgf15y' to '/tmp/nixos-rebuild.Ma3h2d/nix.drv'
+removing stale link from '/nix/var/nix/gcroots/auto/4rm1caqnqyfqvrd1jc6ka3fqyhdq1ami' to '/tmp/nixos-rebuild.iJ1OnB/nix'
+deleting '/nix/store/4sn1xmgw01xz3w0ln0f3qwacm6yilidf-default.nix'
+deleting unused links...
+note: currently hard linking saves -0.00 MiB
+1 store paths deleted, 0.00 MiB freed
+            `}</CodeBlock>
+            <Arrow x={225} y={200} />
+            <Arrow x={225} y={280} />
+        </Slide>,
+        <Slide>
+            <BigText>That's it!</BigText>
+            <MediumText>1. Learned how to use <code>nix repl</code></MediumText>
+            <MediumText>2. Can eval derivations with <code>default.nix</code></MediumText>
+            <MediumText>3. Figured out how to clear cache</MediumText>
+        </Slide>,
+        <Slide>
+            <BigText>Subscribe to Take Back Tech!</BigText>
+            <SmallText>Weekly videos to learn new tech topics.</SmallText>
+            <SmallText>Self-hosting.</SmallText>
+            <SmallText>Rebuilding from scratch.</SmallText>
+            <div>
+                <BigText>See you there!</BigText>
+                <img className="rounded-xl w-20 m-auto mt-8" src="/logo.png" />
+            </div>
+        </Slide>,
     ];
     if (slide >= 0 && slide < slides.length) {
         return (
