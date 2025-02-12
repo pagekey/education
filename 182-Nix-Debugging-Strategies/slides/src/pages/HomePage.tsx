@@ -113,7 +113,11 @@ export default function HomePage() {
             <SmallText>What the solution? Never update your phone?</SmallText>
             <SmallText>Better: refuse to use Apple.</SmallText>
             <SmallText>Own the stack so you don't get vendor-locked and vendor-bullied.</SmallText>
-            <SmallText>Btw: Android, you're not safe. Google is watching.</SmallText>
+        </Slide>,
+        <Slide>
+            <BigText>Android, you're not safe either.</BigText>
+            <SmallText>Google is watching.</SmallText>
+            <BigText>👁️</BigText>
         </Slide>,
         <Slide>
             <SmallText>btw:</SmallText>
@@ -194,8 +198,11 @@ if (process.argv.includes("--watch")) {
             </div>
         </Slide>,
         <Slide>
-            <SmallText>My next video will share more details.</SmallText>
-            <SmallText>In the meantime, the source is on GitHub:</SmallText>
+            <SmallText>
+                My next video will share more details.
+                <div className="text-lg">(subscribe!)</div>
+            </SmallText>
+            <MediumText>In the meantime, the source is on GitHub:</MediumText>
             <SmallText className="text-blue-400">github.com/pagekey/education</SmallText>
             <SmallText className="text-yellow-200">Folder: 182-Nix-Debugging-Strategies</SmallText>
         </Slide>,
