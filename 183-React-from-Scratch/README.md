@@ -22,7 +22,7 @@ Before we do anything, create an empty folder for us to work out of. No framewor
 ```bash
 mkdir my-app
 cd my-app
-mkdir src
+mkdir src dist
 ```
 
 If you already have Node installed on your system, we're good to go. If you're using Nix or NixOS, you can dump the following into `shell.nix` and run `nix-shell` to ensure you have the `node` and `npm` executables installed:
@@ -39,7 +39,9 @@ pkgs.mkShell {
 
 ## 2. Creating a React Component
 
-Now let's create a simple React component so we can figure out how to compile it and display it in our browser:
+Now let's create a simple React component so we can figure out how to compile it and display it in our browser. Save the following into `src/index.tsx`:
+
+TODO use two components - one imported into the other - to show how `--bundle` works with `esbuild`
 
 ```tsx
 import { useState } from 'react';
@@ -57,8 +59,6 @@ if (rootElement) {
 }
 ```
 
-Create a file called `src/index.tsx` and save the above into it.
-
 We could have made this simpler, but the fact that it includes a `useState` call is great, because it allows us to verify that React Hooks are working. While working on this, I found that if you mess up the details of the compilation, you end up with errors when you try to start using hooks - so best to start by using them from the very beginning!
 
 As you can see, we've included the code that injects the Typescript into an existing "root" element in the DOM. This is something usually abstracted away by a framework, but in our case, we can see it in all its glory.
@@ -66,10 +66,10 @@ As you can see, we've included the code that injects the Typescript into an exis
 
 ## 3. Compile with the Esbuild CLI
 
-To install the `esbuild` package, run:
+We need three packages to get this done. Let's install them now:
 
 ```bash
-npm i esbuild
+npm install esbuild react react-dom
 ```
 
 This will create `package.json` with `esbuild` as a dependency. It will also create the `node_modules` folder. Let's make sure we don't accidentally commit `node_modules` to Git, which is a disaster to undo:
@@ -78,22 +78,45 @@ This will create `package.json` with `esbuild` as a dependency. It will also cre
 echo node_modules/ >> .gitignore
 ```
 
+We should also ignore the `dist/` folder, which is where we'll be putting our compiled JavaScript code:
+
+```bash
+echo dist/ >> .gitignore
+```
+
 Now we're ready to compile the component! Just run:
 
 ```bash
-npx esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js # TODO try to make sure this works
+npx esbuild src/index.tsx
 ```
 
-(TODO: explain --bundle with an example)
+blah blah would ya look at that it didnt include our other file oh no lets fix it
 
-Examine output file. (note where it is, show how to open it, etc)
+```bash
+npx esbuild src/index.tsx --bundle
+```
+
+now this is great and all but why is it in our terminal, we need it in a js file:
+
+```bash
+npx esbuild src/index.tsx --bundle --outfile=dist/bundle.js
+```
 
 
 ## 4. Create `index.html` and view rendered component
 
+Now that we've compiled the TypeScript React component into plain old JavaScript, how do we see it in action?
+
+We'll need to run it in a browser. The simplest way to do that is to write a dead-simple webpage using `index.html` and have it import our JavaScript, which will inject our component into the element with the `id` of `root`.
+
+TODO do it
+
+
 ## 5. Custom Build Script
 
+There are a few problems with how this currently works. (1) have to copy-paste our thing (2) it would be nice to watch files and rebuild on change (3) it would be nice not to have to rely on Python to host these files on a dev server. Let's fix all that nonsense now.;
 
+TODO do the thing.
 
 
 ## Future Work
@@ -102,6 +125,10 @@ In a future post, we'll look into the other ways you can render React components
 
 I would like to create a simple framework that saves some steps and allows people to use this barebones "from scratch" method as a starting point for their projects. Rather than being tailored to a specific use-case, it will be a framework designed to be completely repurposed. Perhaps it can use the same approach as [Shadcn]() (TODO: link to shad), which encourages users to copy-and-paste components instead of installing a versioned framework that can break (it encourages the users to OWN the starting point provided by the framework and customize it to be their own).
 
+
+## Wrap-Up
+
+TODO
 
 
 
