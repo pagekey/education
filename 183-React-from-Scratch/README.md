@@ -1,5 +1,9 @@
 # React from Scratch
 
+Frameworks are great, but they can be clunky and slow. On the other hand, using vanilla JavaScript really doesn't cut it - React gives you the best of both worlds by keeping everything in one cohesive piece (behavior, display, content). How fast can we go with React? And what happens if we strip it to the absolute minimum, removing any of the extra stuff that frameworks like Next.js build in for us?
+
+As it turns out, with a little noodling around with Node.js scripts, you can get an extreme barebones version of React to compile using `esbuild`, a TypeScript compiler that is known for being lightweight and fast.
+
 Starter commands:
 
 ```
