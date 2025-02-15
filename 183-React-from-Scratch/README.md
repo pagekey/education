@@ -111,12 +111,29 @@ We'll need to run it in a browser. The simplest way to do that is to write a dea
 
 TODO do it
 
+```html
+TODO put it here
+```
+
+Now we 
+
+Let's keep our index in the public/ folder so we don't lose it (remember that dist/ is gitignored)
+
 
 ## 5. Custom Build Script
 
 There are a few problems with how this currently works. (1) have to copy-paste our thing (2) it would be nice to watch files and rebuild on change (3) it would be nice not to have to rely on Python to host these files on a dev server. Let's fix all that nonsense now.;
 
-TODO do the thing.
+TODO do the thing. `mkdir scripts`
+```js
+
+```
+
+Add copy of index script
+
+Add watch via chokidar
+
+Add local dev server via express? or something more lightweight (find node-based alt to python3 -m http.server)
 
 
 ## Future Work
@@ -128,7 +145,7 @@ I would like to create a simple framework that saves some steps and allows peopl
 
 ## Wrap-Up
 
-TODO
+TODO thanks
 
 
 
