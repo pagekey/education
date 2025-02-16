@@ -1,11 +1,11 @@
 {
   "dependencies": {
-    "esbuild": "^0.24.2",
+    "esbuild": "^0.25.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "scripts": {
     "build": "cp public/index.html dist/ && esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js",
-    "dev": "npm run build -- --sourcemap --watch"
+    "dev": "npm run build -- --watch --sourcemap"
   }
 }

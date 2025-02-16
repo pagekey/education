@@ -13,8 +13,8 @@ In this post, we'll
 2. Create a simple React component (with import/hooks!).
 3. Compile the `.tsx` file into a `.js` file.
 4. Create an `index.html` file to render the compiled `.js`.
-5. Clean things up / automate things by using a custom build script.
-6. Future Work
+5. Create `npm run build` / `npm run dev` scripts
+
 
 ## 1. Setting Up
 
@@ -193,7 +193,7 @@ Let's save our current build process into our `package.json` so that we can save
     // ... omitted for brevity
   },
   "scripts": {
-    "build": "esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js",
+    "build": "esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js"
   }
 }
 ```
@@ -238,5 +238,7 @@ There we go - a duct-taped React framework! It's not pretty, but it works!
 As you can tell, using CLIs for everything gets very messy. Keep your eyes peeled for our next post, where we'll create our own custom build script to streamline these things and open the door to infinite customization.
 
 In a post after that, we can dive more deeply into how to use React for Server-Side Rendering (SSR) and Static Site Generation (SSG).
+
+As a final note, if you decide to stick with this method, you may want to consider adding a `--minify` flag for your builds, which can decrease the size of the output `bundle.js` by what seems to be roughly 10x.
 
 Thanks for reading!
