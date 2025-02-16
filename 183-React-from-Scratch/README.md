@@ -1,15 +1,16 @@
 # React from Scratch
 
-Frameworks are great, but they can be clunky and slow. On the other hand, using vanilla JavaScript really doesn't cut it - React gives you the best of both worlds by keeping everything in one cohesive piece (behavior, display, content). How fast can we go with React? And what happens if we strip it to the absolute minimum, removing any of the extra stuff that frameworks like Next.js build in for us?
+Frameworks are great, but they can be clunky and slow. On the other hand, using vanilla JavaScript really doesn't cut it - React gives you the best of both worlds by keeping everything in one cohesive piece (behavior, display, content). How can we use React on our own, without someone else's framework? What are the moving parts, and how does it work? What happens if we strip it to the absolute minimum, removing any of the extra stuff that frameworks like Next.js build in for us?
 
 As it turns out, with a little noodling around with Node.js scripts, you can get an extreme barebones version of React to compile using `esbuild`, a TypeScript compiler that is known for being lightweight and fast.
+
 
 ## Overview
 
 In this post, we'll
 
 1. Start from nothing more than an empty directory.
-2. Create a simple React component (with hooks!).
+2. Create a simple React component (with import/hooks!).
 3. Compile the `.tsx` file into a `.js` file.
 4. Create an `index.html` file to render the compiled `.js`.
 5. Clean things up / automate things by using a custom build script.
@@ -37,19 +38,20 @@ pkgs.mkShell {
 ```
 
 
-## 2. Creating a React Component
+## 2. Creating React Components
 
-Now let's create a simple React component so we can figure out how to compile it and display it in our browser. Save the following into `src/index.tsx`:
+Let's create two source files for React - one that imports the other. We'll also make use of the `useState` function to show that React hooks work.
 
-TODO use two components - one imported into the other - to show how `--bundle` works with `esbuild`
+Save the following into `src/index.tsx`:
 
 ```tsx
 import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import HomePage from './HomePage';
 
 const App = () => {
     const [something, setSomething] = useState<string>("something");
-    return <div>Hello, world! {something}</div>;
+    return <div><HomePage /> {something}</div>;
 };
 
 const rootElement = document.getElementById('root');
@@ -59,9 +61,21 @@ if (rootElement) {
 }
 ```
 
-We could have made this simpler, but the fact that it includes a `useState` call is great, because it allows us to verify that React Hooks are working. While working on this, I found that if you mess up the details of the compilation, you end up with errors when you try to start using hooks - so best to start by using them from the very beginning!
+Now create the `HomePage` component in `src/HomePage.tsx`, which we'll keep as simple as possible:
 
-As you can see, we've included the code that injects the Typescript into an existing "root" element in the DOM. This is something usually abstracted away by a framework, but in our case, we can see it in all its glory.
+```tsx
+export default function HomePage() {
+  return (
+    <>
+      Hello world!
+    </>
+  )
+}
+```
+
+While working on this, I found that if you mess up the details of the compilation, you end up with errors when you try to start using hooks - so best to start by using them from the very beginning! Similarly, we'll see some stumbling blocks that arise when using imports (and how to resolve those issues).
+
+As you can see, we've included the code that injects the Typescript into an existing "root" element in the DOM. This is something usually abstracted away by a framework, but in our case, we can see it in all its glory. Later, we'll talk more about other injection techniques for SSGs or SSR (see "Future Work" below).
 
 
 ## 3. Compile with the Esbuild CLI
@@ -90,17 +104,29 @@ Now we're ready to compile the component! Just run:
 npx esbuild src/index.tsx
 ```
 
-blah blah would ya look at that it didnt include our other file oh no lets fix it
+As you can see, the compilation works! It prints directly to our terminal and we can easily inspect the output.
+
+There's one problem though - do you see it?
+
+Where is our "Hello World" message from the imported component?
+
+As it turns out, it's not there, because `esbuild` is expecting you to compile that component separately.
+
+It would be much easier if it pulled in all of the imported components into a single file. Thankfully, `esbuild` provides the `--bundle` flag to do just that:
 
 ```bash
 npx esbuild src/index.tsx --bundle
 ```
 
-now this is great and all but why is it in our terminal, we need it in a js file:
+As you can see, the output is **much** longer now, but you should also be able to find `function HelloWorld` in the mix now too. Excellent!
+
+Outputting to the console is great, but not particularly useful. Let's add one more `esbuild` flag to output to a file:
 
 ```bash
 npx esbuild src/index.tsx --bundle --outfile=dist/bundle.js
 ```
+
+Great. We have our compiled `bundle.js` - let's do something useful with it.
 
 
 ## 4. Create `index.html` and view rendered component
@@ -109,29 +135,126 @@ Now that we've compiled the TypeScript React component into plain old JavaScript
 
 We'll need to run it in a browser. The simplest way to do that is to write a dead-simple webpage using `index.html` and have it import our JavaScript, which will inject our component into the element with the `id` of `root`.
 
-TODO do it
+Run this command to create a `public/` directory:
+
+```bash
+mkdir public/
+```
+
+Next open `public/index.html` and fill it with the following:
 
 ```html
-TODO put it here
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React App</title>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="bundle.js"></script>
+</body>
+</html>
 ```
 
-Now we 
+These next few steps will be a little clunky, but don't worry - we'll fix it soon.
 
-Let's keep our index in the public/ folder so we don't lose it (remember that dist/ is gitignored)
+First, let's copy `index.html` into the `dist/` folder. Note that we don't want to store `index.html` there to begin with because `dist/` is in `.gitignore`, so we may accidentally wipe it.
+
+```bash
+cp public/index.html dist/
+```
+
+Next, the easiest hack to run a quick dev server is to use Python. If you have Python 3 installed on your system, you can run:
+
+```bash
+python3 -m http.server
+```
+
+If you only have Python 2 (for some crazy reason), you can use `python -m SimpleHTTPServer` instead. And if you have neither, hold on just a bit longer - we're going to come up with a better solution in the next section!
 
 
+## 5. Hacky Npm Build Script
+
+More on the actual solution in the next post. Thankfully esbuild has a builtin watch function, so you can run:
+
+```bash
+TODO
+```
+
+Let's encode this in our package.json:
+
+```js
+TODO
+```
+
+Now you can run `npm run dev` and you're good to go.
+
+We can also make sure that the `index.html` gets copied beforehand so we don't forget. Edit package.json again:
+
+```js
+TODO
+```
+
+And now we're good to go - we have the simplest possible `npm run build` and `npm run dev` scripts that allow us to compile our own React application from complete scratch! Thanks esbuild!
+
+
+## Wrap-Up
+
+As you can tell, using CLIs for everything gets very messy. Keep your eyes peeled for my next post, where we'll create our own custom build script to streamline these things and open the door to infinite customization.
+
+In a post after that, we can dive more deeply into how to use React for Server-Side Rendering (SSR) and Static Site Generation (SSG).
+
+Thanks for reading!
+
+
+
+---
+
+
+TODO: move this whole section to the next video
 ## 5. Custom Build Script
 
-There are a few problems with how this currently works. (1) have to copy-paste our thing (2) it would be nice to watch files and rebuild on change (3) it would be nice not to have to rely on Python to host these files on a dev server. Let's fix all that nonsense now.;
+There are a few problems with how this currently works. (1) have to copy-paste our thing (2) it would be nice to watch files and rebuild on change (3) it would be nice not to have to rely on Python to host these files on a dev server. Let's fix all that nonsense now.
 
-TODO do the thing. `mkdir scripts`
-```js
+First, create a `scripts/` folder:
 
+```bash
+mkdir scripts
 ```
 
-Add copy of index script
+Now edit `scripts/build.mjs` with the following:
 
-Add watch via chokidar
+```js
+TODO
+```
+
+Finally, update `package.json` to invoke our script:
+
+```js
+  "scripts": {
+    "build": "esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js",
+  }
+```
+
+With this setup, our `npm run build` command is equivalent to the `npx esbuild` command we ran above. The only difference is that we're already in the middle of a Node.js script, so the possibilities of what we can do are endless! Now we'll tackle each of those three ergonomic problems we noted above one at a time.
+
+
+### 5a. Add copy of index script
+
+TODO
+
+
+### 5b. Add watch via chokidar
+
+TODO
+
+
+### 5c. Local Dev Server
+
+TODO
 
 Add local dev server via express? or something more lightweight (find node-based alt to python3 -m http.server)
 
