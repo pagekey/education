@@ -45,7 +45,7 @@ Let's create two source files for React - one that imports the other. We'll also
 Save the following into `src/index.tsx`:
 
 ```tsx
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import HomePage from './HomePage';
 
@@ -64,6 +64,9 @@ if (rootElement) {
 Now create the `HomePage` component in `src/HomePage.tsx`, which we'll keep as simple as possible:
 
 ```tsx
+import React from 'react';
+
+
 export default function HomePage() {
   return (
     <>
@@ -72,6 +75,8 @@ export default function HomePage() {
   )
 }
 ```
+
+Note that with this method, the `React` import must be added to every single source file, even if unused, because having components in-scope implicitly uses that import.
 
 While working on this, I found that if you mess up the details of the compilation, you end up with errors when you try to start using hooks - so best to start by using them from the very beginning! Similarly, we'll see some stumbling blocks that arise when using imports (and how to resolve those issues).
 
@@ -118,7 +123,7 @@ It would be much easier if it pulled in all of the imported components into a si
 npx esbuild src/index.tsx --bundle
 ```
 
-As you can see, the output is **much** longer now, but you should also be able to find `function HelloWorld` in the mix now too. Excellent!
+As you can see, the output is **much** longer now, because it bundled React itself into the script, but you should also be able to find `function HelloWorld` in the mix now too. Excellent!
 
 Outputting to the console is great, but not particularly useful. Let's add one more `esbuild` flag to output to a file:
 
@@ -170,173 +175,68 @@ cp public/index.html dist/
 Next, the easiest hack to run a quick dev server is to use Python. If you have Python 3 installed on your system, you can run:
 
 ```bash
-python3 -m http.server
+python3 -m http.server -d dist/
 ```
+
+Visit `http://localhost:8000` in your browser and you should see our Hello World message!
 
 If you only have Python 2 (for some crazy reason), you can use `python -m SimpleHTTPServer` instead. And if you have neither, hold on just a bit longer - we're going to come up with a better solution in the next section!
 
 
 ## 5. Hacky Npm Build Script
 
-More on the actual solution in the next post. Thankfully esbuild has a builtin watch function, so you can run:
+Let's save our current build process into our `package.json` so that we can save some typing. Add a `scripts` section after the auto-added `dependencies` key:
 
-```bash
-TODO
+```json
+{
+  "dependencies": {
+    // ... omitted for brevity
+  },
+  "scripts": {
+    "build": "esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js",
+  }
+}
 ```
 
-Let's encode this in our package.json:
+Now, rather than typing that entire `npx` command, you can just run `npm run build` and it has the same effect!
+
+That saved **some** typing, but wouldn't it be great if you didn't have to type anything after saving a file, and it just automatically re-compiled? As it turns out, `esbuild` has the `--watch` flag built-in that can help with this! We'll also throw in the `--sourcemap` flag to help with debugging. We can re-use our `npm run build` command to create a slightly different `npm run dev` command:
+
+```json
+{
+  "dependencies": {
+    // ... omitted for brevity
+  },
+  "scripts": {
+    "build": "esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js",
+    "dev": "npm run build -- --watch --sourcemap"
+  }
+}
+```
+
+Try it out - run `npm run dev`, then go edit `src/index.tsx` and see what happens.
+
+One last painful part of our setup is the need to manually copy `public/index.html` into place. Let's hack a solution for that into what we already have:
 
 ```js
-TODO
+{
+  "dependencies": {
+    // ... omitted for brevity
+  },
+  "scripts": {
+    "build": "cp public/index.html dist/ && esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js",
+    "dev": "npm run build -- --watch --sourcemap"
+  }
+}
 ```
 
-Now you can run `npm run dev` and you're good to go.
-
-We can also make sure that the `index.html` gets copied beforehand so we don't forget. Edit package.json again:
-
-```js
-TODO
-```
-
-And now we're good to go - we have the simplest possible `npm run build` and `npm run dev` scripts that allow us to compile our own React application from complete scratch! Thanks esbuild!
+There we go - a duct-taped React framework! It's not pretty, but it works!
 
 
 ## Wrap-Up
 
-As you can tell, using CLIs for everything gets very messy. Keep your eyes peeled for my next post, where we'll create our own custom build script to streamline these things and open the door to infinite customization.
+As you can tell, using CLIs for everything gets very messy. Keep your eyes peeled for our next post, where we'll create our own custom build script to streamline these things and open the door to infinite customization.
 
 In a post after that, we can dive more deeply into how to use React for Server-Side Rendering (SSR) and Static Site Generation (SSG).
 
 Thanks for reading!
-
-
-
----
-
-
-TODO: move this whole section to the next video
-## 5. Custom Build Script
-
-There are a few problems with how this currently works. (1) have to copy-paste our thing (2) it would be nice to watch files and rebuild on change (3) it would be nice not to have to rely on Python to host these files on a dev server. Let's fix all that nonsense now.
-
-First, create a `scripts/` folder:
-
-```bash
-mkdir scripts
-```
-
-Now edit `scripts/build.mjs` with the following:
-
-```js
-TODO
-```
-
-Finally, update `package.json` to invoke our script:
-
-```js
-  "scripts": {
-    "build": "esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js",
-  }
-```
-
-With this setup, our `npm run build` command is equivalent to the `npx esbuild` command we ran above. The only difference is that we're already in the middle of a Node.js script, so the possibilities of what we can do are endless! Now we'll tackle each of those three ergonomic problems we noted above one at a time.
-
-
-### 5a. Add copy of index script
-
-TODO
-
-
-### 5b. Add watch via chokidar
-
-TODO
-
-
-### 5c. Local Dev Server
-
-TODO
-
-Add local dev server via express? or something more lightweight (find node-based alt to python3 -m http.server)
-
-
-## Future Work
-
-In a future post, we'll look into the other ways you can render React components for different use cases. While calling `createRoot` and `render` is the simplest, two other popular use cases are Server-Side Rendering (SSR), where as many elements as possible are created on the server and then "hydrated" on the client-side, or Static Site Generation (SSG), when the entire React app is rendered into static HTML that can be loaded anywhere.
-
-I would like to create a simple framework that saves some steps and allows people to use this barebones "from scratch" method as a starting point for their projects. Rather than being tailored to a specific use-case, it will be a framework designed to be completely repurposed. Perhaps it can use the same approach as [Shadcn]() (TODO: link to shad), which encourages users to copy-and-paste components instead of installing a versioned framework that can break (it encourages the users to OWN the starting point provided by the framework and customize it to be their own).
-
-
-## Wrap-Up
-
-TODO thanks
-
-
-
-
-
-
-
----
-original notes:
-
-Edit `package.json` and add:
-
-```
-  "scripts": {
-    "build": "esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js",
-    "dev": "npm run build -- --sourcemap --watch"
-  }
-```
-
-Set up dirs:
-
-```
-mkdir public
-```
-
-Create index.html
-
-```
-TODO
-```
-
-```
-npm run build
-npm run dev
-```
-
-You have to manually copy index:
-
-```
-cp public/index.html dist/index.html
-```
-
-Open index.html in browser and voila! React.
-
-Let's fix manual copy the CLI way:
-
-## Custom Build Script
-
-Now let's fix it properly - with our own build script:
-
-TODO
-
-Add `thing.jsx` to prove you can import other components:
-
-```tsx
-import React from 'react';
-
-
-export default function Thing() {
-    return (
-        <>
-            This is a thing.
-        </>
-    )
-}
-
-// in index.tsx:
-import Thing from './thing';
-
-const myfnc = () => <Thing />;
-```
