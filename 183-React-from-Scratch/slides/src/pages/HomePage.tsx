@@ -58,6 +58,23 @@ function CodeBlock({ className, lang, children }: { className?: string, lang: st
         </div>
     );
 }
+function MediumCode({className, lang, children, file}: {className?: string, lang: string, file?: string, children?: any}) {
+    return (
+        <div className={`border border-black text-4xl  ${className ? className : ""}`}>
+            {file ? (
+                <div className="bg-black text-2xl p-1">
+                    <code>
+                        {file}
+                    </code>
+                </div>
+            ) : ""}
+            <SyntaxHighlighter style={atom_one_dark} language={lang}>
+                {children}
+            </SyntaxHighlighter>
+        </div>
+    )
+    // return <CodeBlock className="text-4xl" lang={lang}>{children}</CodeBlock>
+}
 function Arrow({x, y}: {x: number, y: number}) {
     return (
         <div className="fixed text-red-600 text-5xl" style={{top: y, left: x}}>
@@ -75,7 +92,10 @@ export default function HomePage() {
             <BigText>Most people</BigText>
             <MediumText>use pre-built React frameworks.</MediumText>
             <MediumText>They take their pick and live with the consequences.</MediumText>
-            <MediumText>"Let me get a number 3." "I'll have a Create-React-App please."</MediumText>
+        </Slide>,
+        <Slide>
+            <MediumText>"Let me get a number 3."</MediumText>
+            <MediumText>"I'll have a Create-React-App please."</MediumText>
             <MediumText>"Can I have Next.js with a side of Tailwind?"</MediumText>
         </Slide>,
         <Slide>
@@ -142,13 +162,77 @@ export default function HomePage() {
             <BigText>1. Initial Setup (from scratch)</BigText>
         </Slide>,
         <Slide>
-            <MediumText>TODO fill this out</MediumText>
+            <MediumText>Start with an empty folder:</MediumText>
+            <MediumCode lang={"sh"}>{`
+$ mkdir my-app
+
+$ cd my-app
+
+$ mkdir src dist
+            `}</MediumCode>
+            <Arrow x={570} y={415} />
+            <Arrow x={570} y={415+80} />
+            <Arrow x={570} y={415+80+80} />
+        </Slide>,
+        <Slide>
+            <MediumText>Make sure you have Node installed. For Nix:</MediumText>
+            <MediumCode lang={"nix"} file="shell.nix">{`
+{ pkgs ? import <nixpkgs> {} }:
+pkgs.mkShell {
+    buildInputs = with pkgs; [
+        nodejs
+    ];
+}
+            `}</MediumCode>
         </Slide>,
         <Slide>
             <BigText>2. Simple React Components</BigText>
         </Slide>,
         <Slide>
-            <MediumText>TODO fill this out</MediumText>
+            <MediumText>Let's make two components.</MediumText>
+            <MediumText>One will import the other</MediumText>
+            <MediumText>and use React hooks (useState).</MediumText>
+        </Slide>,
+        <Slide>
+            <MediumText>First component:</MediumText>
+            <MediumCode lang={"tsx"} file="src/index.tsx">{`
+import React, { useState } from 'react';
+import { createRoot } from 'react-dom/client';
+import HomePage from './HomePage';
+
+const App = () => {
+    const [something, setSomething] = useState<string>("something");
+    return <div><HomePage /> {something}</div>;
+};
+
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = createRoot(rootElement);
+  root.render(<App />);
+}
+            `}</MediumCode>
+            <Arrow x={35} y={340} />
+            <Arrow x={35} y={340+80} />
+            <Arrow x={110} y={340+120} />
+            <Arrow x={140} y={340+80*2} />
+            <Arrow x={35} y={340+80*3+40} />
+        </Slide>,
+        <Slide>
+            <MediumText>Second component:</MediumText>
+            <MediumCode lang={"tsx"} file="src/HomePage.tsx">{`
+import React from 'react';
+
+
+export default function HomePage() {
+  return (
+    <>
+      Hello world!
+    </>
+  )
+}
+            `}</MediumCode>
+            <Arrow x={390} y={340} />
+            <Arrow x={390} y={340+120} />
         </Slide>,
         <Slide>
             <BigText>3. Compile with Esbuild</BigText>
