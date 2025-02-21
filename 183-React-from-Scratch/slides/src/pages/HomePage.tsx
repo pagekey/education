@@ -268,11 +268,13 @@ export default function HomePage() {
             <MediumText>Great. We have our compiled `bundle.js` - let's do something useful with it.</MediumText>
         </Slide>,
         <Slide>
-            <BigText>4. Create <code>index.html</code>, run in browser</BigText>
+            <MediumText>We've compiled the TypeScript React component into plain old JavaScript. how do we see it in action?</MediumText>
+            <MediumText>Now how do we see it in action?</MediumText>
         </Slide>,
         <Slide>
-            <MediumText>Now that we've compiled the TypeScript React component into plain old JavaScript, how do we see it in action?</MediumText>
             <MediumText>We'll need to run it in a browser. The simplest way to do that is to write a dead-simple webpage using `index.html` and have it import our JavaScript, which will inject our component into the element with the `id` of `root`.</MediumText>
+            <MediumText>The simplest way: create a barebones <code>index.html</code> and have it import our JavaScript, which will inject our component into the element with the `id` of `root`.</MediumText>
+            <MediumText>to import our compiled JavaScript.</MediumText>
         </Slide>,
         <Slide>
             <MediumText>Run this command to create a `public/` directory:</MediumText>
@@ -300,20 +302,27 @@ export default function HomePage() {
             <MediumText>These next few steps will be a little clunky, but don't worry - we'll fix it soon.</MediumText>
         </Slide>,
         <Slide>
-            <MediumText>First, let's copy `index.html` into the `dist/` folder. Note that we don't want to store `index.html` there to begin with because `dist/` is in `.gitignore`, so we may accidentally wipe it.</MediumText>
+            <MediumText>First: copy <code>index.html</code> into the <code>dist/</code> folder. Note that we don't want to store `index.html` there to begin with because `dist/` is in `.gitignore`, so we may accidentally wipe it.</MediumText>
+            <MediumText>Note: don't store <code>index.html</code> in <code>dist/</code>.</MediumText>
             <MediumCode lang="sh">{`cp public/index.html dist/`}</MediumCode>
-            <MediumText>Next, the easiest hack to run a quick dev server is to use Python. If you have Python 3 installed on your system, you can run:</MediumText>
-            <MediumCode lang="sh">{`python3 -m http.server -d dist/`}</MediumCode>
         </Slide>,
         <Slide>
-            <MediumText>Visit `http://localhost:8000` in your browser and you should see our Hello World message!</MediumText>
-            <MediumText>If you only have Python 2 (for some crazy reason), you can use `python -m SimpleHTTPServer` instead. And if you have neither, hold on just a bit longer - we're going to come up with a better solution in the next section!</MediumText>
+            <MediumText>Next: run a quick dev server via Python3:</MediumText>
+            <MediumCode lang="sh">{`python3 -m http.server -d dist/`}</MediumCode>
+            <MediumText>Visit <code>http://localhost:8000</code> in your browser and you should see our Hello World message!</MediumText>
+        </Slide>,
+        <Slide>
+            <MediumText>If you only have Python 2 (you dinosaur):. And if you have neither, hold on just a bit longer - we're going to come up with a better solution in the next section!</MediumText>
+            <MediumCode lang="sh">{`python -m SimpleHTTPServer`}</MediumCode>
+            <MediumText>No Python? Hang on.</MediumText>
+            <MediumText>Node-based solution in the next video.</MediumText>
         </Slide>,
         <Slide>
             <BigText>5. Create <code>npm run build</code> / <code>npm run dev</code> scripts</BigText>
         </Slide>,
         <Slide>
-            <MediumText>Let's save our current build process into our `package.json` so that we can save some typing. Add a `scripts` section after the auto-added `dependencies` key:</MediumText>
+            <MediumText>Let's save some typing. our current build process into our `package.json` so that we can save some typing. Add a `scripts` section after the auto-added `dependencies` key:</MediumText>
+            <MediumText>Add scripts to <code>package.json</code>:</MediumText>
             <MediumCode lang="json">{`
 {
   "dependencies": {
@@ -326,10 +335,12 @@ export default function HomePage() {
             `}</MediumCode>
         </Slide>,
         <Slide>
-            <MediumText>Now, rather than typing that entire `npx` command, you can just run `npm run build` and it has the same effect!</MediumText>
+            <MediumText>Now you can simply type:</MediumText>
+            <MediumCode lang="sh">{`npm run build`}</MediumCode>
         </Slide>,
         <Slide>
-            <MediumText>That saved **some** typing, but wouldn't it be great if you didn't have to type anything after saving a file, and it just automatically re-compiled? As it turns out, `esbuild` has the `--watch` flag built-in that can help with this! We'll also throw in the `--sourcemap` flag to help with debugging. We can re-use our `npm run build` command to create a slightly different `npm run dev` command:</MediumText>
+            <MediumText>What if it rebuilt automatically when you save a file?That saved **some** typing, but wouldn't it be great if you didn't have to type anything after saving a file, and it just automatically re-compiled? As it turns out, `esbuild` has the `--watch` flag built-in that can help with this! We'll also throw in the `--sourcemap` flag to help with debugging. We can re-use our `npm run build` command to create a slightly different `npm run dev` command:</MediumText>
+            <MediumText>With esbuild, it's easy! Add <code>--watch</code> to the end:</MediumText>
             <MediumCode lang="json">{`
 {
   "dependencies": {
@@ -343,10 +354,17 @@ export default function HomePage() {
             `}</MediumCode>
         </Slide>,
         <Slide>
-            <MediumText>Try it out - run `npm run dev`, then go edit `src/index.tsx` and see what happens.</MediumText>
+            <MediumText>Now you can simply type:</MediumText>
+            <MediumCode lang="sh">{`npm run dev`}</MediumCode>
+            <MediumText>And it will watch for when you save files.</MediumText>
+            <MediumText>Try it out - run <code>npm run dev</code>, then go edit/save <code>src/index.tsx</code>.</MediumText>
         </Slide>,
         <Slide>
-            <MediumText>One last painful part of our setup is the need to manually copy `public/index.html` into place. Let's hack a solution for that into what we already have:</MediumText>
+            <MediumText>If you also add the <code>--minify</code> flag, the built JavaScript could get up to 10x smaller.</MediumText>
+        </Slide>,
+        <Slide>
+            <MediumText>One pain: Manually copying <code>index.html</code>.</MediumText>
+            <MediumText>The fix: Add the copy to our script!</MediumText>
             <MediumCode lang="json">{`
 {
   "dependencies": {
@@ -358,9 +376,11 @@ export default function HomePage() {
   }
 }
             `}</MediumCode>
+            <Arrow x={570} y={415} />
         </Slide>,
         <Slide>
-            <MediumText>There we go - a duct-taped React framework! It's not pretty, but it works!</MediumText>
+            <MediumText>There we go - a duct-taped React framework!</MediumText>
+            <MediumText>It's not pretty, but it works!</MediumText>
         </Slide>,
         <Slide>
             <BigText>That's it!</BigText>
@@ -370,10 +390,9 @@ export default function HomePage() {
             <MediumText>4. Create <code>npm run build</code> / <code>npm run dev</code> scripts</MediumText>
         </Slide>,
         <Slide>
-            <MediumText>As you can tell, using CLIs for everything gets very messy. Keep your eyes peeled for our next post, where we'll create our own custom build script to streamline these things and open the door to infinite customization.</MediumText>
-            <MediumText>In a post after that, we can dive more deeply into how to use React for Server-Side Rendering (SSR) and Static Site Generation (SSG).</MediumText>
-            <MediumText>As a final note, if you decide to stick with this method, you may want to consider adding a `--minify` flag for your builds, which can decrease the size of the output `bundle.js` by what seems to be roughly 10x.</MediumText>
-            <MediumText>Thanks for reading!</MediumText>
+            <MediumText>Next post: custom build script (streamline, infinite customization)</MediumText>
+            <MediumText>Later: React SSR, SSG</MediumText>
+            <MediumText>Thanks for watching!</MediumText>
         </Slide>,
         <Slide>
             <BigText>Subscribe to Take Back Tech!</BigText>

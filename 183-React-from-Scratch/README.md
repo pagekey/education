@@ -180,7 +180,7 @@ python3 -m http.server -d dist/
 
 Visit `http://localhost:8000` in your browser and you should see our Hello World message!
 
-If you only have Python 2 (for some crazy reason), you can use `python -m SimpleHTTPServer` instead. And if you have neither, hold on just a bit longer - we're going to come up with a better solution in the next section!
+If you only have Python 2 (for some crazy reason), you can use `python -m SimpleHTTPServer` instead. And if you have neither, hold on just a bit longer - we're going to come up with a better solution in the next post!
 
 
 ## 5. Hacky Npm Build Script
