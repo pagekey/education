@@ -238,23 +238,142 @@ export default function HomePage() {
             <BigText>3. Compile with Esbuild</BigText>
         </Slide>,
         <Slide>
-            <MediumText>TODO fill this out</MediumText>
+            <MediumText>We need three packages to get this done. Let's install them now:</MediumText>
+            <MediumCode lang={"sh"}>{`npm install esbuild react react-dom`}</MediumCode>
+        </Slide>,
+        <Slide>
+            <MediumText>This will create `package.json` with `esbuild` as a dependency. It will also create the `node_modules` folder. Let's make sure we don't accidentally commit `node_modules` to Git, which is a disaster to undo:</MediumText>
+            <MediumCode lang={"sh"}>{`echo node_modules/ >> .gitignore`}</MediumCode>
+            <MediumText>We should also ignore the `dist/` folder, which is where we'll be putting our compiled JavaScript code:</MediumText>
+            <MediumCode lang={"sh"}>{`echo dist/ >> .gitignore`}</MediumCode>
+        </Slide>,
+        <Slide>
+            <MediumText>Now we're ready to compile the component! Just run:</MediumText>
+            <MediumCode lang="sh">npx esbuild src/index.tsx</MediumCode>
+            <MediumText>As you can see, the compilation works! It prints directly to our terminal and we can easily inspect the output.</MediumText>
+        </Slide>,
+        <Slide>
+            <MediumText>There's one problem though - do you see it?</MediumText>
+            <MediumText>Where is our "Hello World" message from the imported component?</MediumText>
+            <MediumText>As it turns out, it's not there, because `esbuild` is expecting you to compile that component separately.</MediumText>
+        </Slide>,
+        <Slide>
+            <MediumText>It would be much easier if it pulled in all of the imported components into a single file. Thankfully, `esbuild` provides the `--bundle` flag to do just that:</MediumText>
+            <MediumCode lang="sh">npx esbuild src/index.tsx --bundle</MediumCode>
+            <MediumText>As you can see, the output is **much** longer now, because it bundled React itself into the script, but you should also be able to find `function HelloWorld` in the mix now too. Excellent!</MediumText>
+        </Slide>,
+        <Slide>
+            <MediumText>Outputting to the console is great, but not particularly useful. Let's add one more `esbuild` flag to output to a file:</MediumText>
+            <MediumCode lang="sh">npx esbuild src/index.tsx --bundle --outfile=dist/bundle.js</MediumCode>
+            <MediumText>Great. We have our compiled `bundle.js` - let's do something useful with it.</MediumText>
         </Slide>,
         <Slide>
             <BigText>4. Create <code>index.html</code>, run in browser</BigText>
         </Slide>,
         <Slide>
-            <MediumText>TODO fill this out</MediumText>
+            <MediumText>Now that we've compiled the TypeScript React component into plain old JavaScript, how do we see it in action?</MediumText>
+            <MediumText>We'll need to run it in a browser. The simplest way to do that is to write a dead-simple webpage using `index.html` and have it import our JavaScript, which will inject our component into the element with the `id` of `root`.</MediumText>
+        </Slide>,
+        <Slide>
+            <MediumText>Run this command to create a `public/` directory:</MediumText>
+            <MediumCode lang="sh">{`mkdir public/`}</MediumCode>
+        </Slide>,
+        <Slide>
+            <MediumText>Next open `public/index.html` and fill it with the following:</MediumText>
+            <MediumCode lang="html">{`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React App</title>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="bundle.js"></script>
+</body>
+</html>    
+            `}</MediumCode>
+        </Slide>,
+        <Slide>
+            <MediumText>These next few steps will be a little clunky, but don't worry - we'll fix it soon.</MediumText>
+        </Slide>,
+        <Slide>
+            <MediumText>First, let's copy `index.html` into the `dist/` folder. Note that we don't want to store `index.html` there to begin with because `dist/` is in `.gitignore`, so we may accidentally wipe it.</MediumText>
+            <MediumCode lang="sh">{`cp public/index.html dist/`}</MediumCode>
+            <MediumText>Next, the easiest hack to run a quick dev server is to use Python. If you have Python 3 installed on your system, you can run:</MediumText>
+            <MediumCode lang="sh">{`python3 -m http.server -d dist/`}</MediumCode>
+        </Slide>,
+        <Slide>
+            <MediumText>Visit `http://localhost:8000` in your browser and you should see our Hello World message!</MediumText>
+            <MediumText>If you only have Python 2 (for some crazy reason), you can use `python -m SimpleHTTPServer` instead. And if you have neither, hold on just a bit longer - we're going to come up with a better solution in the next section!</MediumText>
         </Slide>,
         <Slide>
             <BigText>5. Create <code>npm run build</code> / <code>npm run dev</code> scripts</BigText>
         </Slide>,
         <Slide>
-            <MediumText>TODO fill this out</MediumText>
+            <MediumText>Let's save our current build process into our `package.json` so that we can save some typing. Add a `scripts` section after the auto-added `dependencies` key:</MediumText>
+            <MediumCode lang="json">{`
+{
+  "dependencies": {
+    // ... omitted for brevity
+  },
+  "scripts": {
+    "build": "esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js"
+  }
+}
+            `}</MediumCode>
+        </Slide>,
+        <Slide>
+            <MediumText>Now, rather than typing that entire `npx` command, you can just run `npm run build` and it has the same effect!</MediumText>
+        </Slide>,
+        <Slide>
+            <MediumText>That saved **some** typing, but wouldn't it be great if you didn't have to type anything after saving a file, and it just automatically re-compiled? As it turns out, `esbuild` has the `--watch` flag built-in that can help with this! We'll also throw in the `--sourcemap` flag to help with debugging. We can re-use our `npm run build` command to create a slightly different `npm run dev` command:</MediumText>
+            <MediumCode lang="json">{`
+{
+  "dependencies": {
+    // ... omitted for brevity
+  },
+  "scripts": {
+    "build": "esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js",
+    "dev": "npm run build -- --watch --sourcemap"
+  }
+}
+            `}</MediumCode>
+        </Slide>,
+        <Slide>
+            <MediumText>Try it out - run `npm run dev`, then go edit `src/index.tsx` and see what happens.</MediumText>
+        </Slide>,
+        <Slide>
+            <MediumText>One last painful part of our setup is the need to manually copy `public/index.html` into place. Let's hack a solution for that into what we already have:</MediumText>
+            <MediumCode lang="json">{`
+{
+  "dependencies": {
+    // ... omitted for brevity
+  },
+  "scripts": {
+    "build": "cp public/index.html dist/ && esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js",
+    "dev": "npm run build -- --watch --sourcemap"
+  }
+}
+            `}</MediumCode>
+        </Slide>,
+        <Slide>
+            <MediumText>There we go - a duct-taped React framework! It's not pretty, but it works!</MediumText>
         </Slide>,
         <Slide>
             <BigText>That's it!</BigText>
-            <MediumText>TODO fill this out</MediumText>
+            <MediumText>1. Wrote simple React components.</MediumText>
+            <MediumText>2. Compiled with Esbuild.</MediumText>
+            <MediumText>3. Created <code>index.html</code>, ran in browser.</MediumText>
+            <MediumText>4. Create <code>npm run build</code> / <code>npm run dev</code> scripts</MediumText>
+        </Slide>,
+        <Slide>
+            <MediumText>As you can tell, using CLIs for everything gets very messy. Keep your eyes peeled for our next post, where we'll create our own custom build script to streamline these things and open the door to infinite customization.</MediumText>
+            <MediumText>In a post after that, we can dive more deeply into how to use React for Server-Side Rendering (SSR) and Static Site Generation (SSG).</MediumText>
+            <MediumText>As a final note, if you decide to stick with this method, you may want to consider adding a `--minify` flag for your builds, which can decrease the size of the output `bundle.js` by what seems to be roughly 10x.</MediumText>
+            <MediumText>Thanks for reading!</MediumText>
         </Slide>,
         <Slide>
             <BigText>Subscribe to Take Back Tech!</BigText>
