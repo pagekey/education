@@ -2,6 +2,7 @@
     "dependencies": {
         "@tailwindcss/postcss": "^4.0.1",
         "esbuild": "^0.24.2",
+        "puppeteer": "^24.2.1",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
         "react-syntax-highlighter": "^15.6.1",
@@ -9,7 +10,8 @@
     },
     "scripts": {
         "build": "node scripts/build.mjs",
-        "dev": "npm run build -- --sourcemap --watch"
+        "dev": "npm run build -- --sourcemap --watch",
+        "export": "node scripts/export.mjs"
     },
     "devDependencies": {
         "chokidar": "^4.0.3",

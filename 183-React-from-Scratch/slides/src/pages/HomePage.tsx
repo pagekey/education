@@ -146,6 +146,12 @@ export default function HomePage() {
             <SmallText>I'll cover how to do slides specifically in a future video.</SmallText>
         </Slide>,
         <Slide>
+            <SmallText>PS: I usually edit out all the silence for these videos</SmallText>
+            <SmallText>(to keep them shorter)</SmallText>
+            <SmallText>Based on feedback, I'm going to slow down a bit and leave it in.</SmallText>
+            <SmallText>Let me know if you think it's better!</SmallText>
+        </Slide>,
+        <Slide>
             <MediumText>Blog article/source code is on GitHub:</MediumText>
             <SmallText className="text-blue-400">github.com/pagekey/education</SmallText>
             <SmallText className="text-yellow-200">Folder: 183-React-From-Scratch</SmallText>
