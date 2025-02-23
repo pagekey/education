@@ -420,7 +420,7 @@ export default function HomePage() {
     } else {
         return (
             <Slide>
-                <div>
+                <div id="slide_error">
                     Error: Slide {slide} out of bounds.
                 </div>
             </Slide>

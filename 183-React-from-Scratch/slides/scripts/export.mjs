@@ -12,6 +12,9 @@ async function capturePage(slide, click) {
     await page.setViewport({ width: 1920, height: 1080 });
     await page.goto(`http://localhost:8000?slide=${slide}&click=${click}`, { waitUntil: "networkidle2", timeout: 10000 });
     await page.screenshot({ path: `export/${slide}_${click}.png` });
+    await page.keyboard.press("ArrowRight");
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    await page.screenshot({ path: `export/${slide}_${click}-plusone.png` });
     await browser.close();
     console.log(`Completed ${slide}_${click}.png`);
 }
@@ -20,8 +23,8 @@ async function capturePage(slide, click) {
     fs.mkdirSync("export", { recursive: true });
     console.log("Exporting slides...");
     await Promise.all([
-        { slide: 0, maxClick: 2 },
-        { slide: 1, maxClick: 2 },
+        { slide: 0, maxClick: 0 },
+        // { slide: 1, maxClick: 2 },
     ].map(async ({slide, maxClick}) => {
         for (let click = 0; click <= maxClick; click++) {
             capturePage(slide, click);
