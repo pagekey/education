@@ -11,12 +11,20 @@ async function capturePage(slide, click) {
     const page = await browser.newPage();
     await page.setViewport({ width: 1920, height: 1080 });
     await page.goto(`http://localhost:8000?slide=${slide}&click=${click}`, { waitUntil: "networkidle2", timeout: 10000 });
-    await page.screenshot({ path: `export/${slide}_${click}.png` });
-    await page.keyboard.press("ArrowRight");
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    await page.screenshot({ path: `export/${slide}_${click}-plusone.png` });
+    let divExists = false;
+    while (!divExists) {
+        const queryParams = await page.evaluate(() => {
+            const params = new URLSearchParams(window.location.search);
+            return Object.fromEntries(params.entries());
+        });
+        slide = queryParams.slide ? queryParams.slide : 0;
+        click = queryParams.click ? queryParams.click : 0;
+        await page.screenshot({ path: `export/${slide}_${click}.png` });
+        await page.keyboard.press("ArrowRight");
+        divExists = await page.$('div.some-class') !== null;
+        await new Promise(resolve => setTimeout(resolve, 250));
+    }
     await browser.close();
-    console.log(`Completed ${slide}_${click}.png`);
 }
 
 (async () => {
