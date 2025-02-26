@@ -22,7 +22,12 @@ import * as puppeteer from "puppeteer";
         });
         slide = queryParams.slide ? queryParams.slide : 0;
         click = queryParams.click ? queryParams.click : 0;
-        await page.screenshot({ path: `export/${slide}_${click}.png` });
+         // Remove the background
+        await page.evaluate(() => {
+            document.documentElement.style.background = 'transparent';
+            document.body.style.background = 'transparent';
+        });
+        await page.screenshot({ path: `export/${slide}_${click}.png`, omitBackground: true });
         await page.keyboard.press("ArrowRight");
         divExists = await page.$('div#slide_error') !== null;
         await new Promise(resolve => setTimeout(resolve, 250));
