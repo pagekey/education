@@ -2,6 +2,7 @@ import * as esbuild from 'esbuild';
 import * as chokidar from 'chokidar';
 import postcss from 'esbuild-postcss';
 import * as fs from 'fs';
+import * as path from 'path';
 
 
 const build = async (sourcemap) => {
@@ -15,7 +16,11 @@ const build = async (sourcemap) => {
             sourcemap,
             plugins: [postcss()],
         });
-        fs.copyFileSync('public/logo.png', 'dist/logo.png');
+        fs.readdirSync("public").forEach(file => {
+            if (file.endsWith('.png')) {
+                fs.copyFileSync(path.join("public", file), path.join("dist", file));
+            }
+        });
         fs.copyFileSync('public/index.html', 'dist/index.html');
     } catch(e) {
         console.error(e);

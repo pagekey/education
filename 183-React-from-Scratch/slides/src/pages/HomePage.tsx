@@ -248,47 +248,50 @@ export default function HomePage() {
             <MediumCode lang={"sh"}>{`npm install esbuild react react-dom`}</MediumCode>
         </Slide>,
         <Slide>
-            <MediumText>This will create `package.json` with `esbuild` as a dependency. It will also create the `node_modules` folder. Let's make sure we don't accidentally commit `node_modules` to Git, which is a disaster to undo:</MediumText>
+            <MediumText>Make sure you don't accidentally commit <code>node_modules</code> to Git:</MediumText>
             <MediumCode lang={"sh"}>{`echo node_modules/ >> .gitignore`}</MediumCode>
-            <MediumText>We should also ignore the `dist/` folder, which is where we'll be putting our compiled JavaScript code:</MediumText>
+            <MediumText>We should also ignore the <code>dist/</code> folder:</MediumText>
             <MediumCode lang={"sh"}>{`echo dist/ >> .gitignore`}</MediumCode>
         </Slide>,
         <Slide>
             <MediumText>Now we're ready to compile the component! Just run:</MediumText>
             <MediumCode lang="sh">npx esbuild src/index.tsx</MediumCode>
-            <MediumText>As you can see, the compilation works! It prints directly to our terminal and we can easily inspect the output.</MediumText>
         </Slide>,
         <Slide>
-            <MediumText>There's one problem though - do you see it?</MediumText>
+            <img src="/1-npx-build.png" />
+        </Slide>,
+        <Slide>
             <MediumText>Where is our "Hello World" message from the imported component?</MediumText>
-            <MediumText>As it turns out, it's not there, because `esbuild` is expecting you to compile that component separately.</MediumText>
+            <MediumText><code>esbuild</code> expects you to compile/import that component separately.</MediumText>
         </Slide>,
         <Slide>
-            <MediumText>It would be much easier if it pulled in all of the imported components into a single file. Thankfully, `esbuild` provides the `--bundle` flag to do just that:</MediumText>
+            <MediumText>Thankfully, we can bundle everything together with <code>--bundle</code>:</MediumText>
             <MediumCode lang="sh">npx esbuild src/index.tsx --bundle</MediumCode>
-            <MediumText>As you can see, the output is **much** longer now, because it bundled React itself into the script, but you should also be able to find `function HelloWorld` in the mix now too. Excellent!</MediumText>
         </Slide>,
         <Slide>
-            <MediumText>Outputting to the console is great, but not particularly useful. Let's add one more `esbuild` flag to output to a file:</MediumText>
+            <SmallText>(bundle screenshare - find hello world)</SmallText>
+        </Slide>,
+        <Slide>
+            <MediumText>Instead of outputting to console, add an outfile:</MediumText>
             <MediumCode lang="sh">npx esbuild src/index.tsx --bundle --outfile=dist/bundle.js</MediumCode>
-            <MediumText>Great. We have our compiled `bundle.js` - let's do something useful with it.</MediumText>
         </Slide>,
         <Slide>
-            <MediumText>We've compiled the TypeScript React component into plain old JavaScript. how do we see it in action?</MediumText>
+            <BigText>4. Create Index File</BigText>
+        </Slide>,
+        <Slide>
+            <MediumText>We've compiled TypeScript into plain old JavaScript.</MediumText>
             <MediumText>Now how do we see it in action?</MediumText>
         </Slide>,
         <Slide>
-            <MediumText>We'll need to run it in a browser. The simplest way to do that is to write a dead-simple webpage using `index.html` and have it import our JavaScript, which will inject our component into the element with the `id` of `root`.</MediumText>
-            <MediumText>The simplest way: create a barebones <code>index.html</code> and have it import our JavaScript, which will inject our component into the element with the `id` of `root`.</MediumText>
-            <MediumText>to import our compiled JavaScript.</MediumText>
+            <MediumText>We need to create <code>index.html</code>, then import <code>dist/bundle.js</code>.</MediumText>
         </Slide>,
         <Slide>
-            <MediumText>Run this command to create a `public/` directory:</MediumText>
+            <MediumText>First, create <code>public/</code>:</MediumText>
             <MediumCode lang="sh">{`mkdir public/`}</MediumCode>
         </Slide>,
         <Slide>
-            <MediumText>Next open `public/index.html` and fill it with the following:</MediumText>
-            <MediumCode lang="html">{`
+            <MediumText>Then create the index.</MediumText>
+            <MediumCode lang="html" file="index.html">{`
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -305,37 +308,31 @@ export default function HomePage() {
             `}</MediumCode>
         </Slide>,
         <Slide>
-            <MediumText>These next few steps will be a little clunky, but don't worry - we'll fix it soon.</MediumText>
-        </Slide>,
-        <Slide>
-            <MediumText>First: copy <code>index.html</code> into the <code>dist/</code> folder. Note that we don't want to store `index.html` there to begin with because `dist/` is in `.gitignore`, so we may accidentally wipe it.</MediumText>
+            <MediumText>Next: copy <code>index.html</code> into the <code>dist/</code> folder.</MediumText>
             <MediumText>Note: don't store <code>index.html</code> in <code>dist/</code>.</MediumText>
             <MediumCode lang="sh">{`cp public/index.html dist/`}</MediumCode>
         </Slide>,
         <Slide>
             <MediumText>Next: run a quick dev server via Python3:</MediumText>
             <MediumCode lang="sh">{`python3 -m http.server -d dist/`}</MediumCode>
-            <MediumText>Visit <code>http://localhost:8000</code> in your browser and you should see our Hello World message!</MediumText>
+            <MediumText>In your browser: <code>http://localhost:8000</code></MediumText>
         </Slide>,
         <Slide>
-            <MediumText>If you only have Python 2 (you dinosaur):. And if you have neither, hold on just a bit longer - we're going to come up with a better solution in the next section!</MediumText>
-            <MediumCode lang="sh">{`python -m SimpleHTTPServer`}</MediumCode>
-            <MediumText>No Python? Hang on.</MediumText>
-            <MediumText>Node-based solution in the next video.</MediumText>
+            <SmallText>(running server screenshare)</SmallText>
         </Slide>,
         <Slide>
-            <BigText>5. Create <code>npm run build</code> / <code>npm run dev</code> scripts</BigText>
+            <BigText>5. Create <code>npm</code> scripts</BigText>
         </Slide>,
         <Slide>
-            <MediumText>Let's save some typing. our current build process into our `package.json` so that we can save some typing. Add a `scripts` section after the auto-added `dependencies` key:</MediumText>
             <MediumText>Add scripts to <code>package.json</code>:</MediumText>
-            <MediumCode lang="json">{`
+            <MediumCode lang="json" file="package.json">{`
 {
   "dependencies": {
     // ... omitted for brevity
   },
   "scripts": {
-    "build": "esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js"
+    "build": "esbuild src/index.tsx 
+        --loader:.tsx=tsx --bundle --outfile=dist/bundle.js"
   }
 }
             `}</MediumCode>
@@ -345,15 +342,15 @@ export default function HomePage() {
             <MediumCode lang="sh">{`npm run build`}</MediumCode>
         </Slide>,
         <Slide>
-            <MediumText>What if it rebuilt automatically when you save a file?That saved **some** typing, but wouldn't it be great if you didn't have to type anything after saving a file, and it just automatically re-compiled? As it turns out, `esbuild` has the `--watch` flag built-in that can help with this! We'll also throw in the `--sourcemap` flag to help with debugging. We can re-use our `npm run build` command to create a slightly different `npm run dev` command:</MediumText>
-            <MediumText>With esbuild, it's easy! Add <code>--watch</code> to the end:</MediumText>
+            <MediumText>Add <code>--watch</code> to auto-reload on save:</MediumText>
             <MediumCode lang="json">{`
 {
   "dependencies": {
     // ... omitted for brevity
   },
   "scripts": {
-    "build": "esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js",
+    "build": "esbuild src/index.tsx 
+        --loader:.tsx=tsx --bundle --outfile=dist/bundle.js",
     "dev": "npm run build -- --watch --sourcemap"
   }
 }
@@ -363,10 +360,10 @@ export default function HomePage() {
             <MediumText>Now you can simply type:</MediumText>
             <MediumCode lang="sh">{`npm run dev`}</MediumCode>
             <MediumText>And it will watch for when you save files.</MediumText>
-            <MediumText>Try it out - run <code>npm run dev</code>, then go edit/save <code>src/index.tsx</code>.</MediumText>
         </Slide>,
         <Slide>
-            <MediumText>If you also add the <code>--minify</code> flag, the built JavaScript could get up to 10x smaller.</MediumText>
+            <MediumText>If you also add the <code>--minify</code> flag,</MediumText>
+            <MediumText>the built JavaScript could get up to 10x smaller.</MediumText>
         </Slide>,
         <Slide>
             <MediumText>One pain: Manually copying <code>index.html</code>.</MediumText>
@@ -377,12 +374,12 @@ export default function HomePage() {
     // ... omitted for brevity
   },
   "scripts": {
-    "build": "cp public/index.html dist/ && esbuild src/index.tsx --loader:.tsx=tsx --bundle --outfile=dist/bundle.js",
+    "build": "cp public/index.html dist/ && esbuild src/index.tsx 
+        --loader:.tsx=tsx --bundle --outfile=dist/bundle.js",
     "dev": "npm run build -- --watch --sourcemap"
   }
 }
             `}</MediumCode>
-            <Arrow x={570} y={415} />
         </Slide>,
         <Slide>
             <MediumText>There we go - a duct-taped React framework!</MediumText>
