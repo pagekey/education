@@ -1,3 +1,46 @@
+## The Build Script (`npm run build`)
+
+TODO
+
+## The Dev Script (`npm run dev`)
+
+TODO
+
+## The Serve Script (`npm run serve`)
+
+TODO
+
+## Wrap-Up
+
+TODO
+
+
+```js
+    // Create a folder to hold all the app's files.
+    const targetDir = path.join(process.cwd(), projectName);
+    
+    if (fs.existsSync(targetDir)) {
+      console.error("Error: Directory already exists!");
+      process.exit(1);
+    } else {
+      console.log(`Creating project ${projectName}`);
+      fs.mkdirSync(targetDir, { recursive: true });
+      fs.mkdirSync(path.join(targetDir, "src"), { recursive: true });
+      fs.mkdirSync(path.join(targetDir, "public"), { recursive: true });
+      fs.writeFileSync(
+        path.join(targetDir, "package.json"),
+        JSON.stringify({
+          name: projectName,
+          version: "1.0.0",
+        }),
+        null,
+        2,
+      );
+      execSync(`cd ${targetDir} && npm install esbuild react react-dom`, { stdio: "inherit" });
+      console.log("Project setup complete!");
+    }
+```
+
 TODO: move this whole section to the next video
 ## 5. Custom Build Script
 
