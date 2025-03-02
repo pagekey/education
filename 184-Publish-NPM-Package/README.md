@@ -74,6 +74,8 @@ npm install commander
 Now we can edit `src/index.mjs` and add a simple command handler:
 
 ```js
+#!/usr/bin/env node
+
 import { program } from "commander";
 
 program
@@ -85,6 +87,8 @@ program
 
 program.parse(process.argv);
 ```
+
+Notice the line starting with `#!`. This is called the "shebang" and it's very important, because it tells your operating system what to do when someone tries to run this text file as an executable with `./src/index.mjs`. By default, it will try to use Bash, and since this file is clearly JavaScript rather than shell, you'll get an error without this!
 
 To make this an executable script in our package, we just add a `"bin"` section to the end of our `package.json`. Notice that we do NOT use a scoped name for `bin` (no `@pagekey/` prefix like the package name had):
 
@@ -133,7 +137,7 @@ https://www.npmjs.com/login?next=/login/cli/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 Press ENTER to open in the browser...
 ```
 
-Now we can upload it with:
+Now we can upload it with `npm publish --access public`. Without `--access public`, it will try to make a private package. That's a paid feature, so you'll need to pay if you want to do that! (Or self-host your own package registry - a topic for a future video perhaps!)
 
 ```bash
 $ npm publish --access public
@@ -162,10 +166,58 @@ npm notice Publishing to https://registry.npmjs.org/ with tag latest and public 
 
 ## 4. Make a change and bump version
 
+Let's edit `src/index.mjs` and add an extra polite message:
+
+```js
+#!/usr/bin/env node
+
+import { program } from "commander";
+
+program
+  .command("new [project-name]")
+  .description("Create a new project")
+  .action((projectName = "my-project") => {
+    console.log("Hello world from Blaze.");
+    console.log("Hope you have a great day!");
+  });
+
+program.parse(process.argv);
+```
+
+Then we can increment the version - we'll call this a "patch" change, which means that the third number will increment and we'll end up with version 1.0.1:
+
 ```bash
-# edit src/index.mjs
-npm version patch
-npm publish
+$ npm version patch
+v1.0.1
+```
+
+Note that you can use `npm version minor` to change the middle number and `npm version major` to change the first number. For more info on these conventions, read about [Semantic Versioning](https://semver.org/).
+
+Now you can publish the updated version!
+
+```bash
+$ npm publish
+npm warn publish npm auto-corrected some errors in your package.json when publishing.  Please run "npm pkg fix" to address these errors.
+npm warn publish errors corrected:
+npm warn publish "bin[blaze]" script name was cleaned
+npm notice
+npm notice 📦  @pagekey/blaze@1.0.1
+npm notice Tarball Contents
+npm notice 352B package.json
+npm notice 102B shell.nix
+npm notice 309B src/index.mjs
+npm notice Tarball Details
+npm notice name: @pagekey/blaze
+npm notice version: 1.0.1
+npm notice filename: pagekey-blaze-1.0.1.tgz
+npm notice package size: 594 B
+npm notice unpacked size: 763 B
+npm notice shasum: 3b2ec29a1046120787fc153663f8a588efd294d4
+npm notice integrity: sha512-+id7lXw5/8QDt[...]UYISX/HziA2RQ==
+npm notice total files: 3
+npm notice
+npm notice Publishing to https://registry.npmjs.org/ with tag latest and default access
++ @pagekey/blaze@1.0.1
 ```
 
 
@@ -174,14 +226,27 @@ npm publish
 I'll turn off the locally installed package:
 
 ```bash
-npm unlink # ???? is this a thing
+$ npm unlink -g @pagekey/blaze
+
+removed 1 package in 431ms
 ```
 
 Then we can run the public package!
 
 ```bash
-npx @pagekey/blaze
-TODO show the hello world output
+$ npx @pagekey/blaze
+Need to install the following packages:
+@pagekey/blaze@1.0.1
+Ok to proceed? (y) y
+
+Usage: blaze [options] [command]
+
+Options:
+  -h, --help          display help for command
+
+Commands:
+  new [project-name]  Create a new project
+  help [command]      display help for command
 ```
 
 ## Wrap-Up

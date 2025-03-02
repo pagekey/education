@@ -7,6 +7,7 @@ program
   .description("Create a new project")
   .action((projectName = "my-project") => {
     console.log("Hello world from Blaze.");
+    console.log("Hope you have a great day!");
   });
 
 program.parse(process.argv);
