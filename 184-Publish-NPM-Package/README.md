@@ -1,32 +1,23 @@
-# React Framework from Scratch (PageKey Blaze MVP)
+# How to Publish an NPM Package
 
-In the last video, we showed how you can use `esbuild`, a Typescript compiler, to patch together some React components into a real web app without using any special frameworks to make it happen. I've used this technique now for several personal projects. It works well, but the problem is that it's very clunky, and I keep copy-pasting the same code between projects.
+The worst thing in the world is when you have a useful tool, but no way to distribute it for other people to use. The problem of software distribution is vast and has been solved a million different ways, but in my opinion, creating an NPM package is one of the simplest ways to get your code into the hands of others.
 
-This is actually a good thing, in my opinion. I was able to get all of the "thrashing" out of the way, and now I'm at the point where I know what I need, and I just keep copying it everywhere with minimal changes. Now, it's time to take that code and turn it into a framework so that myself and others can more easily use these things without having to copy-paste or know exactly how everything works.
+By the end of this video, you'll know how to publish a package so that anyone with `npx` installed can simply type `npx @your-name/your-tool` to run your code!
 
-There seems to be a balance you have to strike when creating abstractions. If you try to abstract things away too early, you end up with a lot of overhead/maintenance, changing interfaces, and all sorts of others things that cost time and make life harder for the people using the abstraction. However, if you wait too long, you end up with many copies of the same thing in many different places, and every copy is slightly different in unique and hard-to-remember ways. If one of the copies breaks, there's no easy way to fix them all at once or even to know what went wrong.
+This is a stepping stone to creating a React framework from scratch - if that sounds interesting, stay tuned for future videos! I'd like to call that framework PageKey Blaze, which is why the example uses the name `@pagekey/blaze`.
 
-With this rant about when to create libraries and abstractions out of the way, let's get into the nuts and bolts of formalizing the simple process of turning React components into a usable website.
+This tutorial is broken into four parts:
 
-This should break down quite neatly into subsections if we begin by thinking of what we want the interface to be. For me, the following would be ideal:
+- Creating the NPM Package
+- Adding a simple CLI
+- Publishing to npm.org
+- Publishing updates / new versions
+- Making sure it works
 
-- You can create a new project by running the command `npx @pagekey/blaze new`.
-- In an existing project, you can use the following `npm` commands:
-  - `npm run build`: Build a static site from the source code.
-  - `npm run dev`: Start a dev server that reloads the page when you save source files.
-  - `npm run serve`: Serve the built static site for production use.
+Let's get started!
 
-Let's figure out how to solve each of these in succession. I'll be creating a new `npm` package in the process - I'll call it PageKey Blaze. I'll leave the MVP in this repo, but I plan to maintain it as an actual package at github.com/pagekey/blaze - see there for updates!
 
-# Creating a CLI and Uploading to `npm.org`
-
-TODO write intro
-
-## Project Generation with `npx`
-
-To make the project generate when you run that command, we need to create a package, add a simple CLI, and publish the package to npm.org.
-
-### 1. Create the Package
+## 1. Create the Package
 
 I'll create a directory for the project:
 
@@ -35,7 +26,22 @@ mkdir blaze
 cd blaze
 ```
 
-TODO add note about NixOS `shell.nix` and add `prefix=~/.npm` to `~/.npmrc` to make `npm link` work (how to do w/ home manager?)
+If you're using Nix or NixOS, the following `shell.nix` will make sure you have `node`, `npm`, and `npx` installed:
+
+```nix
+{ pkgs ? import <nixpkgs> {} }:
+pkgs.mkShell {
+    buildInputs = with pkgs; [
+        nodejs
+    ];
+}
+```
+
+Nix users should also add the following line to your `~/.npmrc` file so that `npm link` works:
+
+```nix
+prefix=~/.npm
+```
 
 Now let's initialize the project with a `package.json`:
 
@@ -49,7 +55,7 @@ I'll tweak the generated `package.json` ever so slightly:
 {
   "name": "@pagekey/blaze",
   "private": false,
-  "main": "src/index.js",
+  "main": "src/index.mjs",
   ...
 }
 ```
@@ -57,7 +63,7 @@ I'll tweak the generated `package.json` ever so slightly:
 And we're ready to start writing code!
 
 
-### 2. Add the CLI
+## 2. Add the CLI
 
 Let's start by installing `commander`, which makes it easy to create CLI tools.
 
@@ -65,32 +71,36 @@ Let's start by installing `commander`, which makes it easy to create CLI tools.
 npm install commander
 ```
 
-Now we can edit `src/index.js` and add a simple command handler:
+Now we can edit `src/index.mjs` and add a simple command handler:
 
 ```js
 import { program } from "commander";
-import fs from "fs";
-import { execSync } from "child_process";
 
 program
   .command("new [project-name]")
   .description("Create a new project")
   .action((projectName = "my-project") => {
-    console.log("Hello world from project generator.");
+    console.log("Hello world from Blaze.");
   });
 
 program.parse(process.argv);
 ```
 
-To make this an executable script in our package, we just add a `"bin"` section to the end of our `package.json`:
+To make this an executable script in our package, we just add a `"bin"` section to the end of our `package.json`. Notice that we do NOT use a scoped name for `bin` (no `@pagekey/` prefix like the package name had):
 
 ```json
 {
   ...
   "bin": {
-    "@pagekey/blaze": "node ./src/index.js"
+    "blaze": "./src/index.mjs"
   }
 }
+```
+
+And do
+
+```bash
+chmod +x ./src/index.mjs
 ```
 
 Now we can install the package locally using `npm link` and try it out:
@@ -101,33 +111,65 @@ $ npm link
 added 1 package, and audited 3 packages in 1s
 
 found 0 vulnerabilities
-$ TODO
 ```
 
 And if we try running it locally, it works!
 
 ```bash
-npx @pagekey/blaze new
-TODO paste working stuff here.
+$ npx blaze new
+Hello world from Blaze.
 ```
 
 
-### 3. Publish to npm.org
+## 3. Publish to npm.org
 
 Now I'll try to publish this thing! Make sure that you use your username in the package name instead of `@pagekey` - hands off!
 
 ```bash
-npm login
+$ npm login
+npm notice Log in on https://registry.npmjs.org/
+Login at:
+https://www.npmjs.com/login?next=/login/cli/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+Press ENTER to open in the browser...
 ```
 
 Now we can upload it with:
 
 ```bash
-npm publish #maybe needed: --access public
+$ npm publish --access public
+npm warn publish npm auto-corrected some errors in your package.json when publishing.  Please run "npm pkg fix" to address these errors.
+npm warn publish errors corrected:
+npm warn publish "bin[blaze]" script name was cleaned
+npm notice
+npm notice 📦  @pagekey/blaze@1.0.0
+npm notice Tarball Contents
+npm notice 352B package.json
+npm notice 102B shell.nix
+npm notice 263B src/index.mjs
+npm notice Tarball Details
+npm notice name: @pagekey/blaze
+npm notice version: 1.0.0
+npm notice filename: pagekey-blaze-1.0.0.tgz
+npm notice package size: 574 B
+npm notice unpacked size: 717 B
+npm notice shasum: e335ce1b3c2000442ba7197411e1af0b73b480fa
+npm notice integrity: sha512-QUQgFPQUZthVo[...]Ip0Mm0ZF7Ikwg==
+npm notice total files: 3
+npm notice
+npm notice Publishing to https://registry.npmjs.org/ with tag latest and public access
++ @pagekey/blaze@1.0.0
+```
+
+## 4. Make a change and bump version
+
+```bash
+# edit src/index.mjs
+npm version patch
+npm publish
 ```
 
 
-### 4. Try it out
+## 4. Try it out
 
 I'll turn off the locally installed package:
 
@@ -141,3 +183,7 @@ Then we can run the public package!
 npx @pagekey/blaze
 TODO show the hello world output
 ```
+
+## Wrap-Up
+
+TODO

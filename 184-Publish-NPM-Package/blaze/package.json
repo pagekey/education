@@ -2,7 +2,7 @@
   "name": "@pagekey/blaze",
   "private": false,
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "src/index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,6 +11,9 @@
   "license": "ISC",
   "description": "",
   "bin": {
-    "@pagekey/blaze": "node ./src/index.js"
+    "blaze": "./src/index.mjs"
+  },
+  "dependencies": {
+    "commander": "^13.1.0"
   }
 }
