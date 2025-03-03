@@ -58,7 +58,7 @@ function CodeBlock({ className, lang, children }: { className?: string, lang: st
         </div>
     );
 }
-function MediumCode({className, lang, children, file}: {className?: string, lang: string, file?: string, children?: any}) {
+function MediumCode({ className, lang, children, file }: { className?: string, lang: string, file?: string, children?: any }) {
     return (
         <div className={`border border-black text-4xl  ${className ? className : ""}`}>
             {file ? (
@@ -75,10 +75,10 @@ function MediumCode({className, lang, children, file}: {className?: string, lang
     )
     // return <CodeBlock className="text-4xl" lang={lang}>{children}</CodeBlock>
 }
-function Arrow({x, y}: {x: number, y: number}) {
+function Arrow({ x, y }: { x: number, y: number }) {
     return (
-        <div className="fixed text-red-600 text-5xl" style={{top: y, left: x}}>
-            <svg xmlns="http://www.w3.org/2000/svg"  width="75"  height="75"  viewBox="0 0 24 24"  fill="currentColor"  className="icon icon-tabler icons-tabler-filled icon-tabler-arrow-big-right-line"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.089 3.634a2 2 0 0 0 -1.089 1.78l-.001 2.586h-4.999a1 1 0 0 0 -1 1v6l.007 .117a1 1 0 0 0 .993 .883l4.999 -.001l.001 2.587a2 2 0 0 0 3.414 1.414l6.586 -6.586a2 2 0 0 0 0 -2.828l-6.586 -6.586a2 2 0 0 0 -2.18 -.434l-.145 .068z" /><path d="M3 8a1 1 0 0 1 .993 .883l.007 .117v6a1 1 0 0 1 -1.993 .117l-.007 -.117v-6a1 1 0 0 1 1 -1z" /></svg>
+        <div className="fixed text-red-600 text-5xl" style={{ top: y, left: x }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="75" height="75" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-arrow-big-right-line"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12.089 3.634a2 2 0 0 0 -1.089 1.78l-.001 2.586h-4.999a1 1 0 0 0 -1 1v6l.007 .117a1 1 0 0 0 .993 .883l4.999 -.001l.001 2.587a2 2 0 0 0 3.414 1.414l6.586 -6.586a2 2 0 0 0 0 -2.828l-6.586 -6.586a2 2 0 0 0 -2.18 -.434l-.145 .068z" /><path d="M3 8a1 1 0 0 1 .993 .883l.007 .117v6a1 1 0 0 1 -1.993 .117l-.007 -.117v-6a1 1 0 0 1 1 -1z" /></svg>
         </div>
     )
 }
@@ -99,12 +99,12 @@ export default function HomePage() {
             <BigText>But npm makes it easy.</BigText>
         </Slide>,
         <Slide>
-            <BigText>In just 5 steps,</BigText>
-            <BigText>we're going to create a simple CLI</BigText>
-            <BigText>and distribute it, so that</BigText>
-            <BigText>anyone in the entire world</BigText>
-            <BigText>can type a few short keystrokes to run our code.</BigText>
-            <BigText>Sound cool?</BigText>
+            <MediumText>In just 5 steps,</MediumText>
+            <MediumText>we're going to create a simple CLI</MediumText>
+            <MediumText>and distribute it, so that</MediumText>
+            <MediumText>anyone in the entire world</MediumText>
+            <MediumText>can type a few short keystrokes to run our code.</MediumText>
+            <MediumText>Sound cool?</MediumText>
         </Slide>,
         <Slide>
             <BigText>How to Publish an NPM Package</BigText>
@@ -115,7 +115,7 @@ export default function HomePage() {
         </Slide>,
         <Slide>
             <MediumText>
-            <img className="rounded-xl w-20 m-auto mb-4" src="/logo.png" />
+                <img className="rounded-xl w-20 m-auto mb-4" src="/logo.png" />
                 PageKey:
             </MediumText>
             <BigText className="mb-25">Take Back Tech</BigText>
@@ -124,15 +124,19 @@ export default function HomePage() {
             <MediumText>3. Help others do the same. 🫂</MediumText>
         </Slide>,
         <Slide>
-            <SmallText className="text-red-200">Imagine: Apple decides to start charging for emojis.</SmallText>
+            <BigText className="text-red-200">Imagine: Apple decides to start charging for emojis.</BigText>
             <SmallText className="text-green-200">The outrage is unbelievable.</SmallText>
             <SmallText className="text-blue-200">But they're doing it anyway.</SmallText>
-            <MediumText className="text-blue-200">Have you ever thought about how</MediumText>
-            <MediumText className="text-blue-200">you don't have control over the software on your phone?</MediumText>
-            <MediumText className="text-blue-200">Well, too late now!</MediumText>
-            <MediumText className="text-blue-200">You have two choices:</MediumText>
-            <MediumText className="text-blue-200">1. Never update your phone, or</MediumText>
-            <MediumText className="text-blue-200">2. Just don't use Apple - go open source!</MediumText>
+        </Slide>,
+        <Slide>
+            <MediumText>Have you ever thought about how</MediumText>
+            <MediumText>you don't have control over the software on your phone?</MediumText>
+            <MediumText>Well, too late now!</MediumText>
+        </Slide>,
+        <Slide>
+            <MediumText>You have two choices:</MediumText>
+            <MediumText>1. Never update your phone, or</MediumText>
+            <MediumText>2. Just don't use Apple - go open source!</MediumText>
             <SmallText>Own the stack so you don't get vendor-locked and vendor-bullied.</SmallText>
         </Slide>,
         <Slide>
@@ -157,40 +161,189 @@ export default function HomePage() {
             <BigText>1. Create the Package</BigText>
         </Slide>,
         <Slide>
-        <MediumText>Start with an empty folder:</MediumText>
-        <MediumCode lang={"sh"}>{`
+            <MediumText>Start with an empty folder:</MediumText>
+            <MediumCode lang={"sh"}>{`
 $ mkdir blaze
 
 $ cd blaze
         `}</MediumCode>
-    </Slide>,
-    <Slide>
-        <MediumText>Make sure you have Node installed. For Nix:</MediumText>
-        <MediumCode lang={"nix"} file="shell.nix">{`
+        </Slide>,
+        <Slide>
+            <MediumText>Make sure you have Node installed. For Nix:</MediumText>
+            <MediumCode lang={"nix"} file="shell.nix">{`
 { pkgs ? import <nixpkgs> {} }:
 pkgs.mkShell {
-buildInputs = with pkgs; [
-    nodejs
-];
+    buildInputs = with pkgs; [
+        nodejs
+    ];
 }
         `}</MediumCode>
-        <MediumText>Also for Nix: add this to <code>~/.npmrc</code> so that <code>npm link</code> works:</MediumText>
-        <MediumCode lang={"nix"} file="~/.npmrc">{`
+            <MediumText>Also for Nix: add this to <code>.npmrc</code> so that <code>npm link</code> works:</MediumText>
+            <MediumCode lang={"nix"} file="~/.npmrc">{`
 prefix=~/.npm
-        `}</MediumCode>
-    </Slide>,
+            `}</MediumCode>
+        </Slide>,
         <Slide>
             <BigText>2. Add the CLI</BigText>
+        </Slide>,
+        <Slide>
+            <MediumText>Install the <code>commander</code> package:</MediumText>
+            <MediumCode lang={"sh"}>{`
+$ npm install commander
+            `}</MediumCode>
+        </Slide>,
+        <Slide>
+            <MediumText>Add <code>src/index.mjs</code>:</MediumText>
+            <MediumCode lang={"javascript"} file="src/index.mjs">{`
+#!/usr/bin/env node
+
+import { program } from "commander";
+
+program
+  .command("new [project-name]")
+  .description("Create a new project")
+  .action((projectName = "my-project") => {
+    console.log("Hello world from Blaze.");
+  });
+
+program.parse(process.argv);
+            `}</MediumCode>
+            <SmallText>Don't forget the shebang!</SmallText>
+        </Slide>,
+        <Slide>
+            <MediumText>Add the "bin" section to package.json:</MediumText>
+            <MediumCode lang="json" file="package.json">{`
+{
+  ...
+  "bin": {
+    "blaze": "./src/index.mjs"
+  }
+}
+            `}</MediumCode>
+        </Slide>,
+        <Slide>
+            <MediumText>Make our script executable:</MediumText>
+            <MediumCode lang={"sh"}>{`
+$ chmod +x src/index.mjs
+            `}</MediumCode>
+        </Slide>,
+        <Slide>
+            <MediumText>Use "npm link" to simulate installation:</MediumText>
+            <MediumCode lang={"sh"}>{`
+$ npm link
+
+added 1 package, and audited 3 packages in 1s
+
+found 0 vulnerabilities
+            `}</MediumCode>
+        </Slide>,
+        <Slide>
+            <MediumText>See it in action!</MediumText>
+            <MediumCode lang={"sh"}>{`
+$ npx blaze new
+
+Hello world from Blaze.
+            `}</MediumCode>
         </Slide>,
         <Slide>
             <BigText>3. Publish to npm.org</BigText>
         </Slide>,
         <Slide>
+            <MediumText>You can publish a "scoped" package under your username:</MediumText>
+            <MediumText><code>@username/your-package</code></MediumText>
+            <MediumText>Start by making an account on npmjs.com.</MediumText>
+        </Slide>,
+        <Slide>
+            <MediumText>Then, run <code>npm login</code>:</MediumText>
+            <MediumCode lang={"sh"}>{`
+$ npm login
+npm notice Log in on https://registry.npmjs.org/
+Login at:
+https://www.npmjs.com/login?next=/login/cli/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+Press ENTER to open in the browser...
+            `}</MediumCode>
+        </Slide>,
+        <Slide>
+        <MediumText>Finally, upload the package!</MediumText>
+        <MediumCode lang={"sh"}>{`
+$ npm publish --access public
+...
+npm notice Publishing to https://registry.npmjs.org/ with tag latest and public access
++ @pagekey/blaze@1.0.0
+        `}</MediumCode>
+    </Slide>,
+        <Slide>
             <BigText>4. Make a change and bump version</BigText>
         </Slide>,
         <Slide>
+        <MediumText>Edit <code>src/index.mjs</code> to make it more polite:</MediumText>
+        <MediumCode lang={"javascript"} file="src/index.mjs">{`
+#!/usr/bin/env node
+
+import { program } from "commander";
+
+program
+    .command("new [project-name]")
+    .description("Create a new project")
+    .action((projectName = "my-project") => {
+        console.log("Hello world from Blaze.");
+        console.log("Hope you have a great day!");
+    });
+
+program.parse(process.argv);
+        `}</MediumCode>
+    </Slide>,
+        <Slide>
+        <MediumText>Now bump the version:</MediumText>
+        <MediumCode lang={"sh"}>{`
+$ npm version patch
+v1.0.1
+        `}</MediumCode>
+        <SmallText>Notice that <code>package.json</code> updated automatically.</SmallText>
+    </Slide>,
+    <Slide>
+        <SmallText>You can also use "<code>npm version minor</code>" and "<code>npm version major</code>".</SmallText>
+        <MediumText>If you don't know what these mean, see semver.org.</MediumText>
+    </Slide>,
+        <Slide>
+        <MediumText>Go ahead and publish the update:</MediumText>
+        <MediumCode lang={"sh"}>{`
+$ npm publish
+...
+npm notice Publishing to https://registry.npmjs.org/ with tag latest and default access
++ @pagekey/blaze@1.0.1
+        `}</MediumCode>
+    </Slide>,
+        <Slide>
             <BigText>5. Try it out</BigText>
         </Slide>,
+        <Slide>
+        <MediumText>Turn off the local install:</MediumText>
+        <MediumCode lang={"sh"}>{`
+$ npm unlink -g @pagekey/blaze
+
+removed 1 package in 431ms
+        `}</MediumCode>
+    </Slide>,
+        <Slide>
+        <MediumText>Try to run the public one:</MediumText>
+        <MediumCode lang={"sh"}>{`
+$ npx @pagekey/blaze
+Need to install the following packages:
+@pagekey/blaze@1.0.1
+Ok to proceed? (y) y
+
+Usage: blaze [options] [command]
+
+Options:
+  -h, --help          display help for command
+
+Commands:
+  new [project-name]  Create a new project
+  help [command]      display help for command
+        `}</MediumCode>
+        <SmallText>It works!</SmallText>
+    </Slide>,
         <Slide>
             <MediumText>There we go - our package is published!</MediumText>
         </Slide>,
