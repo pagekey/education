@@ -227,7 +227,7 @@ npm notice Publishing to https://registry.npmjs.org/ with tag latest and default
 ```
 
 
-## 4. Try it out
+## 5. Try it out
 
 I'll turn off the locally installed package:
 
