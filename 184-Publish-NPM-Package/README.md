@@ -2,7 +2,7 @@
 
 The worst thing in the world is when you have a useful tool, but no way to distribute it for other people to use. The problem of software distribution is vast and has been solved a million different ways, but in my opinion, creating an NPM package is one of the simplest ways to get your code into the hands of others.
 
-By the end of this video, you'll know how to publish a package so that anyone with `npx` installed can simply type `npx @your-name/your-tool` to run your code!
+By the end of this video, you'll know how to publish a package so that anyone with Node installed can simply type `npx @your-name/your-tool` to run your code!
 
 This is a stepping stone to creating a React framework from scratch - if that sounds interesting, stay tuned for future videos! I'd like to call that framework PageKey Blaze, which is why the example uses the name `@pagekey/blaze`.
 
@@ -49,7 +49,7 @@ Now let's initialize the project with a `package.json`:
 npm init -y
 ```
 
-I'll tweak the generated `package.json` ever so slightly:
+I'll tweak the generated `package.json` ever so slightly, adding the `@pagekey/` prefix, the `private` field, and the correct `main` path:
 
 ```json
 {
@@ -127,7 +127,9 @@ Hello world from Blaze.
 
 ## 3. Publish to npm.org
 
-Now I'll try to publish this thing! Make sure that you use your username in the package name instead of `@pagekey` - hands off!
+Now I'll try to publish this thing! Make sure that you use your username in the package name instead of `@pagekey` - hands off, that one's mine!
+
+If you haven't already, create an account on [npmjs.com](https://npmjs.com) and then run `npm login`:
 
 ```bash
 $ npm login
@@ -137,7 +139,7 @@ https://www.npmjs.com/login?next=/login/cli/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 Press ENTER to open in the browser...
 ```
 
-Now we can upload it with `npm publish --access public`. Without `--access public`, it will try to make a private package. That's a paid feature, so you'll need to pay if you want to do that! (Or self-host your own package registry - a topic for a future video perhaps!)
+Now we can upload it with `npm publish --access public`. Without `--access public`, it will try to make a private package. That's a paid feature, so you'll need to pay if you want to do that! (Or self-host your own package registry - perhaps a topic for a future video!)
 
 ```bash
 $ npm publish --access public
@@ -166,7 +168,9 @@ npm notice Publishing to https://registry.npmjs.org/ with tag latest and public 
 
 ## 4. Make a change and bump version
 
-Let's edit `src/index.mjs` and add an extra polite message:
+Nobody wants to use version 1.0.0 of anything, because things break. Let's pretend something broke and we're fixing it.
+
+The problem was that our message before was too rude. Edit `src/index.mjs` and add an extra polite message:
 
 ```js
 #!/usr/bin/env node
@@ -191,9 +195,11 @@ $ npm version patch
 v1.0.1
 ```
 
-Note that you can use `npm version minor` to change the middle number and `npm version major` to change the first number. For more info on these conventions, read about [Semantic Versioning](https://semver.org/).
+Notice that after running that command, `package.json` has been automatically updated.
 
-Now you can publish the updated version!
+Similarly, you can use `npm version minor` to change the middle number and `npm version major` to change the first number. For more info on these conventions, read about [Semantic Versioning](https://semver.org/).
+
+Now you can publish the updated version! Just run `npm publish`:
 
 ```bash
 $ npm publish
@@ -251,4 +257,6 @@ Commands:
 
 ## Wrap-Up
 
-TODO
+Now you know the process for making an account and publishing a simple tool on npmjs.com so that anyone in the world can run your code with just a few keystrokes. We'll use this skill in future videos to flesh out the PageKey Blaze frontend framework and do other fun frontend automations.
+
+If you enjoyed this post, consider subscribing to the [YouTube Channel](https://youtube.com/@PageKey), starring the repo, or joining the [Discord](https://discord.com/invite/5m5yFgDPF5)!
