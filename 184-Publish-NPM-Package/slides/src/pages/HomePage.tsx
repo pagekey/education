@@ -153,7 +153,7 @@ export default function HomePage() {
             <BigText>Overview</BigText>
             <MediumText>1. Create the Package</MediumText>
             <MediumText>2. Add the CLI</MediumText>
-            <MediumText>3. Publish to npm.org</MediumText>
+            <MediumText>3. Publish to npmjs.com</MediumText>
             <MediumText>4. Make a change and bump version</MediumText>
             <MediumText>5. Try it out</MediumText>
         </Slide>,
@@ -246,7 +246,7 @@ Hello world from Blaze.
             `}</MediumCode>
         </Slide>,
         <Slide>
-            <BigText>3. Publish to npm.org</BigText>
+            <BigText>3. Publish to npmjs.com</BigText>
         </Slide>,
         <Slide>
             <MediumText>You can publish a "scoped" package under your username:</MediumText>

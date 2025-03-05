@@ -10,7 +10,7 @@ This tutorial is broken into four parts:
 
 - Creating the NPM Package
 - Adding a simple CLI
-- Publishing to npm.org
+- Publishing to npmjs.com
 - Publishing updates / new versions
 - Making sure it works
 
@@ -125,7 +125,7 @@ Hello world from Blaze.
 ```
 
 
-## 3. Publish to npm.org
+## 3. Publish to npmjs.com
 
 Now I'll try to publish this thing! Make sure that you use your username in the package name instead of `@pagekey` - hands off, that one's mine!
 
